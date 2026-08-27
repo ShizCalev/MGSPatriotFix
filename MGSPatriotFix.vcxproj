@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\fixes\color_correction.cpp" />
+    <ClCompile Include="src\resources\d3d11_text_overlay.cpp" />
+    <ClCompile Include="src\resources\game_funcs.cpp" />
+    <ClCompile Include="src\fixes\resolution_scaling_fixes.cpp" />
+    <ClCompile Include="src\features\custom_resolution_and_borderless.cpp" />
+    <ClCompile Include="src\warnings\background_shuffle_warning.cpp" />
+    <ClCompile Include="src\fixes\windows_fullscreen_optimization.cpp" />
+    <ClCompile Include="src\resources\input_handler.cpp" />
+    <ClCompile Include="src\fixes\fix_default_gpu.cpp" />
+    <ClCompile Include="src\resources\config.cpp" />
+    <ClCompile Include="external\safetyhook\src\allocator.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\easy.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\inline_hook.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\mid_hook.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\os.linux.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\os.windows.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\utility.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\vmt_hook.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\resources\gpu_check.cpp" />
+    <ClCompile Include="src\resources\logging.cpp" />
+    <ClCompile Include="src\resources\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\resources\submodule_initiailization.hpp" />
+    <ClCompile Include="src\resources\version_checking.cpp" />
+    <ClCompile Include="src\warnings\check_gamesave_folder.cpp" />
+    <ClCompile Include="src\warnings\asi_loader_checks.cpp" />
+    <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\resources\d3d11_api.cpp" />
+    <ClCompile Include="src\resources\gamevars.cpp" />
+    <ClCompile Include="src\resources\helper.cpp" />
+    <ClCompile Include="src\resources\unit_tests.cpp" />
+    <ClCompile Include="src\warnings\windows_multiplane_overlay_warning.cpp" />
+    <ClCompile Include="src\fixes\windows_preferred_gpu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\fixes\color_correction.hpp" />
+    <ClInclude Include="src\fixes\resolution_scaling_fixes.hpp" />
+    <ClInclude Include="src\resources\d3d11_text_overlay.hpp" />
+    <ClInclude Include="src\resources\game_defines.hpp" />
+    <ClInclude Include="src\resources\game_funcs.hpp" />
+    <ClInclude Include="src\resources\game_stages.hpp" />
+    <ClInclude Include="src\features\custom_resolution_and_borderless.hpp" />
+    <ClInclude Include="src\resources\mgs4_linkvarbuf.hpp" />
+    <ClInclude Include="src\resources\mgspw_linkvarbuf.hpp" />
+    <ClInclude Include="src\warnings\background_shuffle_warning.hpp" />
+    <ClInclude Include="src\fixes\windows_fullscreen_optimization.hpp" />
+    <ClInclude Include="src\resources\config_keys.hpp" />
+    <ClInclude Include="src\resources\config.hpp" />
+    <ClInclude Include="external\safetyhook\include\safetyhook.hpp" />
+    <ClInclude Include="src\resources\gpu_check.hpp" />
+    <ClInclude Include="src\resources\input_handler.hpp" />
+    <ClInclude Include="src\resources\logging.hpp" />
+    <ClInclude Include="src\resources\RegStateHelpers.hpp" />
+    <ClInclude Include="src\resources\version_checking.hpp" />
+    <ClInclude Include="src\resources\version.h" />
+    <ClInclude Include="src\warnings\check_gamesave_folder.hpp" />
+    <ClInclude Include="src\warnings\asi_loader_checks.hpp" />
+    <ClInclude Include="src\resources\gamevars.hpp" />
+    <ClInclude Include="src\resources\common.hpp" />
+    <ClInclude Include="src\resources\d3d11_api.hpp" />
+    <ClInclude Include="src\resources\helper.hpp" />
+    <ClInclude Include="src\resources\stdafx.h" />
+    <ClInclude Include="src\resources\unit_tests.hpp" />
+    <ClInclude Include="src\warnings\windows_multiplane_overlay_warning.hpp" />
+    <ClInclude Include="src\fixes\windows_preferred_gpu.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MGSPatriotFix.ini" />
+    <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\resources\MGSPatriotFix.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\resources\MGSPatriotFix.rc" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{c6644269-b721-4f94-be7f-77bfb2343ba5}</ProjectGuid>
+    <RootNamespace>MGSPatriotFix</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetExt>.asi</TargetExt>
+    <ExternalIncludePath>external\smaa;external\SteamworksSDK\public\steam;external\stb;external\inipp;external\spdlog\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);external\zydis\include;external\zydis\dependencies\zycore\include;external\safetyhook\include</ExternalIncludePath>
+    <IntDir>Intermediate\$(ProjectName)\$(Platform)\Release\</IntDir>
+    <CustomBuildAfterTargets />
+    <OutDir>$(SolutionDir)$(Platform)\Release\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>RELEASE_BUILD;NDEBUG;MGSPATRIOTFIX_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;ZYDIS_STATIC_BUILD;ZYCORE_STATIC_BUILD</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)src\resources;$(ProjectDir)src\features;$(ProjectDir)src\fixes;$(ProjectDir)src\warnings</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>external\SteamworksSDK\redistributable_bin\win64;%(AdditionalLibraryDirectories);$(SolutionDir)external\zydis\msvc\bin\ReleaseX64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);Zydis.lib</AdditionalDependencies>
+      <ProgramDatabaseFile>$(OutDir)\pdb\$(TargetName).pdb</ProgramDatabaseFile>
+      <ImportLibrary />
+      <AdditionalOptions>/NOIMPLIB %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PostBuildEvent>
+      <Command>call "update_local_game_files.py"</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>call "$(ProjectDir)build_zydis.cmd" $(Platform) $(PlatformToolset) $(VCToolsVersion)
+powershell -NoProfile -ExecutionPolicy Bypass -File "$(ProjectDir)get_asi_loader_version.ps1"</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

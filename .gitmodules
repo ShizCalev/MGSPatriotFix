@@ -1,0 +1,28 @@
+
+[submodule "external/inipp"]
+	path = external/inipp
+	url = https://github.com/mcmtroffaes/inipp
+[submodule "external/spdlog"]
+	path = external/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "external/safetyhook"]
+	path = external/safetyhook
+	url = https://github.com/cursey/safetyhook
+[submodule "external/zydis"]
+	path = external/zydis
+	url = https://github.com/zyantific/zydis
+[submodule "external/SteamworksSDK"]
+	path = external/SteamworksSDK
+	url = https://github.com/rlabrecque/SteamworksSDK
+[submodule "external/wxWidgets"]
+	path = external/wxWidgets
+	url = https://github.com/wxWidgets/wxWidgets
+[submodule "external/mgs_gcx_editor"]
+	path = external/mgs_gcx_editor
+	url = https://github.com/Giza/mgs_gcx_editor
+[submodule "external/SDL"]
+	path = external/SDL
+	url = https://github.com/libsdl-org/SDL
+[submodule "external/stb"]
+	path = external/stb
+	url = https://github.com/nothings/stb

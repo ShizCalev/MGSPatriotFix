@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\resources\helper.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\warnings\asi_loader_checks.cpp">
+      <Filter>Warnings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resources\logging.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\allocator.cpp">
+      <Filter>Utility\Safetyhook</Filter>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\easy.cpp">
+      <Filter>Utility\Safetyhook</Filter>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\inline_hook.cpp">
+      <Filter>Utility\Safetyhook</Filter>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\mid_hook.cpp">
+      <Filter>Utility\Safetyhook</Filter>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\os.linux.cpp">
+      <Filter>Utility\Safetyhook</Filter>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\os.windows.cpp">
+      <Filter>Utility\Safetyhook</Filter>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\utility.cpp">
+      <Filter>Utility\Safetyhook</Filter>
+    </ClCompile>
+    <ClCompile Include="external\safetyhook\src\vmt_hook.cpp">
+      <Filter>Utility\Safetyhook</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resources\version_checking.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resources\submodule_initiailization.hpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resources\gpu_check.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resources\config.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fixes\fix_default_gpu.cpp">
+      <Filter>Fixes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resources\input_handler.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resources\unit_tests.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fixes\windows_fullscreen_optimization.cpp">
+      <Filter>Fixes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resources\stdafx.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\warnings\background_shuffle_warning.cpp">
+      <Filter>Warnings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\warnings\check_gamesave_folder.cpp">
+      <Filter>Warnings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\features\custom_resolution_and_borderless.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fixes\resolution_scaling_fixes.cpp">
+      <Filter>Fixes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fixes\color_correction.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\warnings\windows_multiplane_overlay_warning.cpp">
+      <Filter>Warnings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fixes\windows_preferred_gpu.cpp">
+      <Filter>Fixes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resources\d3d11_api.cpp">
+      <Filter>APIs\WIP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resources\d3d11_text_overlay.cpp">
+      <Filter>APIs\WIP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resources\game_funcs.cpp">
+      <Filter>APIs\WIP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resources\gamevars.cpp">
+      <Filter>APIs\WIP</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\warnings\asi_loader_checks.hpp">
+      <Filter>Warnings\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\common.hpp">
+      <Filter>Utility\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\helper.hpp">
+      <Filter>Utility\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\logging.hpp">
+      <Filter>Utility\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\stdafx.h">
+      <Filter>Utility\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="external\safetyhook\include\safetyhook.hpp">
+      <Filter>Utility\Safetyhook</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\version_checking.hpp">
+      <Filter>Utility\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\version.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\gpu_check.hpp">
+      <Filter>Utility\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\RegStateHelpers.hpp">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\config.hpp">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\input_handler.hpp">
+      <Filter>Utility\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\config_keys.hpp">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\unit_tests.hpp">
+      <Filter>Utility\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fixes\windows_fullscreen_optimization.hpp">
+      <Filter>Fixes\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\warnings\check_gamesave_folder.hpp">
+      <Filter>Warnings\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\features\custom_resolution_and_borderless.hpp">
+      <Filter>Features\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fixes\color_correction.hpp">
+      <Filter>Shaders\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\warnings\background_shuffle_warning.hpp">
+      <Filter>Warnings\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\warnings\windows_multiplane_overlay_warning.hpp">
+      <Filter>Warnings\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fixes\windows_preferred_gpu.hpp">
+      <Filter>Fixes\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fixes\resolution_scaling_fixes.hpp" />
+    <ClInclude Include="src\resources\mgspw_linkvarbuf.hpp">
+      <Filter>APIs\WIP\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\d3d11_api.hpp">
+      <Filter>APIs\WIP\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\d3d11_text_overlay.hpp">
+      <Filter>APIs\WIP\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\game_defines.hpp">
+      <Filter>APIs\WIP\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\game_funcs.hpp">
+      <Filter>APIs\WIP\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\game_stages.hpp">
+      <Filter>APIs\WIP\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\gamevars.hpp">
+      <Filter>APIs\WIP\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\mgs4_linkvarbuf.hpp">
+      <Filter>APIs\WIP\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\resources\MGSPatriotFix.ico">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="MGSPatriotFix.ini">
+      <Filter>Resources</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Fixes">
+      <UniqueIdentifier>{bd2458c5-47ae-4124-832d-713ce24b26ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Features">
+      <UniqueIdentifier>{f87fe3af-588a-4513-95d0-fe5158c2e0ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{9e661797-fd7d-422f-845a-a1101bcd6f30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{e7e651f5-92ec-4540-86a7-9622adfc5a53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="APIs">
+      <UniqueIdentifier>{99e51cdd-825e-416d-a43f-14b1be6b1d4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fixes\Headers">
+      <UniqueIdentifier>{320f3743-9db3-4af8-b538-4974ac376736}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Features\Headers">
+      <UniqueIdentifier>{f416336a-4a1b-4e1a-a381-576c023ade60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Warnings">
+      <UniqueIdentifier>{1de08177-9755-4f9c-b903-d4a823886cd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Warnings\Headers">
+      <UniqueIdentifier>{610579ef-701e-42d8-afd2-de9d428b0b17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Headers">
+      <UniqueIdentifier>{d0180c24-b496-4966-84d1-635769f94018}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Safetyhook">
+      <UniqueIdentifier>{c4a23fae-fd9c-41b0-9772-dda7af79f97c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{cd1768eb-087f-41c0-a320-8702dca4749f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{69e22145-5e0d-43e7-9e9f-34e7016229ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Headers">
+      <UniqueIdentifier>{ef16eb0f-133c-4433-af73-3112a22c750d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="APIs\WIP">
+      <UniqueIdentifier>{c2be4dcd-ab56-4632-90c9-ebc0d3953a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="APIs\WIP\Headers">
+      <UniqueIdentifier>{a3100db6-b5f8-4b1a-96dc-23576666050c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\resources\MGSPatriotFix.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

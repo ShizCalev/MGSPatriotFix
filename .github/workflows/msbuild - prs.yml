@@ -1,0 +1,201 @@
+name: MGSPatriotFix CI Builds
+
+env:
+  CI: true
+
+on:
+  pull_request:
+    branches: ["**"]
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Verify BEFORE_COMPARISON_PICS is not defined
+      shell: bash
+      run: |
+        if grep -qE '^\s*#define\s+BEFORE_COMPARISON_PICS\b' src/resources/common.hpp; then
+          echo "::error file=src/resources/common.hpp::BEFORE_COMPARISON_PICS is defined."
+          exit 1
+        fi
+
+    - name: Verify no trailing wildcard bytes in signature patterns
+      shell: bash
+      run: |
+        matches=$(grep -rnE ' \?\?"' --include='*.cpp' --include='*.hpp' --include='*.h' src/ || true)
+        if [ -n "$matches" ]; then
+          echo "$matches" | while IFS= read -r line; do
+            file=$(echo "$line" | cut -d: -f1)
+            lineno=$(echo "$line" | cut -d: -f2)
+            echo "::error file=$file,line=$lineno: AoB signature pattern ending with a wildcarded byte. Please refer to CONTRIBUTING.md for how to generate AoB patterns."
+          done
+          exit 1
+        fi
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Identify MSVC toolchain
+      id: toolchain
+      run: |
+        $vswhere = (Get-Command vswhere -ErrorAction SilentlyContinue).Source
+        if (-not $vswhere) {
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+        }
+        if (-not (Test-Path $vswhere)) {
+          Write-Error "vswhere.exe not found; cannot determine the MSVC toolset for cache keying."
+          exit 1
+        }
+
+        $vsPath = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+        if (-not $vsPath) {
+          Write-Error "No Visual Studio install with the C++ toolset was found."
+          exit 1
+        }
+
+        $versionFile = Join-Path $vsPath "VC\Auxiliary\Build\Microsoft.VCToolsVersion.default.txt"
+        if (-not (Test-Path $versionFile)) {
+          Write-Error "Could not read $versionFile"
+          exit 1
+        }
+
+        $vcToolsVersion = (Get-Content $versionFile | Select-Object -First 1).Trim()
+        Write-Host "VS: $vsPath"
+        Write-Host "Image: $env:ImageVersion  VCTools: $vcToolsVersion"
+        "id=vc$vcToolsVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+    # wxWidgets cache setup
+    - name: Get wxWidgets submodule hash
+      id: wxhash
+      run: |
+        cd external/wxWidgets
+        $hash = git rev-parse HEAD
+        "hash=$hash" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+    - name: Cache wxWidgets
+      uses: actions/cache@v4
+      with:
+        path: external/wxWidgets/lib/vc_x64_lib
+        key: wxwidgets-${{ runner.os }}-${{ steps.toolchain.outputs.id }}-${{ steps.wxhash.outputs.hash }}
+
+    # SDL3 cache setup
+    - name: Get SDL3 submodule hash
+      id: sdlhash
+      run: |
+        cd external/SDL
+        $hash = git rev-parse HEAD
+        "hash=$hash" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+    - name: Cache SDL3
+      uses: actions/cache@v4
+      with:
+        path: external/SDL/build/msvc-x64-static
+        key: sdl3-${{ runner.os }}-${{ steps.toolchain.outputs.id }}-x64-static-v2-${{ steps.sdlhash.outputs.hash }}
+
+    # Zydis cache setup
+    - name: Get Zydis submodule hash
+      id: zydishash
+      run: |
+        cd external/zydis
+        $hash = git rev-parse HEAD
+        "hash=$hash" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+    - name: Cache Zydis
+      uses: actions/cache@v4
+      with:
+        path: |
+          external/zydis/msvc/bin/ReleaseX64
+          external/zydis/msvc/bin/ReleaseX86
+        key: zydis-${{ runner.os }}-${{ steps.toolchain.outputs.id }}-${{ steps.zydishash.outputs.hash }}
+
+    # -------------------------
+    # Prepare output structure
+    # -------------------------
+    - run: mkdir dist
+    - run: mkdir dist/plugins
+    - run: mkdir dist/logs
+
+
+    # Download Ultimate ASI Loader
+    - uses: robinraju/release-downloader@v1.8
+      with:
+        repository: "ThirteenAG/Ultimate-ASI-Loader"
+        latest: true
+        fileName: "Ultimate-ASI-Loader_x64.zip"
+
+    - name: Extract Loader
+      run: Expand-Archive Ultimate-ASI-Loader_x64.zip -DestinationPath dist
+
+    - name: Add Loader License
+      run: Invoke-WebRequest https://raw.githubusercontent.com/ThirteenAG/Ultimate-ASI-Loader/master/license -OutFile dist/UltimateASILoader_LICENSE.md
+
+    - name: Stage Loader DLLs
+      run: |
+        Copy-Item dist/dinput8.dll dist/wininet.dll
+        Move-Item dist/dinput8.dll dist/winhttp.dll
+
+    # -------------------------
+    # Build
+    # -------------------------
+    - name: Set CI build number in version.h
+      shell: bash
+      run: |
+        VERSION_FILE="src/resources/version.h"
+        echo "Setting VERSION_CI_BUILD in $VERSION_FILE to $GITHUB_RUN_NUMBER"
+
+        sed -i "s/^#define VERSION_CI_BUILD .*/#define VERSION_CI_BUILD $GITHUB_RUN_NUMBER/" "$VERSION_FILE"
+
+    - name: Extract version from version.h
+      id: extract_version
+      shell: bash
+      run: |
+        VERSION_FILE="src/resources/version.h"
+        echo "Reading version from $VERSION_FILE"
+
+        VERSION_MAJOR=$(grep '#define VERSION_MAJOR' "$VERSION_FILE" | awk '{print $3}')
+        VERSION_MINOR=$(grep '#define VERSION_MINOR' "$VERSION_FILE" | awk '{print $3}')
+        VERSION_PATCH=$(grep '#define VERSION_PATCH' "$VERSION_FILE" | awk '{print $3}')
+        VERSION_CI_BUILD=$(grep '#define VERSION_CI_BUILD' "$VERSION_FILE" | awk '{print $3}')
+
+        version="${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.${VERSION_CI_BUILD}"
+        echo "Parsed version: $version"
+
+        echo "version=$version" >> $GITHUB_OUTPUT
+
+    - name: Build
+      run: msbuild "${{ github.event.repository.name }}.sln" /m -t:rebuild -verbosity:minimal -property:Configuration=Release -property:Platform=x64
+
+    # Copy built binaries directly into plugins\
+    - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist/plugins/${{ github.event.repository.name }}.asi"
+    - run: Copy-Item "x64\Release\${{ github.event.repository.name }} Config Tool.exe" "dist/plugins/${{ github.event.repository.name }} Config Tool.exe"
+
+    # Logs & metadata
+    - run: Copy-Item README.md "dist/logs/${{ github.event.repository.name }}_Game.log"
+    - run: Copy-Item README.md "dist/logs/${{ github.event.repository.name }}_Launcher.log"
+    - run: Copy-Item README.md "dist/plugins/${{ github.event.repository.name }}_README.md"
+    - run: Copy-Item LICENSE.md "dist/plugins/${{ github.event.repository.name }}_LICENSE.md"
+
+   # - run: Copy-Item "external\SMAA\LICENSE.txt" "dist/plugins/SMAA_LICENSE.md"
+   # - run: Copy-Item "external\SMAA\SMAA.hlsl" "dist/plugins/SMAA.hlsl"
+
+    # Package everything
+    - name: Create release zip
+      working-directory: dist
+      run: 7z a -tzip "../${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip" *
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}
+        path: dist/
