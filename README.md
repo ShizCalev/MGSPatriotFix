@@ -22,11 +22,11 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 
 ## Bug Fixes
 #### Shared Bugs:
-- Fixes the collection's games sometimes defaulting to integrated graphics processors on systems with multiple GPUs (due to Nvidia/AMD driver misconfiguration.)
 - Fixes window size on displays with High DPI scaling enabled.
 - Fixes the monitor going to sleep during long cutscenes (for Windows only, Linux needs to be [fixed by Valve](https://github.com/ValveSoftware/Proton/issues/8881).)
 
-
+#### Peace Walker Bugs:
+- Fixes Peace Walker sometimes defaulting to integrated graphics processors on systems with multiple GPUs.
 
 ## Logging / Warnings for Common Configuration Issues
 - Added a warning if Windows Multi-Plane Overlay is disabled, which can cause DirectX games to freeze/crash when alt-tabbing.
