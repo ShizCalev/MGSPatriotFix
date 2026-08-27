@@ -1,4 +1,4 @@
-# Metal Gear Solid Master Collection Fix
+# Metal Gear Solid Patriot Fix
 [![Releases](https://img.shields.io/github/v/release/ShizCalev/MGSPatriotFix)](https://github.com/ShizCalev/MGSPatriotFix/releases) [![Downloads](https://img.shields.io/github/downloads/ShizCalev/MGSPatriotFix/total)](https://github.com/ShizCalev/MGSPatriotFix/releases) ![Commits](https://img.shields.io/github/commit-activity/t/ShizCalev/MGSPatriotFix) ![License](https://img.shields.io/github/license/ShizCalev/MGSPatriotFix)
 
 [![Discord](https://img.shields.io/discord/1116856754920226876?logo=discord&logoColor=white&label=Metal%20Gear%20Network%20-%20%23HDFix&color=7289DA)](https://discord.gg/bFv9bZmWDV)
