@@ -5,7 +5,7 @@
 // Core name & version
 #define FIX_NAME "MGSPatriotFix"
 #define PRIMARY_REPO_URL "https://github.com/ShizCalev/MGSPatriotFix"
-#define FALLBACK_REPO_URL "https://gitlab.com/ShizCalev/MGSPatriotFix"
+//#define FALLBACK_REPO_URL "https://gitlab.com/ShizCalev/MGSPatriotFix"
 #define DISCORD_URL "https://discord.gg/bFv9bZmWDV"
 
 #define VERSION_MAJOR 0
