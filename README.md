@@ -34,11 +34,6 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 
 ## Installation
 
-> [!NOTE]
-🚩 **If updating from a previous version of MGSPatriotFix:**
-- Delete `d3d11.dll` from your game folder.
-- Delete old MGSPatriotFix files (e.g., `MGSPatriotFix Config Tool.exe` and `MGSPatriotFix.asi`) before installing the update.
-
 ### Steps:
 1. Grab the latest release of MGSPatriotFix from [here.](https://github.com/ShizCalev/MGSPatriotFix/releases)
 2. Extract the contents of the release zip into your game folder.
