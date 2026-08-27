@@ -723,6 +723,25 @@ namespace Util
         return GetProcAddress(ntdll, "wine_get_version") != nullptr;
     }
 
+    std::filesystem::path FindSubfolderCaseInsensitive(const std::filesystem::path& root, const std::string& name)
+    {
+        std::error_code ec;
+        for (const auto& entry : std::filesystem::directory_iterator(root, ec))
+        {
+            if (ec)
+            {
+                break;
+            }
+
+            if (entry.is_directory(ec) && _stricmp(entry.path().filename().string().c_str(), name.c_str()) == 0)
+            {
+                return entry.path();
+            }
+        }
+
+        return {};
+    }
+
     ///Scans all valid ASI directories for any .asi files matching the fileName.
     bool CheckForASIFiles(std::string fileName, bool checkForDuplicates, bool setFixPath, const char* checkCreationDate)
     {

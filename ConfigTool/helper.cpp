@@ -11,8 +11,23 @@ namespace
 {
     bool HasAnyGameExe(const std::filesystem::path& dir)
     {
-        return std::filesystem::exists(dir / "mgs4.exe") ||
-            std::filesystem::exists(dir / "METAL GEAR SOLID PEACE WALKER.exe");
+        if (const auto mgs4Dir = Helper::FindSubfolderCaseInsensitive(dir, "MGS4"); !mgs4Dir.empty())
+        {
+            if (std::filesystem::exists(mgs4Dir / "mgs4.exe"))
+            {
+                return true;
+            }
+        }
+
+        if (const auto mgspwDir = Helper::FindSubfolderCaseInsensitive(dir, "mgspw"); !mgspwDir.empty())
+        {
+            if (std::filesystem::exists(mgspwDir / "METAL GEAR SOLID PEACE WALKER.exe"))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     std::filesystem::path TryFindDetectedGameRootByWalkingUp(const std::filesystem::path& start)
@@ -77,14 +92,6 @@ namespace
             };
 
         return iequals_prefix(ws, L"Z:\\home");
-    }
-
-    bool IsSupportedAsiDirName(const std::filesystem::path& dir)
-    {
-        const std::wstring leaf = dir.filename().wstring();
-        return (_wcsicmp(leaf.c_str(), L"plugins") == 0) ||
-            (_wcsicmp(leaf.c_str(), L"scripts") == 0) ||
-            (_wcsicmp(leaf.c_str(), L"update") == 0);
     }
 
     std::filesystem::path GetExeDirPath()
@@ -153,136 +160,56 @@ namespace Helper
         }
     }
 
-    // ------------------------------------------------------------
-    // ASI location + install validation
-    //
-    // Invariant:
-    //  - Return value is ALWAYS one of: <gameRoot>\plugins, \scripts, \update
-    //  - Callers can always do: exePath = asiDir.parent_path()
-    //
-    // Also:
-    //  - CWD is preferred to support symlinking
-    //  - If CWD fails, exe dir is tried (Proton/Vortex/etc.)
-    //  - Results are cached
-    //  - If ASI is found but is NOT inside a valid game root (no game exe in parent),
-    //    treat it as "wrong folder" and show the install guidance message here.
-    // ------------------------------------------------------------
-
-    std::filesystem::path FindASILocation(const std::string fileName)
+    std::filesystem::path FindSubfolderCaseInsensitive(const std::filesystem::path& root, const std::string& name)
     {
-        static std::unordered_map<std::string, std::filesystem::path> s_cachedPaths;
-
-        // Cache hit
-        if (auto it = s_cachedPaths.find(fileName); it != s_cachedPaths.end())
+        std::error_code ec;
+        for (const auto& entry : std::filesystem::directory_iterator(root, ec))
         {
-            const std::filesystem::path cachedDir = it->second;
-            const std::filesystem::path cachedAsi = cachedDir / (fileName + ".asi");
-            if (std::filesystem::exists(cachedAsi) && HasAnyGameExe(cachedDir.parent_path()))
+            if (ec)
             {
-                return cachedDir;
+                break;
             }
 
-            s_cachedPaths.erase(it);
+            if (entry.is_directory(ec) && _stricmp(entry.path().filename().string().c_str(), name.c_str()) == 0)
+            {
+                return entry.path();
+            }
         }
 
-        static const std::array<std::filesystem::path, 3> subdirs = {
-            std::filesystem::path("plugins"),
-            std::filesystem::path("scripts"),
-            std::filesystem::path("update")
-        };
+        return {};
+    }
+
+    std::filesystem::path FindGameRoot()
+    {
+        static std::filesystem::path s_cachedRoot;
+
+        // Cache hit
+        if (!s_cachedRoot.empty() && HasAnyGameExe(s_cachedRoot))
+        {
+            return s_cachedRoot;
+        }
 
         const std::filesystem::path cwdBase = std::filesystem::path(wxGetCwd().ToStdWstring());
         const std::filesystem::path exeDir = GetExeDirPath();
 
-        std::filesystem::path lastFoundAsiDir; // set if we find the ASI but it is not a valid install (e.g. Vortex staging)
-
-        auto isValidInstallForAsiDir = [&](const std::filesystem::path& asiDir) -> bool
-            {
-                if (asiDir.empty())
-                {
-                    return false;
-                }
-
-                const std::filesystem::path gameRoot = asiDir.parent_path();
-                return HasAnyGameExe(gameRoot);
-            };
-
-        auto tryFindAsiDir = [&](const std::filesystem::path& base) -> std::filesystem::path
-            {
-                if (base.empty())
-                {
-                    return {};
-                }
-
-                // Case 1: user launched tool from inside plugins/scripts/update
-                if (IsSupportedAsiDirName(base))
-                {
-                    const std::filesystem::path asiPath = base / (fileName + ".asi");
-                    if (std::filesystem::exists(asiPath))
-                    {
-                        return base; // asiDir is already plugins/scripts/update
-                    }
-                }
-
-                // Case 2: normal layout where base is game root
-                for (const auto& sub : subdirs)
-                {
-                    const std::filesystem::path asiPath = base / sub / (fileName + ".asi");
-                    if (std::filesystem::exists(asiPath))
-                    {
-                        return asiPath.parent_path(); // plugins/scripts/update
-                    }
-                }
-
-                return {};
-            };
-
-        auto acceptOrRemember = [&](const std::filesystem::path& foundAsiDir) -> std::filesystem::path
-            {
-                if (foundAsiDir.empty())
-                {
-                    return {};
-                }
-
-                if (isValidInstallForAsiDir(foundAsiDir))
-                {
-                    s_cachedPaths[fileName] = foundAsiDir;
-                    return foundAsiDir;
-                }
-
-                // Found the ASI, but it is not next to a real game exe (likely staging folder)
-                lastFoundAsiDir = foundAsiDir;
-                return {};
-            };
-
-            // 1) Prefer CWD (symlink friendly)
-        if (std::filesystem::path found = tryFindAsiDir(cwdBase); !found.empty())
+        // 1) Prefer CWD (symlink friendly)
+        if (!IsWineHomePath(cwdBase) && HasAnyGameExe(cwdBase))
         {
-            if (std::filesystem::path accepted = acceptOrRemember(found); !accepted.empty())
-            {
-                return accepted;
-            }
+            s_cachedRoot = cwdBase;
+            return s_cachedRoot;
         }
 
         // 2) Fallback to executable directory (Proton/Vortex friendly)
-        if (std::filesystem::path found = tryFindAsiDir(exeDir); !found.empty())
+        if (HasAnyGameExe(exeDir))
         {
-            if (std::filesystem::path accepted = acceptOrRemember(found); !accepted.empty())
-            {
-                return accepted;
-            }
+            s_cachedRoot = exeDir;
+            return s_cachedRoot;
         }
 
         // ------------------------------------------------------------
         // Not found OR found only in an invalid location: show install guidance
         // ------------------------------------------------------------
-
-        // If we found an ASI dir but it is not a valid install, show that location.
-        // Otherwise show CWD (unless it's Proton home, in which case show EXE dir).
-        const std::filesystem::path currentLocation =
-            !lastFoundAsiDir.empty()
-            ? lastFoundAsiDir.parent_path()
-            : (IsWineHomePath(cwdBase) ? exeDir : cwdBase);
+        const std::filesystem::path currentLocation = IsWineHomePath(cwdBase) ? exeDir : cwdBase;
 
         std::filesystem::path detectedGameRoot = TryFindDetectedGameRootByWalkingUp(currentLocation);
         if (detectedGameRoot.empty())
@@ -296,36 +223,95 @@ namespace Helper
         if (!detectedGameRoot.empty())
         {
             message =
-                "MGSPatriotFix has been extracted to the wrong folder!\n"
-                "Please move all files from:\n\n" + currentLocation.string() +
+                INTERNAL_NAME_CONFIG " has been extracted to the wrong folder!\n"
+                "Please move it from:\n\n" + currentLocation.string() +
                 "\n\nto the detected game folder:\n\n" + detectedGameRoot.string();
         }
         else
         {
             message =
-                "MGSPatriotFix could not determine a valid game installation folder.\n"
+                INTERNAL_NAME_CONFIG " could not determine a valid game installation folder.\n"
                 "\n"
-                "This usually happens for one of the following reasons:\n"
+                INTERNAL_NAME_CONFIG " must be placed directly inside the game's main folder (the one containing the \"Launcher\" and \"MGS4\"/\"mgspw\" subfolders), e.g.:\n"
                 "\n"
-                " * The MGSPatriotFix zip file was extracted into a NEW FOLDER inside the game's directory.\n"
+                "  steamapps\\common\\METAL GEAR SOLID 4\\" INTERNAL_NAME_CONFIG "\n"
+                "  steamapps\\common\\MGS_PW\\" INTERNAL_NAME_CONFIG "\n"
                 "\n"
-                " * " INTERNAL_NAME_CONFIG " was launched via a shortcut whose working directory (\"Start in\") is not set to the game's \"plugins\" folder.\n"
-                "\n"
-                "\n"
-                "Current Location:\n\n" + currentLocation.string() + "\n"
-                "\n"
-                INTERNAL_NAME_CONFIG " must be launched from the game's \"plugins\" folder, or from a shortcut whose working directory is set to the game's \"plugins\" folder.\n"
-                "\n"
-                "If you are using a shortcut, edit its properties and set \"Start in\" to the game's \"plugins\" folder.\n"
-                "If you are using symlinks, ensure the working directory resolves to the real \"plugins\" directory.\n"
-                "\n"
-                "All files must be extracted exactly as packaged inside the game's main folder.";
-
+                "Current Location:\n\n" + currentLocation.string();
         }
 
         wxLogError(message);
         ExitProcess(1);
         return {};
+    }
+
+    void WarnIfAsiMissing(const std::filesystem::path& launcherDir, const std::filesystem::path& gameDir, const std::string& fileName)
+    {
+        static const std::array<std::filesystem::path, 3> subdirs = {
+            std::filesystem::path("plugins"),
+            std::filesystem::path("scripts"),
+            std::filesystem::path("update")
+        };
+
+        auto hasAsi = [&](const std::filesystem::path& folder) -> bool
+            {
+                if (folder.empty())
+                {
+                    return false;
+                }
+
+                if (std::filesystem::exists(folder / (fileName + ".asi")))
+                {
+                    return true;
+                }
+
+                for (const auto& sub : subdirs)
+                {
+                    if (std::filesystem::exists(folder / sub / (fileName + ".asi")))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+        const bool launcherHasAsi = hasAsi(launcherDir);
+        const bool gameHasAsi = hasAsi(gameDir);
+
+        if (launcherHasAsi && gameHasAsi)
+        {
+            return;
+        }
+
+        auto describe = [](const std::filesystem::path& dir) -> std::string
+            {
+                return dir.empty() ? "(launcher/game folder not found)" : dir.string();
+            };
+
+        std::vector<std::string> missingDirs;
+        if (!launcherHasAsi)
+        {
+            missingDirs.push_back(describe(launcherDir));
+        }
+        if (!gameHasAsi)
+        {
+            missingDirs.push_back(describe(gameDir));
+        }
+
+        std::string missingList;
+        for (const auto& dir : missingDirs)
+        {
+            missingList += "  " + dir + "\n";
+        }
+
+        const bool bothMissing = missingDirs.size() == 2;
+        const std::string explanation = bothMissing
+            ? ("These folders each need their own copy of " + fileName + " for the fix to apply correctly. "
+                "Please rextract the " + fileName + " zip exactly as it was packaged into the game folder.")
+            : ("This folder needs its own copy of " + fileName + " for the fix to apply correctly. "
+                "Please rextract the " + fileName + " zip exactly as it was packaged into the game folder.");
+
+        wxLogError((fileName + ".asi is missing from:\n\n" + missingList + "\n" + explanation).c_str());
     }
 
     VersionCompareResult CompareSemanticVersion(const std::string& currentVersion,

@@ -45,6 +45,7 @@ constexpr int iWindowSizeX = 716;
 constexpr int iWindowSizeY = 550;
 constexpr const char* sSettingsFileName = "MGSPatriotFix.settings";
 constexpr bool bFullLengthFields = false; //if you want the boxes to span half the window's width.
+#define DISABLE_ASI_LOADER_VERIFICATION
 #define MGSPatriotFix_SPECIFIC
 #define NEXUS_MGS4_URL   PRIMARY_REPO_URL
 #define NEXUS_MGSPW_URL  PRIMARY_REPO_URL
@@ -537,47 +538,81 @@ static size_t FindResourceSize(int resID, const wchar_t* resType)
     return SizeofResource(nullptr, hRes);
 }
 
-static int GetBannerResourceID()
+namespace
 {
-    const std::filesystem::path exePath = Helper::FindASILocation(sFixName).parent_path();
-
-
-#pragma region CrashWarnings
-    //These crash warnings are also in src\warnings\asi_loader_checks.cpp / ASILoaderCompatibility::Check(), make sure to keep them in sync.
-    if (std::filesystem::exists(exePath / "d3d11.dll") && (Helper::GetFileDescription((exePath / "d3d11.dll").string()) == kAsiLoaderDescription))
+    struct GameFolderInfo
     {
-        wxLogError("DUPLICATE MOD LOADER ERROR: Multiple ASI Loader .dll installations detected! This can cause inconsistent bugs and crashes.\n"
-            "\n"
-            "Please delete d3d11.dll, it has been replaced by winhttp.dll & wininet.dll.");
-        if (Helper::IsSteamOS())
+        int target;
+        int bannerId;
+        const char* gameSubfolder;
+        const char* gameExeName;
+        const char* launcherSubfolder;
+    };
+
+    constexpr GameFolderInfo kGameFolders[] = {
+        { TARGET_GAME_MGS4,  IDB_BANNER_MGS4,  "MGS4",  "mgs4.exe",                          "Launcher" },
+        { TARGET_GAME_MGSPW, IDB_BANNER_MGSPW, "mgspw", "METAL GEAR SOLID PEACE WALKER.exe", "launcher" },
+    };
+
+    //These crash warnings are also in src\warnings\asi_loader_checks.cpp / ASILoaderCompatibility::Check(), make sure to keep them in sync.
+    void CheckForDuplicateAsiLoader(const std::filesystem::path& dir)
+    {
+#ifdef DISABLE_ASI_LOADER_VERIFICATION
+        return;
+#endif
+        if (std::filesystem::exists(dir / "d3d11.dll") && (Helper::GetFileDescription((dir / "d3d11.dll").string()) == kAsiLoaderDescription))
         {
-            wxLogError("\nSteam Deck / Linux users must also replace their Steam game launch paramaters with the following command:\n"
+            wxLogError("DUPLICATE MOD LOADER ERROR: Multiple ASI Loader .dll installations detected in:\n\n%s\n\nThis can cause inconsistent bugs and crashes.\n"
                 "\n"
-                "WINEDLLOVERRIDES=\"wininet,winhttp=n,b\" % command %");
+                "Please delete d3d11.dll, it has been replaced by winhttp.dll & wininet.dll.", dir.string());
+            if (Helper::IsSteamOS())
+            {
+                wxLogError("\nSteam Deck / Linux users must also replace their Steam game launch paramaters with the following command:\n"
+                    "\n"
+                    "WINEDLLOVERRIDES=\"wininet,winhttp=n,b\" % command %");
+            }
+        }
+
+        if (std::filesystem::exists(dir / "dxgi.dll") &&
+            Helper::GetFileDescription((dir / "dxgi.dll").string()) == "File description not found.")
+        {
+            wxLogError("DUPLICATE MOD LOADER ERROR: Multiple ASI Loader .dll installations detected in:\n\n%s\n\nThis can cause inconsistent bugs and crashes.\n"
+                "\n"
+                "Please delete dxgi.dll, it has been replaced by winhttp.dll & wininet.dll.", dir.string());
         }
     }
+}
 
-    if (std::filesystem::exists(exePath / "dxgi.dll") &&
-        Helper::GetFileDescription((exePath / "dxgi.dll").string()) == "File description not found.")
+static int GetBannerResourceID()
+{
+    const std::filesystem::path root = Helper::FindGameRoot();
+
+    for (const auto& gf : kGameFolders)
     {
-        wxLogError("DUPLICATE MOD LOADER ERROR: Multiple ASI Loader .dll installations detected! This can cause inconsistent bugs and crashes.\n"
-            "\n"
-            "Please delete dxgi.dll, it has been replaced by winhttp.dll & wininet.dll.");
-    }
+        const std::filesystem::path gameDir = Helper::FindSubfolderCaseInsensitive(root, gf.gameSubfolder);
+        if (gameDir.empty() || !std::filesystem::exists(gameDir / gf.gameExeName))
+        {
+            continue;
+        }
+
+        iTargetGame = gf.target;
+
+        const std::filesystem::path launcherDir = Helper::FindSubfolderCaseInsensitive(root, gf.launcherSubfolder);
+
+#pragma region CrashWarnings
+        if (!launcherDir.empty())
+        {
+            CheckForDuplicateAsiLoader(launcherDir);
+        }
+        CheckForDuplicateAsiLoader(gameDir);
 #pragma endregion
 
-    if (std::filesystem::exists(exePath / "mgs4.exe"))
-    {
-        iTargetGame = TARGET_GAME_MGS4;
-        return IDB_BANNER_MGS4;
-    }
-    if (std::filesystem::exists(exePath / "METAL GEAR SOLID PEACE WALKER.exe"))
-    {
-        iTargetGame = TARGET_GAME_MGSPW;
-        return IDB_BANNER_MGSPW;
+        Helper::WarnIfAsiMissing(launcherDir, gameDir, sFixName);
+
+        return gf.bannerId;
     }
 
-    wxLogError("MGSPatriotFix was found, but no supported game executable exists in:\n\n%s", exePath.string());
+    wxLogError("MGSPatriotFix was found, but no supported game executable exists in:\n\n%s", root.string());
     ExitProcess(1);
     return IDB_BANNER_MGS4;
 }
@@ -2507,7 +2542,7 @@ private:
     }
 
     wxFileConfig* m_conf;
-    wxString m_iniPath = wxString((Helper::FindASILocation(sFixName) / sSettingsFileName).wstring());
+    wxString m_iniPath = wxString((Helper::FindGameRoot() / sSettingsFileName).wstring());
 
     std::unordered_map<Key, wxWindow*, KeyHash> m_controls;
     std::unordered_map<Key, wxString, KeyHash> m_snapshot;

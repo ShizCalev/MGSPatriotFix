@@ -22,7 +22,6 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 
 ## Bug Fixes
 #### Shared Bugs:
-- Fixes window size on displays with High DPI scaling enabled.
 - Fixes the monitor going to sleep during long cutscenes (for Windows only, Linux needs to be [fixed by Valve](https://github.com/ValveSoftware/Proton/issues/8881).)
 
 #### Peace Walker Bugs:
@@ -36,10 +35,9 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 
 ### Steps:
 1. Grab the latest release of MGSPatriotFix from [here.](https://github.com/ShizCalev/MGSPatriotFix/releases)
-2. Extract the contents of the release zip into your game folder.
+2. Extract the contents of the release zip into your game's root folder.
    - (e.g., `steamapps\common\METAL GEAR SOLID 4` or `steamapps\common\MGS_PW` for Steam.)
-3. Set both "Internal Resolution" & "Internal Upscaling" to Default / Original in the game's launcher. (Resolution is entirely handled by MGSPatriotFix.)
-4. Launch the MGSPatriotFix Config Tool (in the game's /plugins folder) to generate a settings file if you're installing the mod for the first time.
+4. Launch the MGSPatriotFix Config Tool (in the game's root folder) to generate a settings file.
 
 ### Steam Deck/Linux Additional Instructions
 
@@ -58,7 +56,7 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 
 ### Configuration
 
-- See **MGSPatriotFix Config Tool.exe** in the `/plugins` folder to adjust settings for the fix.
+- See **MGSPatriotFix Config Tool.exe** in the game's root folder to adjust settings for the fix.
 
 
 ## Support

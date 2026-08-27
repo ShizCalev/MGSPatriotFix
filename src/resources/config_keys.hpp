@@ -3,8 +3,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
-#include <string>
-#include <initializer_list>
 
 namespace ConfigKeys
 {
@@ -22,21 +20,6 @@ namespace ConfigKeys
                                                                   "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers\n"
                                                                   "\n"
                                                                   "Equivalent to: Right-click the game's .exe -> Properties -> Compatibility -> check \"Disable Fullscreen Optimizations\"";
-
-    constexpr const char* ForceDedicatedGPU_Section = "System Specific Fixes";
-    constexpr const char* ForceDedicatedGPU_Setting = "Force Dedicated GPU";
-    constexpr const char* ForceDedicatedGPU_Help = "";
-    constexpr const char* ForceDedicatedGPU_Tooltip = "Sets Windows power preference settings to force the\n"
-                                                      "game to use your dedicated GPU.\n"
-                                                      "\n"
-                                                      "This writes \"GpuPreference=2;\" for the game's executable to:\n"
-                                                      "HKEY_CURRENT_USER\\Software\\Microsoft\\DirectX\\UserGpuPreferences\n"
-                                                      "\n"
-                                                      "Equivalent to:\n"
-                                                      "Right-click desktop -> Display settings -> Graphics settings ->\n"
-                                                      "Browse -> Select the game's .exe -> Options -> Prefer High performance";
-
-
 
 
     constexpr const char* Language_Section = "Language Settings";
@@ -107,8 +90,31 @@ namespace ConfigKeys
     constexpr const char* VerboseLogging_Help = "";
     constexpr const char* VerboseLogging_Tooltip = "Enables verbose logging for debugging purposes.";
 
+    constexpr const char* ControllerType_Auto = "AUTO";
+    constexpr const char* ControllerType_XboxOne = "Xbox";
+    constexpr const char* ControllerType_PS4 = "PlayStation 4";
+    constexpr const char* ControllerType_PS5 = "PlayStation 5";
+    constexpr const char* ControllerType_NintendoSwitch = "Nintendo Switch";
 
 }
+
+
+
+inline const std::initializer_list<std::string> kLauncherConfigCtrlTypes = { //THESE ARE ORDER SENSITIVE.
+    ConfigKeys::ControllerType_XboxOne,         //0
+    ConfigKeys::ControllerType_PS4,             //1
+    ConfigKeys::ControllerType_PS5,          //2
+    ConfigKeys::ControllerType_NintendoSwitch,  //3
+
+};
+
+inline const std::initializer_list<std::string> kLauncherConfigCtrlTypesInternal = { // !!! KEEP IN SYNC WITH THE LIST ABOVE !!!
+    "AUTO",
+    "XBOX",
+    "PS4",
+    "PS5",
+    "NX"
+};
 
 
 struct Game_Language_Pair_View
@@ -129,10 +135,14 @@ inline constexpr std::array<Game_Language_Pair_View, 9> MGSPW_LanguagePairs =
 
 //Config Tool -> iTargetGame = TARGET_GAME_MG1 
 //Config Tool -> iTargetGame = TARGET_GAME_MGS2
-inline constexpr std::array<Game_Language_Pair_View, 6> MGS4_LanguagePairs =
+inline constexpr std::array<Game_Language_Pair_View, 7> MGS4_LanguagePairs =
 { {
     { "US / EU", "English",  "eu", "en" },
-
+    { "US / EU", "French",  "eu", "fr" },
+    { "US / EU", "Italian",  "eu", "it" },
+    { "US / EU", "German",  "eu", "gr" },
+    { "US / EU", "Spanish",  "eu", "sp" },
+    { "US / EU", "Portuguese",  "eu", "pt" },
     { "Japan",   "Japanese", "jp", "jp" }
 } };
 

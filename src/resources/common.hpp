@@ -5,6 +5,7 @@
 
 inline std::string sExeName;
 inline std::filesystem::path sExePath;
+inline std::filesystem::path sGameRootPath;
 inline std::filesystem::path sGameSavePath;
 inline bool bIsLauncher = false;
 
@@ -17,6 +18,7 @@ struct GameInfo
 {
     std::string GameTitle;
     std::string ExeName;
+    std::string GameSubfolder;
     int SteamAppId;
 };
 inline const GameInfo* game = nullptr;
@@ -34,8 +36,8 @@ inline MgsGame eGameType = UNKNOWN;
 
 
 inline const std::map<MgsGame, GameInfo> kGames = {
-    {MGS4, {"Metal Gear Solid 4 MC", "mgs4.exe", 4184400}},
-    {MGSPW, {"Metal Gear Solid PW MC", "METAL GEAR SOLID PEACE WALKER.exe", 4184360}},
+    {MGS4, {"Metal Gear Solid 4", "mgs4.exe", "MGS4", 4184400}},
+    {MGSPW, {"Metal Gear Solid Peace Walker", "METAL GEAR SOLID PEACE WALKER.exe", "mgspw", 4184360}},
 };
 
 inline bool usDatExists;

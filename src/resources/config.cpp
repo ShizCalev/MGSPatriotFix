@@ -12,11 +12,8 @@
 #include "version_checking.hpp"
 #include "config_keys.hpp"
 #include "windows_fullscreen_optimization.hpp"
-#include "custom_resolution_and_borderless.hpp"
-#include "color_correction.hpp"
 #include "d3d11_text_overlay.hpp"
 #include "game_funcs.hpp"
-#include "windows_preferred_gpu.hpp"
 
 // -----------------------------------------------------------------------------
 // ConfigHelper: A type-safe, case-insensitive, error-checked INI config reader.
@@ -143,17 +140,17 @@ void Config::Read()
 {
     std::filesystem::path sConfigFile = sFixName + ".settings";
 
-    std::ifstream iniFile((sExePath / sFixPath / sConfigFile).string());
+    std::ifstream iniFile((sGameRootPath / sConfigFile).string());
     if (!iniFile)
     {
-        spdlog::error("CONFIG ERROR: File not found: {}", (sExePath / sFixPath / sConfigFile).string());
-        spdlog::error("Make sure that you've run the {} (in your game's /plugins folder) to generate your settings file.", sFixName + " Config Tool");
-        spdlog::error("and that {} is located in {}", sConfigFile.string(), (sExePath / sFixPath).string());
+        spdlog::error("CONFIG ERROR: File not found: {}", (sGameRootPath / sConfigFile).string());
+        spdlog::error("Make sure that you've run the {} (in your game's root folder) to generate your settings file.", sFixName + " Config Tool");
+        spdlog::error("and that {} is located in {}", sConfigFile.string(), sGameRootPath.string());
         Logging::ShowConsole();
         std::cout << "" << sFixName << " v" << sFixVersion << " loaded." << std::endl;
-        std::cout << "ERROR: File not found: " << (sExePath / sFixPath / sConfigFile).string() << std::endl;
-        std::cout << "ERROR: Make sure that you've run the " << sFixName + " Config Tool" << " (in your game's /plugins folder) to generate your settings file." << std::endl;
-        std::cout << "ERROR: And that " << sConfigFile << " is located in " << sExePath / sFixPath << "\n" << std::endl;
+        std::cout << "ERROR: File not found: " << (sGameRootPath / sConfigFile).string() << std::endl;
+        std::cout << "ERROR: Make sure that you've run the " << sFixName + " Config Tool" << " (in your game's root folder) to generate your settings file." << std::endl;
+        std::cout << "ERROR: And that " << sConfigFile << " is located in " << sGameRootPath << "\n" << std::endl;
         if (Util::IsSteamOS())
         {
             std::cout << "ERROR: When launching the MGSPatriotFix Config Tool.exe on SteamOS, a protontricks window will open.\n"
@@ -174,7 +171,7 @@ void Config::Read()
         return FreeLibraryAndExitThread(baseModule, 1);
     }
 
-    spdlog::info("Config file: {}", (sExePath / sFixPath / sConfigFile).string());
+    spdlog::info("Config file: {}", (sGameRootPath / sConfigFile).string());
 
     inipp::Ini<char> ini;
     ini.parse(iniFile);
@@ -190,7 +187,6 @@ void Config::Read()
     }
 
     // Grab desktop resolution
-    CustomResolutionAndBorderless::DesktopDimensions = Util::GetPhysicalDesktopDimensions();
 
 
     ConfigHelper::getValue(ini, ConfigKeys::VerboseLogging_Section, ConfigKeys::VerboseLogging_Setting, g_Logging.bVerboseLogging);
@@ -247,9 +243,6 @@ void Config::Read()
 
     ConfigHelper::getValue(ini, ConfigKeys::DisableFullscreenOptimization_Section, ConfigKeys::DisableFullscreenOptimization_Setting, g_FixFullscreenOptimization.enabled);
     LOG_CONFIG(ConfigKeys::DisableFullscreenOptimization_Section, ConfigKeys::DisableFullscreenOptimization_Setting, g_FixFullscreenOptimization.enabled);
-
-    ConfigHelper::getValue(ini, ConfigKeys::ForceDedicatedGPU_Section, ConfigKeys::ForceDedicatedGPU_Setting, HighPerformanceGpu::bEnabled);
-    LOG_CONFIG(ConfigKeys::ForceDedicatedGPU_Section, ConfigKeys::ForceDedicatedGPU_Setting, HighPerformanceGpu::bEnabled);
 
         ConfigHelper::getValue(ini, ConfigKeys::SaveFolderWriteWarning_Section, ConfigKeys::SaveFolderWriteWarning_Setting, CheckGamesaveFolderWritable::bVerifySameDirectoryWriteable);
     LOG_CONFIG(ConfigKeys::SaveFolderWriteWarning_Section, ConfigKeys::SaveFolderWriteWarning_Setting, CheckGamesaveFolderWritable::bVerifySameDirectoryWriteable);

@@ -47,9 +47,6 @@
     <ClCompile Include="src\resources\config.cpp">
       <Filter>Config</Filter>
     </ClCompile>
-    <ClCompile Include="src\fixes\fix_default_gpu.cpp">
-      <Filter>Fixes</Filter>
-    </ClCompile>
     <ClCompile Include="src\resources\input_handler.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
@@ -68,20 +65,11 @@
     <ClCompile Include="src\warnings\check_gamesave_folder.cpp">
       <Filter>Warnings</Filter>
     </ClCompile>
-    <ClCompile Include="src\features\custom_resolution_and_borderless.cpp">
-      <Filter>Features</Filter>
-    </ClCompile>
     <ClCompile Include="src\fixes\resolution_scaling_fixes.cpp">
       <Filter>Fixes</Filter>
     </ClCompile>
-    <ClCompile Include="src\fixes\color_correction.cpp">
-      <Filter>Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="src\warnings\windows_multiplane_overlay_warning.cpp">
       <Filter>Warnings</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fixes\windows_preferred_gpu.cpp">
-      <Filter>Fixes</Filter>
     </ClCompile>
     <ClCompile Include="src\resources\d3d11_api.cpp">
       <Filter>APIs\WIP</Filter>
@@ -145,20 +133,11 @@
     <ClInclude Include="src\warnings\check_gamesave_folder.hpp">
       <Filter>Warnings\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="src\features\custom_resolution_and_borderless.hpp">
-      <Filter>Features\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\fixes\color_correction.hpp">
-      <Filter>Shaders\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="src\warnings\background_shuffle_warning.hpp">
       <Filter>Warnings\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\warnings\windows_multiplane_overlay_warning.hpp">
       <Filter>Warnings\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\fixes\windows_preferred_gpu.hpp">
-      <Filter>Fixes\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\resources\mgspw_linkvarbuf.hpp">
       <Filter>APIs\WIP\Headers</Filter>

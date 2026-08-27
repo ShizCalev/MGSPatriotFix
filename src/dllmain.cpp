@@ -24,8 +24,6 @@
 #include "check_gamesave_folder.hpp"
 #include "d3d11_text_overlay.hpp"
 //#include "color_correction.hpp"
-#include "custom_resolution_and_borderless.hpp"
-#include "windows_preferred_gpu.hpp"
 
 
 
@@ -230,14 +228,20 @@ static bool DetectGame()
     {
         for (const auto& [type, info] : kGames)
         {
-            auto gamePath = sExePath.parent_path() / info.ExeName;
+            const std::filesystem::path gameSubfolderPath = Util::FindSubfolderCaseInsensitive(sGameRootPath, info.GameSubfolder);
+            if (gameSubfolderPath.empty())
+            {
+                continue;
+            }
+
+            auto gamePath = gameSubfolderPath / info.ExeName;
             if (std::filesystem::exists(gamePath))
             {
                 spdlog::info("Detected launcher for game: {} (app {})", info.GameTitle.c_str(), info.SteamAppId);
                 eGameType = LAUNCHER;
                 unityPlayer = GetModuleHandleA("UnityPlayer.dll");
                 game = &info;
-                sGameSavePath = sExePath / ((game->ExeName == kGames.at(MGS4).ExeName) ? "mgs4_savedata_win" : "mgspw_savedata_win");
+                sGameSavePath = sGameRootPath / ((game->ExeName == kGames.at(MGS4).ExeName) ? "mgs4_savedata_win" : "mgspw_savedata_win");
                 return true;
             }
         }
@@ -254,7 +258,7 @@ static bool DetectGame()
             eGameType = type;
             game = &info;
 
-            sGameSavePath = sExePath / ((game->ExeName == kGames.at(MGS4).ExeName) ? "mgs4_savedata_win" : "mgspw_savedata_win");
+            sGameSavePath = sGameRootPath / ((game->ExeName == kGames.at(MGS4).ExeName) ? "mgs4_savedata_win" : "mgspw_savedata_win");
             spdlog::info("Game Save Path: {}", sGameSavePath.string());
             //if (engineModule = GetModuleHandleA("Engine.dll"); !engineModule)
             //{
@@ -292,32 +296,25 @@ static void InitializeSubsystems()
     //Initialization order (these systems initialize vars used by following ones.)
     INITIALIZE(g_Logging.LogSysInfo());            //0
     INITIALIZE(DetectGame());                      //1
-    INITIALIZE(ASILoaderCompatibility::Check());   //2
+    //INITIALIZE(ASILoaderCompatibility::Check());   //2
     INITIALIZE(Config::Read());                    //3
     //INITIALIZE(g_GameVars.Initialize());           //4
     //INITIALIZE(g_D3D11Hooks.Initialize());         //5 Caches the D3DDevice, DXGIFactory, and D3DContext from D3DCreateDevice/DXGICreateFactory
     //INITIALIZE(Init_LauncherConfigOverride());     //7
-    INITIALIZE(CustomResolutionAndBorderless::Init_FixDPIScaling());              //8 Needs to be anywhere before the window is created in CustomResolution.
-    //INITIALIZE(CustomResolutionAndBorderless::Init_CalculateScreenSize());        //9
-    //INITIALIZE(CustomResolutionAndBorderless::Init_CustomResolution());           //10
-    //
-    //INITIALIZE(CustomResolutionAndBorderless::Init_ScaleEffects());               
-    //INITIALIZE(CustomResolutionAndBorderless::Init_AspectFOVFix());
-    //INITIALIZE(CustomResolutionAndBorderless::Init_HUDFix());
 
     
     //INITIALIZE(ColorCorrection::Setup());
 
-        //Fixes
     if (eGameType & MGS4)
     {
 
-        INITIALIZE(ResolutionScalingFixes::ApplyFixes());
+        //INITIALIZE(ResolutionScalingFixes::ApplyFixes());
+
     }
     else if (eGameType & MGSPW)
     {
-        INITIALIZE(ResolutionScalingFixes::ApplyFixes());
-        INITIALIZE(HighPerformanceGpu::Fix());
+        //INITIALIZE(ResolutionScalingFixes::ApplyFixes());
+
     }
 
     INITIALIZE(FixFullscreenOptimization::Fix());
@@ -326,10 +323,10 @@ static void InitializeSubsystems()
 
         //Warnings
     INITIALIZE(BackgroundShuffleWarning::Check());
-    INITIALIZE(CheckGamesaveFolderWritable::CheckStatus());
+    //INITIALIZE(CheckGamesaveFolderWritable::CheckStatus());
 
 
-    INITIALIZE(CheckForUpdates());
+    //INITIALIZE(CheckForUpdates());
 
 #if !defined(RELEASE_BUILD)
     INITIALIZE(UnitTests::runAllTests());

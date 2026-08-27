@@ -9,7 +9,6 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
 
-#include "color_correction.hpp"
 #include "input_handler.hpp"
 
 #include "d3d11_text_overlay.hpp"
@@ -132,7 +131,6 @@ namespace
 
         g_InputHandler.Update();
 
-        ColorCorrection::Draw(pSwapChain);
 
 
         D3D11TextOverlay::Tick(); //keep last.

@@ -1,4 +1,5 @@
-#include "stdafx.h"
+#include "pch.h"
+/*
 #include "windows_preferred_gpu.hpp"
 
 #include "common.hpp"
@@ -135,3 +136,4 @@ void HighPerformanceGpu::Fix()
     }
 }
 
+*/

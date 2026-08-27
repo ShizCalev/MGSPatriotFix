@@ -31,8 +31,6 @@
 const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
     { wxString("General"), {
 
-        { (MGS4 | MGSPW), ConfigKeys::ForceDedicatedGPU_Section, ConfigKeys::ForceDedicatedGPU_Setting, ConfigKeys::ForceDedicatedGPU_Help, ConfigKeys::ForceDedicatedGPU_Tooltip,
-          std::nullopt, false, Field::Bool, true },
 
         { (MGS4|MGSPW), ConfigKeys::DisableFullscreenOptimization_Section, ConfigKeys::DisableFullscreenOptimization_Setting, ConfigKeys::DisableFullscreenOptimization_Help, ConfigKeys::DisableFullscreenOptimization_Tooltip,
           std::nullopt, false, Field::Bool, false },

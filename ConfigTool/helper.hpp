@@ -5,7 +5,11 @@
 
 namespace Helper
 {
-    std::filesystem::path FindASILocation(std::string fileName);
+    std::filesystem::path FindGameRoot();
+
+    std::filesystem::path FindSubfolderCaseInsensitive(const std::filesystem::path& root, const std::string& name);
+
+    void WarnIfAsiMissing(const std::filesystem::path& launcherDir, const std::filesystem::path& gameDir, const std::string& fileName);
 
     // Runs fn on the main GUI thread now if already on it, otherwise marshals it there.
     void RunOnMainThread(std::function<void()> fn);

@@ -22,7 +22,7 @@ public:
     {
         truncate_log_file();
 
-        _file.open(_filename, std::ios::app);
+        _file.open(_filename, std::ios::app | std::ios::binary);
         if (!_file.is_open())
         {
             throw spdlog::spdlog_ex("Failed to open log file " + filename);
@@ -58,7 +58,7 @@ private:
     {
         if (std::filesystem::exists(_filename))
         {
-            std::ofstream ofs(_filename, std::ofstream::out | std::ofstream::trunc);
+            std::ofstream ofs(_filename, std::ofstream::out | std::ofstream::trunc | std::ios::binary);
             ofs.close();
         }
     }
@@ -79,6 +79,7 @@ void Logging::ShowConsole()
 
 void Logging::Initialize()
 {
+    Logging::ShowConsole();
     // Get game name and exe path
     WCHAR exePath[_MAX_PATH] = { 0 };
     GetModuleFileNameW(baseModule, exePath, MAX_PATH);
@@ -88,19 +89,24 @@ void Logging::Initialize()
     {
         bIsLauncher = true;
     }
+
+    sGameRootPath = sExePath.parent_path().parent_path();
+
     sExePath = sExePath.remove_filename();
+    std::cout << "Executable Path: " << sExePath.string() << std::endl;
 
     // spdlog initialisation
     {
         try
         {
-            bool logDirExists = std::filesystem::is_directory(sExePath / "logs");
+            bool logDirExists = std::filesystem::is_directory(sGameRootPath / "logs");
             if (!logDirExists)
             {
-                std::filesystem::create_directory(sExePath / "logs"); //create a "logs" subdirectory in the game folder to keep the main directory tidy.
+                std::filesystem::create_directory(sGameRootPath / "logs"); //create a "logs" subdirectory in the root game folder to keep things tidy.
             }
+            std::cout << "Log Root Path: " << sGameRootPath.string() << std::endl;
             // Create 10MB truncated logger
-            std::filesystem::path sLogFile = (sExePath / "logs" / (sFixName + (bIsLauncher ? "_Launcher" : "_Game") + ".log"));
+            std::filesystem::path sLogFile = (sGameRootPath / "logs" / (sFixName + (bIsLauncher ? "_Launcher" : "_Game") + ".log"));
             spdlog::init_thread_pool(8192, 1); // queue size, worker threads
 
             auto sink = std::make_shared<size_limited_sink<std::mutex>>(sLogFile.string(), 15 * 1024 * 1024);
@@ -127,7 +133,7 @@ void Logging::Initialize()
             spdlog::info("ASI plugin location: {}", (sExePath / sFixPath / (sFixName + ".asi")).string());
             spdlog::info("----------");
             spdlog::info("Log file: {}", sLogFile.string());
-            if (std::filesystem::path pOldLogFile = sExePath / "logs" / (sFixName + ".log"); std::filesystem::exists(pOldLogFile))
+            if (std::filesystem::path pOldLogFile = sGameRootPath / "logs" / (sFixName + ".log"); std::filesystem::exists(pOldLogFile))
             {
                 spdlog::warn("Found an outdated log file from a previous version of MGSPatriotFix. Removing: {}", pOldLogFile.string());
                 std::filesystem::remove(pOldLogFile);

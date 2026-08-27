@@ -31,11 +31,11 @@ void CheckForUpdates()
         return;
     }
 
-    std::filesystem::path base = std::filesystem::path(wxGetCwd().ToStdWstring());
+    const std::filesystem::path root = Helper::FindGameRoot();
 
     std::string saveDir =
         (iTargetGame == TARGET_GAME_MGS4) ? "mgs4_savedata_win" : "mgspw_savedata_win";
-    std::filesystem::path cacheFilePath = base.parent_path() / saveDir / (sFixName + "_version_check.txt");
+    std::filesystem::path cacheFilePath = root / saveDir / (sFixName + "_version_check.txt");
     wxLogDebug("Update Checker: Using cache file path: %s", cacheFilePath.string());
     LatestVersionChecker checker(cacheFilePath);
     checker.checkForUpdates();
