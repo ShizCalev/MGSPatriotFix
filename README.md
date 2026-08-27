@@ -11,7 +11,7 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 - Metal Gear Solid: Peace Walker
 
 ## Other Metal Gear Fix Projects
-- MGS Master Collection - Metal Gear / Metal Gear 2: Solid Snake / Metal Gear Solid 2 / Metal Gear Solid 3 | MGSHDFix - [Repo](https://gitlab.com/ShizCalev/MGSHDFix)
+- MGS Master Collection - Metal Gear / Metal Gear 2: Solid Snake / Metal Gear Solid 2 / Metal Gear Solid 3 | MGSHDFix - [Repo](https://github.com/ShizCalev/MGSHDFix)
 - MGS Master Collection - Metal Gear Solid 1 and Bonus Content (MG1/2 NES) | MGSM2Fix - [Repo](https://github.com/nuggslet/MGSM2Fix) / [Nexus Page](https://www.nexusmods.com/metalgearsolidmc/mods/5)
 - Metal Gear Solid V: The Phantom Pain | MGSVFix - [Repo](https://codeberg.org/Lyall/MGSVFix)
 - Metal Gear Solid Delta: Snake Eater | MGSDeltaFix - [Repo](https://codeberg.org/Lyall/MGSDeltaFix) / [Nexus Page](https://www.nexusmods.com/metalgearsoliddeltasnakeeater/mods/27)
