@@ -11,8 +11,8 @@ namespace
 {
     bool HasAnyGameExe(const std::filesystem::path& dir)
     {
-        return std::filesystem::exists(dir / "METAL GEAR SOLID4.exe") ||
-            std::filesystem::exists(dir / "METAL GEAR SOLID PEACEWALKER.exe");
+        return std::filesystem::exists(dir / "mgs4.exe") ||
+            std::filesystem::exists(dir / "METAL GEAR SOLID PEACE WALKER.exe");
     }
 
     std::filesystem::path TryFindDetectedGameRootByWalkingUp(const std::filesystem::path& start)

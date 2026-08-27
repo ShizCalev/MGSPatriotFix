@@ -6,7 +6,7 @@
 
 void HighPerformanceGpu::Fix()
 {
-    if (Util::IsSteamOS() || !(eGameType & (LAUNCHER | MGS4 | MGSPW)))
+    if (Util::IsSteamOS() || !(eGameType & MGSPW))
     {
         return;
     }

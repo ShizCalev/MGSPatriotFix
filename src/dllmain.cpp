@@ -317,10 +317,10 @@ static void InitializeSubsystems()
     else if (eGameType & MGSPW)
     {
         INITIALIZE(ResolutionScalingFixes::ApplyFixes());
+        INITIALIZE(HighPerformanceGpu::Fix());
     }
 
     INITIALIZE(FixFullscreenOptimization::Fix());
-    INITIALIZE(HighPerformanceGpu::Fix());
     //INITIALIZE(D3D11TextOverlay::Setup());
 
 

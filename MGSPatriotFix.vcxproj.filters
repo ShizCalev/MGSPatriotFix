@@ -160,7 +160,6 @@
     <ClInclude Include="src\fixes\windows_preferred_gpu.hpp">
       <Filter>Fixes\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="src\fixes\resolution_scaling_fixes.hpp" />
     <ClInclude Include="src\resources\mgspw_linkvarbuf.hpp">
       <Filter>APIs\WIP\Headers</Filter>
     </ClInclude>
@@ -184,6 +183,9 @@
     </ClInclude>
     <ClInclude Include="src\resources\mgs4_linkvarbuf.hpp">
       <Filter>APIs\WIP\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fixes\resolution_scaling_fixes.hpp">
+      <Filter>Fixes\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -566,7 +566,7 @@ static int GetBannerResourceID()
     }
 #pragma endregion
 
-    if (std::filesystem::exists(exePath / "METAL GEAR SOLID4.exe"))
+    if (std::filesystem::exists(exePath / "mgs4.exe"))
     {
         iTargetGame = TARGET_GAME_MGS4;
         return IDB_BANNER_MGS4;
