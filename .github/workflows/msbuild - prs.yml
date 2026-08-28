@@ -127,7 +127,9 @@ jobs:
     - run: mkdir dist/MGS4/scripts
     - run: mkdir dist/mgspw/scripts
     - run: mkdir dist/logs
-
+    # MGS4's launcher folder is capitalized "Launcher" MGS_PW's is lowercase "launcher",
+    # i fucking hate linux support.
+    - run: mkdir dist_launcher_uppercase/Launcher/scripts
 
     # Download Ultimate ASI Loader
     - uses: robinraju/release-downloader@v1.8
@@ -137,16 +139,17 @@ jobs:
         fileName: "Ultimate-ASI-Loader_x64.zip"
 
     - name: Extract Loader
-      run: Expand-Archive Ultimate-ASI-Loader_x64.zip -DestinationPath dist
+      run: Expand-Archive Ultimate-ASI-Loader_x64.zip -DestinationPath loader_extracted
 
     - name: Add Loader License
       run: Invoke-WebRequest https://raw.githubusercontent.com/ThirteenAG/Ultimate-ASI-Loader/master/license -OutFile dist/logs/UltimateASILoader_LICENSE.md
 
     - name: Stage Loader DLLs
       run: |
-        Copy-Item dist/dinput8.dll dist/launcher/d3d11.dll
-        Copy-Item dist/dinput8.dll dist/MGS4/winmm.dll
-        Move-Item dist/dinput8.dll dist/mgspw/winmm.dll
+        Copy-Item loader_extracted/dinput8.dll dist/launcher/d3d11.dll
+        Copy-Item loader_extracted/dinput8.dll dist_launcher_uppercase/Launcher/d3d11.dll
+        Copy-Item loader_extracted/dinput8.dll dist/MGS4/winmm.dll
+        Copy-Item loader_extracted/dinput8.dll dist/mgspw/winmm.dll
 
     # -------------------------
     # Build
@@ -179,10 +182,11 @@ jobs:
     - name: Build
       run: msbuild "${{ github.event.repository.name }}.sln" /m -t:rebuild -verbosity:minimal -property:Configuration=Release -property:Platform=x64
 
-    # Copy built binaries directly into plugins\
+    # Copy built binaries directly into each install location
     - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist/MGS4/scripts/${{ github.event.repository.name }}.asi"
     - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist/mgspw/scripts/${{ github.event.repository.name }}.asi"
     - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist/launcher/scripts/${{ github.event.repository.name }}.asi"
+    - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist_launcher_uppercase/Launcher/scripts/${{ github.event.repository.name }}.asi"
     - run: Copy-Item "x64\Release\${{ github.event.repository.name }} Config Tool.exe" "dist/${{ github.event.repository.name }} Config Tool.exe"
 
     # Logs & metadata
@@ -194,11 +198,12 @@ jobs:
 
     # Package everything
     - name: Create release zip
-      working-directory: dist
-      run: 7z a -tzip "../${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip" *
+      run: |
+        7z a -tzip "${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip" "./dist/*"
+        7z a -tzip "${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip" "./dist_launcher_uppercase/*"
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: ${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}
-        path: dist/
+        path: ${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip
