@@ -79,7 +79,7 @@ void Logging::ShowConsole()
 
 void Logging::Initialize()
 {
-    Logging::ShowConsole();
+    //Logging::ShowConsole();
     // Get game name and exe path
     WCHAR exePath[_MAX_PATH] = { 0 };
     GetModuleFileNameW(baseModule, exePath, MAX_PATH);
@@ -93,7 +93,7 @@ void Logging::Initialize()
     sGameRootPath = sExePath.parent_path().parent_path();
 
     sExePath = sExePath.remove_filename();
-    std::cout << "Executable Path: " << sExePath.string() << std::endl;
+    //std::cout << "Executable Path: " << sExePath.string() << std::endl;
 
     // spdlog initialisation
     {
@@ -104,7 +104,7 @@ void Logging::Initialize()
             {
                 std::filesystem::create_directory(sGameRootPath / "logs"); //create a "logs" subdirectory in the root game folder to keep things tidy.
             }
-            std::cout << "Log Root Path: " << sGameRootPath.string() << std::endl;
+            //std::cout << "Log Root Path: " << sGameRootPath.string() << std::endl;
             // Create 10MB truncated logger
             std::filesystem::path sLogFile = (sGameRootPath / "logs" / (sFixName + (bIsLauncher ? "_Launcher" : "_Game") + ".log"));
             spdlog::init_thread_pool(8192, 1); // queue size, worker threads
