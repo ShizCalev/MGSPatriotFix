@@ -123,7 +123,9 @@ jobs:
     # Prepare output structure
     # -------------------------
     - run: mkdir dist
-    - run: mkdir dist/plugins
+    - run: mkdir dist/launcher
+    - run: mkdir dist/MGS4
+    - run: mkdir dist/mgspw
     - run: mkdir dist/logs
 
 
@@ -177,17 +179,17 @@ jobs:
       run: msbuild "${{ github.event.repository.name }}.sln" /m -t:rebuild -verbosity:minimal -property:Configuration=Release -property:Platform=x64
 
     # Copy built binaries directly into plugins\
-    - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist/plugins/${{ github.event.repository.name }}.asi"
-    - run: Copy-Item "x64\Release\${{ github.event.repository.name }} Config Tool.exe" "dist/plugins/${{ github.event.repository.name }} Config Tool.exe"
+    - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist/MGS4/scripts/${{ github.event.repository.name }}.asi"
+    - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist/mgspw/scripts/${{ github.event.repository.name }}.asi"
+    - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist/launcher/scripts/${{ github.event.repository.name }}.asi"
+    - run: Copy-Item "x64\Release\${{ github.event.repository.name }} Config Tool.exe" "dist/${{ github.event.repository.name }} Config Tool.exe"
 
     # Logs & metadata
     - run: Copy-Item README.md "dist/logs/${{ github.event.repository.name }}_Game.log"
     - run: Copy-Item README.md "dist/logs/${{ github.event.repository.name }}_Launcher.log"
-    - run: Copy-Item README.md "dist/plugins/${{ github.event.repository.name }}_README.md"
-    - run: Copy-Item LICENSE.md "dist/plugins/${{ github.event.repository.name }}_LICENSE.md"
-
-   # - run: Copy-Item "external\SMAA\LICENSE.txt" "dist/plugins/SMAA_LICENSE.md"
-   # - run: Copy-Item "external\SMAA\SMAA.hlsl" "dist/plugins/SMAA.hlsl"
+    - run: Copy-Item README.md "dist/${{ github.event.repository.name }}_README.md"
+    - run: Copy-Item LICENSE.md "dist/MGS4/scripts/${{ github.event.repository.name }}_LICENSE.md"
+    - run: Copy-Item LICENSE.md "dist/mgspw/scripts/${{ github.event.repository.name }}_LICENSE.md"
 
     # Package everything
     - name: Create release zip
