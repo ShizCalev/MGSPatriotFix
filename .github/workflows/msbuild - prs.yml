@@ -123,9 +123,9 @@ jobs:
     # Prepare output structure
     # -------------------------
     - run: mkdir dist
-    - run: mkdir dist/launcher
-    - run: mkdir dist/MGS4
-    - run: mkdir dist/mgspw
+    - run: mkdir dist/launcher/scripts
+    - run: mkdir dist/MGS4/scripts
+    - run: mkdir dist/mgspw/scripts
     - run: mkdir dist/logs
 
 
