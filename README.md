@@ -39,8 +39,11 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 
 ### Steps:
 1. Grab the latest release of MGSPatriotFix from [here.](https://github.com/ShizCalev/MGSPatriotFix/releases)
-2. Extract the contents of the release zip into your game's root folder.
-   - (e.g., `steamapps\common\METAL GEAR SOLID 4` or `steamapps\common\MGS_PW` for Steam.)
+   - There are two separate zips per release, one per game:
+     - `MGS4_MGSPatriotFix_<version>.zip` for Metal Gear Solid 4
+     - `PW_MGSPatriotFix_<version>.zip` for Metal Gear Solid: Peace Walker
+2. Extract the contents of the zip into the matching game's root folder.
+   - (e.g., extract the MGS4 zip's contents into `steamapps\common\METAL GEAR SOLID 4`, the PW zip's contents into `steamapps\common\MGS_PW`.)
 4. Launch the MGSPatriotFix Config Tool (in the game's root folder) to generate a settings file.
 
 ### Steam Deck/Linux Additional Instructions
