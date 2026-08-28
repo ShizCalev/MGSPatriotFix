@@ -1,139 +1,76 @@
 #include "pch.h"
-/*
 #include "windows_preferred_gpu.hpp"
 
-#include "common.hpp"
-#include "logging.hpp"
+#include "helper.hpp"
+#include <wx/log.h>
 
-void HighPerformanceGpu::Fix()
+namespace
 {
-    if (Util::IsSteamOS() || !(eGameType & MGSPW))
+    struct GpuFixTarget
     {
-        return;
-    }
+        const char* subfolder;
+        const char* exeName;
+    };
 
-    const auto markerFile = sGameSavePath / "MGSPatriotFix_windows_preferred_gpu.bin";
-    const bool shouldApply = bEnabled;
-    const bool markerExists = std::filesystem::exists(markerFile);
-    const bool shouldRemove = !shouldApply && markerExists;
-    if (!shouldApply && !shouldRemove)
+    constexpr GpuFixTarget kGpuFixTargets[] = {
+        { "MGS1",  "mgs1.exe" },
+        { "mgspw", "METAL GEAR SOLID PEACE WALKER.exe" },
+    };
+
+    void SetHighPerformanceGpuPreference(const std::filesystem::path& exePath)
     {
-        spdlog::info("[Registry Compat Fix] High-performance GPU registry fix not required for {}", (sExePath / sExeName).string());
-        return;
-    }
+        HKEY hKey;
+        const char* subKey = R"(Software\Microsoft\DirectX\UserGpuPreferences)";
+        LONG result = RegCreateKeyExA(
+            HKEY_CURRENT_USER,
+            subKey,
+            0,
+            nullptr,
+            REG_OPTION_NON_VOLATILE,
+            KEY_READ | KEY_WRITE,
+            nullptr,
+            &hKey,
+            nullptr);
 
-    spdlog::info("[Registry Compat Fix] {} high-performance GPU registry fix for {}", shouldApply ? "Applying" : "Reverting", (sExePath / sExeName).string());
-
-    HKEY hKey;
-    const char* subKey = R"(Software\Microsoft\DirectX\UserGpuPreferences)";
-    LONG result = RegCreateKeyExA(
-        HKEY_CURRENT_USER,
-        subKey,
-        0,
-        nullptr,
-        REG_OPTION_NON_VOLATILE,
-        KEY_READ | KEY_WRITE,
-        nullptr,
-        &hKey,
-        nullptr);
-
-    if (result != ERROR_SUCCESS)
-    {
-        spdlog::error("[Registry Compat Fix] Failed to open registry key: {}", subKey);
-        return;
-    }
-
-    DWORD type = 0;
-    DWORD dataSize = 0;
-    result = RegQueryValueExA(hKey, (sExePath / sExeName).string().c_str(), nullptr, &type, nullptr, &dataSize);
-
-    std::string value;
-    if (result == ERROR_SUCCESS && dataSize > 0)
-    {
-        std::vector<char> data(dataSize);
-        if (RegQueryValueExA(hKey, (sExePath / sExeName).string().c_str(), nullptr, &type, reinterpret_cast<LPBYTE>(data.data()), &dataSize) == ERROR_SUCCESS)
+        if (result != ERROR_SUCCESS)
         {
-            value.assign(data.begin(), data.end());
-            while (!value.empty() && value.back() == '\0')
-                value.pop_back();
+            wxLogDebug("High-performance GPU fix: failed to open registry key: %s", subKey);
+            return;
         }
-    }
 
-    bool modified = false;
+        const std::string valueName = exePath.string();
+        const std::string value = "GpuPreference=2;";
+        const DWORD valueSize = static_cast<DWORD>(value.size() + 1);
 
-    if (shouldApply)
-    {
-        if (value != "GpuPreference=2;")
+        if (RegSetValueExA(hKey, valueName.c_str(), 0, REG_SZ, reinterpret_cast<const BYTE*>(value.c_str()), valueSize) == ERROR_SUCCESS)
         {
-            value = "GpuPreference=2;";
-            modified = true;
-        }
-    }
-    else if (shouldRemove)
-    {
-        if (!value.empty())
-        {
-            value.clear();
-            modified = true;
-        }
-    }
-
-    if (modified)
-    {
-        if (value.empty())
-        {
-            if (RegDeleteValueA(hKey, (sExePath / sExeName).string().c_str()) == ERROR_SUCCESS)
-                spdlog::info("[Registry Compat Fix] Deleted registry entry for {}", (sExePath / sExeName).string());
-            else
-                spdlog::error("[Registry Compat Fix] Failed to delete registry entry for {}", (sExePath / sExeName).string());
+            wxLogDebug("High-performance GPU fix: wrote registry entry for %s", valueName.c_str());
         }
         else
         {
-            const DWORD valueSize = static_cast<DWORD>(value.size() + 1);
-            if (RegSetValueExA(hKey, (sExePath / sExeName).string().c_str(), 0, REG_SZ, reinterpret_cast<const BYTE*>(value.c_str()), valueSize) == ERROR_SUCCESS)
-                spdlog::info("[Registry Compat Fix] Wrote registry entry for {}: {}", (sExePath / sExeName).string(), value);
-            else
-                spdlog::error("[Registry Compat Fix] Failed to write registry entry for {}", (sExePath / sExeName).string());
+            wxLogDebug("High-performance GPU fix: failed to write registry entry for %s", valueName.c_str());
         }
-    }
-    else
-    {
-        spdlog::info("[Registry Compat Fix] No registry changes required for {}", (sExePath / sExeName).string());
-    }
 
-    RegCloseKey(hKey);
-
-    if (shouldApply)
-    {
-        if (!markerExists)
-        {
-            try
-            {
-                std::ofstream out(markerFile, std::ios::trunc);
-                if (out)
-                {
-                    out << "  ...A surveillance camera?!\n";
-                    out << "MGSPatriotFix wrote this file to track high-performance GPU registry state.\n";
-                    out << "Delete this file to prevent the fix from reverting when disabled.\n";
-                    out.close();
-                    spdlog::info("[Registry Compat Fix] Created marker file: {}", markerFile.string());
-                }
-            }
-            catch (const std::exception& e)
-            {
-                spdlog::error("[Registry Compat Fix] Failed to create marker file: {} - {}", markerFile.string(), e.what());
-            }
-        }
-    }
-    else if (shouldRemove)
-    {
-        std::error_code ec;
-        std::filesystem::remove(markerFile, ec);
-        if (!ec)
-            spdlog::info("[Registry Compat Fix] Removed marker file: {}", markerFile.string());
-        else
-            spdlog::warn("[Registry Compat Fix] Failed to remove marker file: {}", markerFile.string());
+        RegCloseKey(hKey);
     }
 }
 
-*/
+void HighPerformanceGpu::Fix()
+{
+    const std::filesystem::path root = Helper::FindGameRoot();
+
+    for (const auto& target : kGpuFixTargets)
+    {
+        const std::filesystem::path dir = Helper::FindSubfolderCaseInsensitive(root, target.subfolder);
+        if (dir.empty())
+        {
+            continue;
+        }
+
+        const std::filesystem::path exePath = dir / target.exeName;
+        if (std::filesystem::exists(exePath))
+        {
+            SetHighPerformanceGpuPreference(exePath);
+        }
+    }
+}

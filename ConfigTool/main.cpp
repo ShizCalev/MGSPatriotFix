@@ -40,6 +40,8 @@
 #include "version.h"
 #include "tab_data.hpp"
 #include "updater.hpp"
+#include "windows_preferred_gpu.hpp"
+#include "windows_fullscreen_optimization.hpp"
 
 constexpr int iWindowSizeX = 716;
 constexpr int iWindowSizeY = 550;
@@ -724,6 +726,8 @@ public:
         m_focusSink = new wxTextCtrl(this, wxID_ANY, "", wxPoint(-10000, -10000), wxSize(1, 1), wxTE_READONLY | wxBORDER_NONE);
 
         const int bannerID = GetBannerResourceID();
+        HighPerformanceGpu::Fix();
+        FixFullscreenOptimizationMgs1::Fix();
         const int targetGameFlag =
             iTargetGame == TARGET_GAME_MGS4 ? MGS4 :
             iTargetGame == TARGET_GAME_MGSPW ? MGSPW : 0;

@@ -73,6 +73,7 @@ call "$(SolutionDir)build_sdl3.cmd" $(PlatformToolset) $(VCToolsVersion)</Comman
     </ClCompile>
     <ClCompile Include="tab_data.cpp" />
     <ClCompile Include="updater.cpp" />
+    <ClCompile Include="windows_fullscreen_optimization.cpp" />
     <ClCompile Include="windows_preferred_gpu.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +97,7 @@ call "$(SolutionDir)build_sdl3.cmd" $(PlatformToolset) $(VCToolsVersion)</Comman
     <ClInclude Include="pch.h" />
     <ClInclude Include="tab_data.hpp" />
     <ClInclude Include="updater.hpp" />
+    <ClInclude Include="windows_fullscreen_optimization.hpp" />
     <ClInclude Include="windows_preferred_gpu.hpp" />
   </ItemGroup>
   <ItemGroup>
