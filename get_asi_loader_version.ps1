@@ -1,4 +1,4 @@
-# Reads ProductVersion from dist\launcher\d3d11.dll and updates src\resources\version.h.
+# Reads ProductVersion from dist_mgs4\Launcher\d3d11.dll and updates src\resources\version.h.
 # Fails hard if DLL or version.h is missing.
 
 Write-Host "=== Getting Version Number from ASI Loader dll ==="
@@ -12,7 +12,7 @@ if ($env:CI -ne "true") {
 
 $ErrorActionPreference = "Stop"
 
-$dllPath    = Join-Path $PSScriptRoot "dist\launcher\d3d11.dll"
+$dllPath    = Join-Path $PSScriptRoot "dist_mgs4\Launcher\d3d11.dll"
 $headerPath = Join-Path $PSScriptRoot "src\resources\version.h"
 
 # ------------------------------------------------------------
