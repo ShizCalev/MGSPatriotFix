@@ -13,7 +13,7 @@ namespace
         LONG result = RegOpenKeyExA(HKEY_CURRENT_USER, subKey, 0, KEY_READ | KEY_WRITE, &hKey);
         if (result != ERROR_SUCCESS)
         {
-            wxLogDebug("Fullscreen optimization fix: failed to open registry key: %s", subKey);
+            wxLogError("Fullscreen optimization fix: failed to open registry key: %s", subKey);
             return;
         }
 
@@ -59,7 +59,7 @@ namespace
             }
             else
             {
-                wxLogDebug("Fullscreen optimization fix: failed to write registry entry for %s", valueName.c_str());
+                wxLogError("Fullscreen optimization fix: failed to write registry entry for %s", valueName.c_str());
             }
         }
 

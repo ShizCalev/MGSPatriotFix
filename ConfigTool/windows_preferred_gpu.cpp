@@ -34,7 +34,7 @@ namespace
 
         if (result != ERROR_SUCCESS)
         {
-            wxLogDebug("High-performance GPU fix: failed to open registry key: %s", subKey);
+            wxLogError("High-performance GPU fix: failed to open registry key: %s", subKey);
             return;
         }
 
@@ -48,7 +48,7 @@ namespace
         }
         else
         {
-            wxLogDebug("High-performance GPU fix: failed to write registry entry for %s", valueName.c_str());
+            wxLogError("High-performance GPU fix: failed to write registry entry for %s", valueName.c_str());
         }
 
         RegCloseKey(hKey);
