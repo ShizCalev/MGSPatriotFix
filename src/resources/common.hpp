@@ -10,7 +10,6 @@ inline std::filesystem::path sGameSavePath;
 inline bool bIsLauncher = false;
 
 inline HMODULE baseModule = GetModuleHandle(NULL);
-inline HMODULE engineModule;
 inline HMODULE unityPlayer;
 
 
