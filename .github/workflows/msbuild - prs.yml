@@ -140,7 +140,7 @@ jobs:
       run: Expand-Archive Ultimate-ASI-Loader_x64.zip -DestinationPath dist
 
     - name: Add Loader License
-      run: Invoke-WebRequest https://raw.githubusercontent.com/ThirteenAG/Ultimate-ASI-Loader/master/license -OutFile dist/UltimateASILoader_LICENSE.md
+      run: Invoke-WebRequest https://raw.githubusercontent.com/ThirteenAG/Ultimate-ASI-Loader/master/license -OutFile dist/logs/UltimateASILoader_LICENSE.md
 
     - name: Stage Loader DLLs
       run: |
