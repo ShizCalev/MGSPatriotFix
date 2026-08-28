@@ -44,6 +44,7 @@
 #include <numbers>
 #include <bcrypt.h> //sha256
 #include <limits>
+#include <format>
 
 
 #include <shellapi.h> //ShellExecuteA

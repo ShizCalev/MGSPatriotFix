@@ -1,10 +1,12 @@
 ﻿#include "stdafx.h"
 
+
 #include "common.hpp"
 #include "logging.hpp"
 #include "submodule_initiailization.hpp"
 #include "config.hpp"
 #include "config_keys.hpp"
+#include "version.h"
 
 ///Resources
 
@@ -381,6 +383,21 @@ static void* __cdecl memset_Hook(void* Dst, int Val, size_t Size) // Our memset 
     return reinterpret_cast<decltype(memset_Fn)>(memset_Fn)(Dst, Val, Size);
 }
 
+static HANDLE hInitMutex = nullptr;
+
+static bool IsAlreadyInitialized()
+{
+    const std::wstring mutexName = std::format(L"Local\\{}_Init_{}", Util::UTF8toWide(sFixName), GetCurrentProcessId());
+
+    hInitMutex = CreateMutexW(nullptr, FALSE, mutexName.c_str());
+
+    if (!hInitMutex)
+    {
+        return false;
+    }
+
+    return GetLastError() == ERROR_ALREADY_EXISTS;
+}
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
@@ -390,6 +407,11 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
     //}
     if (ul_reason_for_call == DLL_PROCESS_ATTACH)
     {
+        if (IsAlreadyInitialized())
+        {
+            return TRUE;
+        }
+
         DisableThreadLibraryCalls(hModule);
 
         if (GetModuleHandleA("VCRUNTIME140.dll"))
@@ -417,10 +439,6 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 
         // Prevent monitor or system sleep while the game is running.
         SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED);
-    }
-    else if (ul_reason_for_call == DLL_PROCESS_DETACH)
-    {
-        spdlog::shutdown();
     }
     return TRUE;
 }
