@@ -126,16 +126,19 @@ struct Game_Language_Pair_View
     std::string_view Game_Language;
 };
 
-//Config Tool -> iTargetGame = TARGET_GAME_MGS3;
-inline constexpr std::array<Game_Language_Pair_View, 9> MGSPW_LanguagePairs =
+//Config Tool -> iTargetGame = TARGET_GAME_MGSPW;
+inline constexpr std::array<Game_Language_Pair_View, 7> MGSPW_LanguagePairs =
 { {
-    { "North America", "English",   "us", "en" },
-
-    { "Japan",         "Japanese",  "jp", "jp" }
+    { "US / EU", "English",  "eu", "en" },
+    { "US / EU", "French",  "eu", "fr" },
+    { "US / EU", "Italian",  "eu", "it" },
+    { "US / EU", "German",  "eu", "gr" },
+    { "US / EU", "Spanish",  "eu", "sp" },
+    { "US / EU", "Portuguese",  "eu", "pt" },
+    { "Japan",   "Japanese", "jp", "jp" }
 } };
 
-//Config Tool -> iTargetGame = TARGET_GAME_MG1 
-//Config Tool -> iTargetGame = TARGET_GAME_MGS2
+//Config Tool -> iTargetGame = TARGET_GAME_MGS4
 inline constexpr std::array<Game_Language_Pair_View, 7> MGS4_LanguagePairs =
 { {
     { "US / EU", "English",  "eu", "en" },
