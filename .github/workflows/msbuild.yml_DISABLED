@@ -207,13 +207,17 @@ jobs:
         7z a -tzip "MGS4_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip" "./dist_mgs4/*"
         7z a -tzip "PW_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip" "./dist_pw/*"
 
-    - name: Upload Artifact
+    - name: Upload Artifact - MGS4
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}
-        path: |
-          MGS4_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip
-          PW_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip
+        name: MGS4_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}
+        path: MGS4_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip
+
+    - name: Upload Artifact - PW
+      uses: actions/upload-artifact@v4
+      with:
+        name: PW_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}
+        path: PW_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip
 
     - uses: ncipollo/release-action@v1
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
