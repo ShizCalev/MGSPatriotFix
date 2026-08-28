@@ -101,10 +101,11 @@ namespace ConfigKeys
 
 
 inline const std::initializer_list<std::string> kLauncherConfigCtrlTypes = { //THESE ARE ORDER SENSITIVE.
-    ConfigKeys::ControllerType_XboxOne,         //0
-    ConfigKeys::ControllerType_PS4,             //1
-    ConfigKeys::ControllerType_PS5,          //2
-    ConfigKeys::ControllerType_NintendoSwitch,  //3
+    ConfigKeys::ControllerType_Auto, //0
+    ConfigKeys::ControllerType_XboxOne,         //1
+    ConfigKeys::ControllerType_PS4,             //2
+    ConfigKeys::ControllerType_PS5,          //3
+    ConfigKeys::ControllerType_NintendoSwitch,  //4
 
 };
 
