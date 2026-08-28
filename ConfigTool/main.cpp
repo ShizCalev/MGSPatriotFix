@@ -2537,6 +2537,16 @@ private:
             }
         }
 
+        bool disableFullscreenOptimization = false;
+        if (auto it = m_controls.find({ ConfigKeys::DisableFullscreenOptimization_Section, ConfigKeys::DisableFullscreenOptimization_Setting }); it != m_controls.end())
+        {
+            if (auto* cb = wxDynamicCast(it->second, wxCheckBox))
+            {
+                disableFullscreenOptimization = cb->GetValue();
+            }
+        }
+        FixFullscreenOptimization::Fix(disableFullscreenOptimization);
+
         m_dirty = false;
         m_firstRun = false;
         m_missingKeys = false;

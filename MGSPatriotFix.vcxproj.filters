@@ -53,9 +53,6 @@
     <ClCompile Include="src\resources\unit_tests.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
-    <ClCompile Include="src\fixes\windows_fullscreen_optimization.cpp">
-      <Filter>Fixes</Filter>
-    </ClCompile>
     <ClCompile Include="src\resources\stdafx.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
@@ -126,9 +123,6 @@
     </ClInclude>
     <ClInclude Include="src\resources\unit_tests.hpp">
       <Filter>Utility\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\fixes\windows_fullscreen_optimization.hpp">
-      <Filter>Fixes\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\warnings\check_gamesave_folder.hpp">
       <Filter>Warnings\Headers</Filter>

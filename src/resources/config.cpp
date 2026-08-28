@@ -11,7 +11,6 @@
 #include "check_gamesave_folder.hpp"
 #include "version_checking.hpp"
 #include "config_keys.hpp"
-#include "windows_fullscreen_optimization.hpp"
 #include "d3d11_text_overlay.hpp"
 #include "game_funcs.hpp"
 
@@ -240,13 +239,6 @@ void Config::Read()
     //    LOG_CONFIG(ConfigKeys::ShowSpeedrunnerOverlay_Section, ConfigKeys::ShowSpeedrunnerOverlay_Setting, sSpeedrunnerOverlay);
     //
     //}
-
-    ConfigHelper::getValue(ini, ConfigKeys::DisableFullscreenOptimization_Section, ConfigKeys::DisableFullscreenOptimization_Setting, g_FixFullscreenOptimization.enabled);
-    LOG_CONFIG(ConfigKeys::DisableFullscreenOptimization_Section, ConfigKeys::DisableFullscreenOptimization_Setting, g_FixFullscreenOptimization.enabled);
-
-        ConfigHelper::getValue(ini, ConfigKeys::SaveFolderWriteWarning_Section, ConfigKeys::SaveFolderWriteWarning_Setting, CheckGamesaveFolderWritable::bVerifySameDirectoryWriteable);
-    LOG_CONFIG(ConfigKeys::SaveFolderWriteWarning_Section, ConfigKeys::SaveFolderWriteWarning_Setting, CheckGamesaveFolderWritable::bVerifySameDirectoryWriteable);
-
 
     ConfigHelper::getValue(ini, ConfigKeys::SaveFileReadOnlyWarning_Section, ConfigKeys::SaveFileReadOnlyWarning_Setting, CheckGamesaveFolderWritable::bCheckSaveFilesReadOnly);
     LOG_CONFIG(ConfigKeys::SaveFileReadOnlyWarning_Section, ConfigKeys::SaveFileReadOnlyWarning_Setting, CheckGamesaveFolderWritable::bCheckSaveFilesReadOnly);

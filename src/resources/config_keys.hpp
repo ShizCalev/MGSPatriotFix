@@ -74,12 +74,6 @@ namespace ConfigKeys
                                                             "\n"
                                                             "This will provide a warning when the Windows setting is enabled.";
 
-
-    constexpr const char* SaveFolderWriteWarning_Section = "Enable Game Warnings";
-    constexpr const char* SaveFolderWriteWarning_Setting = "Warn When Save Folders Not Writable";
-    constexpr const char* SaveFolderWriteWarning_Help = "";
-    constexpr const char* SaveFolderWriteWarning_Tooltip = "Warn the user when the save folder is not writable by the game, which breaks the game's ability to save.";
-
     constexpr const char* SaveFileReadOnlyWarning_Section = "Enable Game Warnings";
     constexpr const char* SaveFileReadOnlyWarning_Setting = "Warn When Save Files Are Read-Only";
     constexpr const char* SaveFileReadOnlyWarning_Help = "";

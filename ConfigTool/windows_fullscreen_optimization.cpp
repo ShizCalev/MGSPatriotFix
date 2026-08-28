@@ -6,7 +6,7 @@
 
 namespace
 {
-    void DisableFullscreenOptimization(const std::filesystem::path& exePath)
+    void SetFullscreenOptimizationState(const std::filesystem::path& exePath, bool shouldApply)
     {
         HKEY hKey;
         const char* subKey = R"(Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers)";
@@ -37,20 +37,53 @@ namespace
 
         bool modified = false;
 
-        if (!value.empty() && value[0] != '~')
+        if (shouldApply)
         {
-            value = "~ " + value;
-            modified = true;
+            if (!value.empty() && value[0] != '~')
+            {
+                value = "~ " + value;
+                modified = true;
+            }
+            if (value.find("DISABLEDXMAXIMIZEDWINDOWEDMODE") == std::string::npos)
+            {
+                if (!value.empty() && value.back() != ' ')
+                    value.push_back(' ');
+                value += "DISABLEDXMAXIMIZEDWINDOWEDMODE";
+                modified = true;
+            }
         }
-        if (value.find("DISABLEDXMAXIMIZEDWINDOWEDMODE") == std::string::npos)
+        else
         {
-            if (!value.empty() && value.back() != ' ')
-                value.push_back(' ');
-            value += "DISABLEDXMAXIMIZEDWINDOWEDMODE";
-            modified = true;
+            size_t pos = value.find("DISABLEDXMAXIMIZEDWINDOWEDMODE");
+            if (pos != std::string::npos)
+            {
+                value.erase(pos, strlen("DISABLEDXMAXIMIZEDWINDOWEDMODE"));
+                while (!value.empty() && value.back() == ' ')
+                    value.pop_back();
+                if (value == "~")
+                    value.clear();
+                modified = true;
+            }
         }
 
-        if (modified)
+        if (!modified)
+        {
+            RegCloseKey(hKey);
+            return;
+        }
+
+        if (value.empty())
+        {
+            if (RegDeleteValueA(hKey, valueName.c_str()) == ERROR_SUCCESS)
+            {
+                wxLogDebug("Fullscreen optimization fix: deleted registry entry for %s", valueName.c_str());
+            }
+            else
+            {
+                wxLogError("Fullscreen optimization fix: failed to delete registry entry for %s", valueName.c_str());
+            }
+        }
+        else
         {
             const DWORD valueSize = static_cast<DWORD>(value.size() + 1);
             if (RegSetValueExA(hKey, valueName.c_str(), 0, REG_SZ, reinterpret_cast<const BYTE*>(value.c_str()), valueSize) == ERROR_SUCCESS)
@@ -84,6 +117,42 @@ void FixFullscreenOptimizationMgs1::Fix()
     const std::filesystem::path exePath = dir / "mgs1.exe";
     if (std::filesystem::exists(exePath))
     {
-        DisableFullscreenOptimization(exePath);
+        SetFullscreenOptimizationState(exePath, true);
+    }
+}
+
+void FixFullscreenOptimization::Fix(bool disableFullscreenOptimization)
+{
+    if (Helper::IsSteamOS())
+    {
+        return;
+    }
+
+    const std::filesystem::path root = Helper::FindGameRoot();
+
+    struct FixTarget
+    {
+        const char* subfolder;
+        const char* exeName;
+    };
+
+    constexpr FixTarget kTargets[] = {
+        { "MGS4",  "mgs4.exe" },
+        { "mgspw", "METAL GEAR SOLID PEACE WALKER.exe" },
+    };
+
+    for (const auto& target : kTargets)
+    {
+        const std::filesystem::path dir = Helper::FindSubfolderCaseInsensitive(root, target.subfolder);
+        if (dir.empty())
+        {
+            continue;
+        }
+
+        const std::filesystem::path exePath = dir / target.exeName;
+        if (std::filesystem::exists(exePath))
+        {
+            SetFullscreenOptimizationState(exePath, disableFullscreenOptimization);
+        }
     }
 }

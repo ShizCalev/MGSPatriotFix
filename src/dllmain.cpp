@@ -14,7 +14,6 @@
 //#include "custom_resolution_and_borderless.hpp"
 //#include "intro_skip.hpp"
 
-#include "windows_fullscreen_optimization.hpp"
 #include "resolution_scaling_fixes.hpp"
 
 //Warnings
@@ -303,7 +302,6 @@ static void InitializeSubsystems()
     //INITIALIZE(Init_LauncherConfigOverride());     //7
 
     
-    //INITIALIZE(ColorCorrection::Setup());
 
     if (eGameType & MGS4)
     {
@@ -317,7 +315,6 @@ static void InitializeSubsystems()
 
     }
 
-    INITIALIZE(FixFullscreenOptimization::Fix());
     //INITIALIZE(D3D11TextOverlay::Setup());
 
 
