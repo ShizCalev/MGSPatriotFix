@@ -162,12 +162,12 @@ jobs:
     # -------------------------
     # Prepare output structure
     # -------------------------
-    - run: mkdir dist
-    - run: mkdir dist/launcher/scripts
-    - run: mkdir dist/MGS4/scripts
-    - run: mkdir dist/mgspw/scripts
-    - run: mkdir dist/logs
-
+    - run: mkdir dist_mgs4/Launcher/scripts
+    - run: mkdir dist_mgs4/MGS4/scripts
+    - run: mkdir dist_mgs4/logs
+    - run: mkdir dist_pw/launcher/scripts
+    - run: mkdir dist_pw/mgspw/scripts
+    - run: mkdir dist_pw/logs
 
     # Download Ultimate ASI Loader
     - uses: robinraju/release-downloader@v1.8
@@ -177,16 +177,19 @@ jobs:
         fileName: "Ultimate-ASI-Loader_x64.zip"
 
     - name: Extract Loader
-      run: Expand-Archive Ultimate-ASI-Loader_x64.zip -DestinationPath dist
+      run: Expand-Archive Ultimate-ASI-Loader_x64.zip -DestinationPath loader_extracted
 
     - name: Add Loader License
-      run: Invoke-WebRequest https://raw.githubusercontent.com/ThirteenAG/Ultimate-ASI-Loader/master/license -OutFile dist/logs/UltimateASILoader_LICENSE.md
+      run: |
+        Invoke-WebRequest https://raw.githubusercontent.com/ThirteenAG/Ultimate-ASI-Loader/master/license -OutFile dist_mgs4/logs/UltimateASILoader_LICENSE.md
+        Copy-Item dist_mgs4/logs/UltimateASILoader_LICENSE.md dist_pw/logs/UltimateASILoader_LICENSE.md
 
     - name: Stage Loader DLLs
       run: |
-        Copy-Item dist/dinput8.dll dist/launcher/d3d11.dll
-        Copy-Item dist/dinput8.dll dist/MGS4/winmm.dll
-        Move-Item dist/dinput8.dll dist/mgspw/winmm.dll
+        Copy-Item loader_extracted/dinput8.dll dist_mgs4/Launcher/d3d11.dll
+        Copy-Item loader_extracted/dinput8.dll dist_mgs4/MGS4/winmm.dll
+        Copy-Item loader_extracted/dinput8.dll dist_pw/launcher/d3d11.dll
+        Copy-Item loader_extracted/dinput8.dll dist_pw/mgspw/winmm.dll
 
     # -------------------------
     # Build
@@ -194,38 +197,33 @@ jobs:
     - name: Build
       run: msbuild "${{ github.event.repository.name }}.sln" /m -t:rebuild -verbosity:minimal -property:Configuration=Release -property:Platform=x64
 
-    # Copy built binaries directly into each install location\
-    - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist/MGS4/scripts/${{ github.event.repository.name }}.asi"
-    - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist/mgspw/scripts/${{ github.event.repository.name }}.asi"
-    - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist/launcher/scripts/${{ github.event.repository.name }}.asi"
-    - run: Copy-Item "x64\Release\${{ github.event.repository.name }} Config Tool.exe" "dist/${{ github.event.repository.name }} Config Tool.exe"
+    # Copy built binaries into each game's own tree
+    - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist_mgs4/MGS4/scripts/${{ github.event.repository.name }}.asi"
+    - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist_mgs4/Launcher/scripts/${{ github.event.repository.name }}.asi"
+    - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist_pw/mgspw/scripts/${{ github.event.repository.name }}.asi"
+    - run: Copy-Item "x64\Release\${{ github.event.repository.name }}.asi" "dist_pw/launcher/scripts/${{ github.event.repository.name }}.asi"
+    - run: Copy-Item "x64\Release\${{ github.event.repository.name }} Config Tool.exe" "dist_mgs4/${{ github.event.repository.name }} Config Tool.exe"
+    - run: Copy-Item "x64\Release\${{ github.event.repository.name }} Config Tool.exe" "dist_pw/${{ github.event.repository.name }} Config Tool.exe"
 
     # Logs & metadata
-    - run: Copy-Item README.md "dist/logs/${{ github.event.repository.name }}_Game.log"
-    - run: Copy-Item README.md "dist/logs/${{ github.event.repository.name }}_Launcher.log"
-    - run: Copy-Item README.md "dist/${{ github.event.repository.name }}_README.md"
-    - run: Copy-Item LICENSE.md "dist/MGS4/scripts/${{ github.event.repository.name }}_LICENSE.md"
-    - run: Copy-Item LICENSE.md "dist/mgspw/scripts/${{ github.event.repository.name }}_LICENSE.md"
+    - run: Copy-Item README.md "dist_mgs4/logs/${{ github.event.repository.name }}_Game.log"
+    - run: Copy-Item README.md "dist_mgs4/logs/${{ github.event.repository.name }}_Launcher.log"
+    - run: Copy-Item README.md "dist_mgs4/${{ github.event.repository.name }}_README.md"
+    - run: Copy-Item LICENSE.md "dist_mgs4/MGS4/scripts/${{ github.event.repository.name }}_LICENSE.md"
+    - run: Copy-Item README.md "dist_pw/logs/${{ github.event.repository.name }}_Game.log"
+    - run: Copy-Item README.md "dist_pw/logs/${{ github.event.repository.name }}_Launcher.log"
+    - run: Copy-Item README.md "dist_pw/${{ github.event.repository.name }}_README.md"
+    - run: Copy-Item LICENSE.md "dist_pw/mgspw/scripts/${{ github.event.repository.name }}_LICENSE.md"
 
-    # Package release zips
-    - name: Create MGS4 Nexus / Base Github Release zip
-      working-directory: dist
-      run: 7z a -tzip "../${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip" *
-  #
-  # - name: Create MGSPW Nexus zip
-  #   run: |
-  #     Copy-Item dist dist_variant3 -Recurse
-  #
-  #     Add-Content "dist_variantpw/logs/${{ github.event.repository.name }}_Game.log" "pw"
-  #
-  #     cd dist_variantpw
-  #     7z a -tzip "../${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}_MGSPW.zip" *
-  #     cd ..
-  #     Remove-Item dist_variantPW -Recurse -Force
-  #
+    # Package release zips -- one per game
+    - name: Create release zips
+      run: |
+        7z a -tzip "MGS4_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip" "./dist_mgs4/*"
+        7z a -tzip "PW_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip" "./dist_pw/*"
+
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip"
+        artifacts: "MGS4_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip,PW_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ steps.extract_version.outputs.version }}
         name: "${{ steps.extract_version.outputs.version }}"
@@ -239,20 +237,20 @@ jobs:
   #      api_key: ${{ secrets.NEXUSMODS_API_KEY }}
   #      #file_id: 462574
   #      display_name: "MGSPatriotFix"
-  #      filename: ${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip
+  #      filename: MGS4_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip
   #      version: "${{ steps.extract_version.outputs.version }}"
   #      category: main
   #      archive_existing_version: true
   #      primary_mod_manager_download: true
   #
   #
-  #  - name: Upload to NexusMods - Upload to NexusMods - MGSPW
+  #  - name: Upload to NexusMods - PW
   #    uses: Nexus-Mods/upload-action@v1.0.0-beta.9
   #    with:
   #      api_key: ${{ secrets.NEXUSMODS_API_KEY }}
   #      #file_id: 541612
   #      display_name: "MGSPatriotFix"
-  #      filename: ${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}_MGSPW.zip
+  #      filename: PW_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip
   #      version: "${{ steps.extract_version.outputs.version }}"
   #      category: main
   #      archive_existing_version: true
