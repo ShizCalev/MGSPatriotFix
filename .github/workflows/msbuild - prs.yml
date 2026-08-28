@@ -144,8 +144,9 @@ jobs:
 
     - name: Stage Loader DLLs
       run: |
-        Copy-Item dist/dinput8.dll dist/wininet.dll
-        Move-Item dist/dinput8.dll dist/winhttp.dll
+        Copy-Item dist/dinput8.dll dist/launcher/d3d11.dll
+        Copy-Item dist/dinput8.dll dist/MGS4/winmm.dll
+        Move-Item dist/dinput8.dll dist/mgspw/winmm.dll
 
     # -------------------------
     # Build
