@@ -211,13 +211,13 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: MGS4_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}
-        path: MGS4_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip
+        path: dist_mgs4/
 
     - name: Upload Artifact - PW
       uses: actions/upload-artifact@v4
       with:
         name: PW_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}
-        path: PW_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip
+        path: dist_pw/
 
     - uses: ncipollo/release-action@v1
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
