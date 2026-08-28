@@ -2205,7 +2205,7 @@ private:
             m_dirty = false;
         }
 
-        std::wstring wGameToLaunch = iTargetGame ==  TARGET_GAME_MGS4 ? L"steam://launch/4184400" : iTargetGame == TARGET_GAME_MGSPW ? L"steam://launch/4184360" : L"";
+        std::wstring wGameToLaunch = iTargetGame ==  TARGET_GAME_MGS4 ? L"steam://launch/2492670" : iTargetGame == TARGET_GAME_MGSPW ? L"steam://launch/2492660" : L"";
         if (!wGameToLaunch.empty())
         {
             HINSTANCE result = ShellExecuteW(

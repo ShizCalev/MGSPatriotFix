@@ -36,8 +36,8 @@ inline MgsGame eGameType = UNKNOWN;
 
 
 inline const std::map<MgsGame, GameInfo> kGames = {
-    {MGS4, {"Metal Gear Solid 4", "mgs4.exe", "MGS4", 4184400}},
-    {MGSPW, {"Metal Gear Solid Peace Walker", "METAL GEAR SOLID PEACE WALKER.exe", "mgspw", 4184360}},
+    {MGS4, {"Metal Gear Solid 4", "mgs4.exe", "MGS4", 2492670}},
+    {MGSPW, {"Metal Gear Solid Peace Walker", "METAL GEAR SOLID PEACE WALKER.exe", "mgspw", 2492660}},
 };
 
 inline bool usDatExists;
