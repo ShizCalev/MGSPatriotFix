@@ -384,7 +384,14 @@ namespace Helper
         }
 
         bCheckedSteamDeck = true;
-        // Check for Proton/Steam Deck environment variables
+
+        if (HMODULE ntdll = GetModuleHandleA("ntdll.dll"); ntdll && GetProcAddress(ntdll, "wine_get_version"))
+        {
+            bIsSteamDeck = true;
+            return bIsSteamDeck;
+        }
+
+        // Fallback: Proton/Steam Deck environment variables
         if (std::getenv("STEAM_COMPAT_CLIENT_INSTALL_PATH") || std::getenv("STEAM_COMPAT_DATA_PATH") || std::getenv("XDG_SESSION_TYPE"))
         {
             bIsSteamDeck = true;
