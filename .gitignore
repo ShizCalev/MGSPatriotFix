@@ -372,3 +372,6 @@ FodyWeavers.xsd
 # RE dumps (decrypted MC image, large binary)
 re/
 desktop.ini
+
+# Local paths for update_local_game_files.py
+local_game_paths.txt
