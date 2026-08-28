@@ -69,6 +69,11 @@ namespace
 
 void FixFullscreenOptimizationMgs1::Fix()
 {
+    if (Helper::IsSteamOS())
+    {
+        return;
+    }
+
     const std::filesystem::path root = Helper::FindGameRoot();
     const std::filesystem::path dir = Helper::FindSubfolderCaseInsensitive(root, "MGS1");
     if (dir.empty())

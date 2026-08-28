@@ -24,6 +24,10 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 #### Shared Bugs:
 - Fixes the monitor going to sleep during long cutscenes (for Windows only, Linux needs to be [fixed by Valve](https://github.com/ValveSoftware/Proton/issues/8881).)
 
+#### MGS4 Bugs:
+- Fixes the MGS1 flashback sometimes defaulting to integrated graphics processors on systems with multiple GPUs.
+- Fixes performance issues with the MGS1 flashback on some hardware configurations. (Windows fullscreen optimization issue.)
+
 #### Peace Walker Bugs:
 - Fixes Peace Walker sometimes defaulting to integrated graphics processors on systems with multiple GPUs.
 

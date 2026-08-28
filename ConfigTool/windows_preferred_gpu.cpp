@@ -57,6 +57,11 @@ namespace
 
 void HighPerformanceGpu::Fix()
 {
+    if (Helper::IsSteamOS())
+    {
+        return;
+    }
+
     const std::filesystem::path root = Helper::FindGameRoot();
 
     for (const auto& target : kGpuFixTargets)
