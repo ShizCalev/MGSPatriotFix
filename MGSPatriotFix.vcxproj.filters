@@ -65,6 +65,15 @@
     <ClCompile Include="src\fixes\resolution_scaling_fixes.cpp">
       <Filter>Fixes</Filter>
     </ClCompile>
+    <ClCompile Include="src\fixes\pressure_inputs.cpp">
+      <Filter>Fixes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fixes\ds3_rumble.cpp">
+      <Filter>Fixes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fixes\pad_motion.cpp">
+      <Filter>Fixes</Filter>
+    </ClCompile>
     <ClCompile Include="src\warnings\windows_multiplane_overlay_warning.cpp">
       <Filter>Warnings</Filter>
     </ClCompile>
@@ -171,6 +180,14 @@
     </ClInclude>
     <ClInclude Include="src\features\launcher_skips_and_starts.hpp">
       <Filter>Features\Headers</Filter>
+    <ClInclude Include="src\fixes\pressure_inputs.hpp">
+      <Filter>Fixes\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fixes\ds3_rumble.hpp">
+      <Filter>Fixes\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fixes\pad_motion.hpp">
+      <Filter>Fixes\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

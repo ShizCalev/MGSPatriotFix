@@ -36,6 +36,12 @@ namespace ConfigKeys
                                                               "\n"
                                                               "Enabling this forces it to always render at full resolution instead.";
 
+    constexpr const char* Ds3Support_Section = "Controller Settings";
+    constexpr const char* Ds3Support_Setting = "Enable DS3 Support";
+    constexpr const char* Ds3Support_Help = "";
+    constexpr const char* Ds3Support_Tooltip = "Restores pressure controls, rumble and shake for Dualshock 3 controllers.\n"
+                                               "\n"
+                                               "Any pressure supporting button bound will use analog values.";
 
     constexpr const char* Language_Section = "Language Settings";
     constexpr const char* Language_Setting = "Game Language";

@@ -22,6 +22,9 @@ namespace Memory
 
     std::uint8_t* PatternScan(void* module, const char* signature, const char* prefix);
 
+    // Like PatternScan, but returns nothing if more than one match.
+    std::uint8_t* PatternScanUnique(void* module, const char* signature, const char* prefix);
+
     std::vector<std::uint8_t*> FindMultiplePatternMatches(void* module, const char* signature);
 
     bool IsReadable(const void* ptr, size_t size);

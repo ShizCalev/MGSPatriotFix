@@ -216,6 +216,12 @@ namespace Memory
             {
 
                 spdlog::info("{}: Pattern scan found. Address: {:s}+{:X}", prefix, sExeName.c_str(), (uintptr_t)foundPattern - (uintptr_t)baseModule);
+
+                const std::vector<std::uint8_t*> everywhere = FindMultiplePatternMatches(module, signature);
+                if (everywhere.size() > 1)
+                {
+                    spdlog::warn("{}: Pattern names {} places, and the first was taken. Narrow it.", prefix, everywhere.size());
+                }
             }
         }
         else
@@ -224,6 +230,78 @@ namespace Memory
             spdlog::error("{}: Pattern scan failed.", prefix);
         }
         return foundPattern;
+    }
+
+    std::uint8_t* PatternScanUnique(void* module, const char* signature, const char* prefix)
+    {
+        auto* dosHeader = reinterpret_cast<PIMAGE_DOS_HEADER>(module);
+        auto* ntHeaders = reinterpret_cast<PIMAGE_NT_HEADERS>(reinterpret_cast<std::uint8_t*>(module) + dosHeader->e_lfanew);
+        const size_t sizeOfImage = ntHeaders->OptionalHeader.SizeOfImage;
+        const std::vector<int> patternBytes = PatternToBytes(signature);
+        auto* scanBytes = reinterpret_cast<std::uint8_t*>(module);
+
+        if (patternBytes.empty() || patternBytes.size() > sizeOfImage)
+        {
+            spdlog::error("{}: Signature is unusable.", prefix);
+            return nullptr;
+        }
+
+        const auto Offset = [](const std::uint8_t* at)
+        {
+            return reinterpret_cast<uintptr_t>(at) - reinterpret_cast<uintptr_t>(baseModule);
+        };
+
+        std::uint8_t* first = nullptr;
+        std::uint8_t* second = nullptr;
+
+        for (size_t i = 0; i + patternBytes.size() <= sizeOfImage; ++i)
+        {
+            bool found = true;
+            for (size_t j = 0; j < patternBytes.size(); ++j)
+            {
+                if (patternBytes[j] != -1 && scanBytes[i + j] != static_cast<std::uint8_t>(patternBytes[j]))
+                {
+                    found = false;
+                    break;
+                }
+            }
+
+            if (!found || !IsExecutable(scanBytes + i))
+            {
+                continue;
+            }
+
+            if (first == nullptr)
+            {
+                first = scanBytes + i;
+                continue;
+            }
+
+            second = scanBytes + i;
+            break;
+        }
+
+        if (first == nullptr)
+        {
+            spdlog::error("{}: Pattern scan failed - the signature names nothing in this build.", prefix);
+            return nullptr;
+        }
+
+        if (second != nullptr)
+        {
+            spdlog::error("{}: Pattern scan refused - the signature names both {:s}+{:X} and {:s}+{:X}, "
+                "so choosing one would be a guess.", prefix,
+                sExeName.c_str(), Offset(first), sExeName.c_str(), Offset(second));
+            return nullptr;
+        }
+
+        if (g_Logging.bVerboseLogging)
+        {
+            spdlog::info("{}: Pattern scan found, and only there. Address: {:s}+{:X}",
+                prefix, sExeName.c_str(), Offset(first));
+        }
+
+        return first;
     }
 
     std::vector<std::uint8_t*> FindMultiplePatternMatches(void* module, const char* signature)
