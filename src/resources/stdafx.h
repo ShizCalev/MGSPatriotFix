@@ -42,13 +42,8 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <numbers>
-#include <bcrypt.h> //sha256
 #include <limits>
 #include <format>
 
 
 #include <shellapi.h> //ShellExecuteA
-
-#include <future>
-#include <subauth.h>
-#include <string_view>

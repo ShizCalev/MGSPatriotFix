@@ -47,7 +47,6 @@ constexpr int iWindowSizeX = 716;
 constexpr int iWindowSizeY = 550;
 constexpr const char* sSettingsFileName = "MGSPatriotFix.settings";
 constexpr bool bFullLengthFields = false; //if you want the boxes to span half the window's width.
-#define DISABLE_ASI_LOADER_VERIFICATION
 #define MGSPatriotFix_SPECIFIC
 #define NEXUS_MGS4_URL   PRIMARY_REPO_URL
 #define NEXUS_MGSPW_URL  PRIMARY_REPO_URL
@@ -556,33 +555,6 @@ namespace
         { TARGET_GAME_MGSPW, IDB_BANNER_MGSPW, "mgspw", "METAL GEAR SOLID PEACE WALKER.exe", "launcher" },
     };
 
-    //These crash warnings are also in src\warnings\asi_loader_checks.cpp / ASILoaderCompatibility::Check(), make sure to keep them in sync.
-    void CheckForDuplicateAsiLoader(const std::filesystem::path& dir)
-    {
-#ifdef DISABLE_ASI_LOADER_VERIFICATION
-        return;
-#endif
-        if (std::filesystem::exists(dir / "d3d11.dll") && (Helper::GetFileDescription((dir / "d3d11.dll").string()) == kAsiLoaderDescription))
-        {
-            wxLogError("DUPLICATE MOD LOADER ERROR: Multiple ASI Loader .dll installations detected in:\n\n%s\n\nThis can cause inconsistent bugs and crashes.\n"
-                "\n"
-                "Please delete d3d11.dll, it has been replaced by winhttp.dll & wininet.dll.", dir.string());
-            if (Helper::IsSteamOS())
-            {
-                wxLogError("\nSteam Deck / Linux users must also replace their Steam game launch paramaters with the following command:\n"
-                    "\n"
-                    "WINEDLLOVERRIDES=\"wininet,winhttp=n,b\" % command %");
-            }
-        }
-
-        if (std::filesystem::exists(dir / "dxgi.dll") &&
-            Helper::GetFileDescription((dir / "dxgi.dll").string()) == "File description not found.")
-        {
-            wxLogError("DUPLICATE MOD LOADER ERROR: Multiple ASI Loader .dll installations detected in:\n\n%s\n\nThis can cause inconsistent bugs and crashes.\n"
-                "\n"
-                "Please delete dxgi.dll, it has been replaced by winhttp.dll & wininet.dll.", dir.string());
-        }
-    }
 }
 
 static int GetBannerResourceID()
@@ -600,14 +572,6 @@ static int GetBannerResourceID()
         iTargetGame = gf.target;
 
         const std::filesystem::path launcherDir = Helper::FindSubfolderCaseInsensitive(root, gf.launcherSubfolder);
-
-#pragma region CrashWarnings
-        if (!launcherDir.empty())
-        {
-            CheckForDuplicateAsiLoader(launcherDir);
-        }
-        CheckForDuplicateAsiLoader(gameDir);
-#pragma endregion
 
         Helper::WarnIfAsiMissing(launcherDir, gameDir, sFixName);
 

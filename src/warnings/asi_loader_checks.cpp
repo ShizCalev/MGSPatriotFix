@@ -24,9 +24,20 @@ namespace
 
     const std::unordered_set<std::string> g_BaseGameFiles =
     {
-        "steam_api64.dll",
+        //pw launcher
+        "UnityPlayer.dll",
+        "GameAssembly.dll",
+        "baselib.dll",
+        "d3d11.dll",
+
+        //pw
         "sdkencryptedappticket64.dll",
-//TODO - MGSMCV2 RELEASE
+        "steam_api64.dll",
+        "winmm.dll",
+
+        //mgs4
+        "bink2w64.dll",
+        "WinPixEventRuntime.dll",
         "MGSPatriotFix.asi",
     };
 
@@ -243,37 +254,7 @@ namespace
 
 void ASILoaderCompatibility::Check()
 {
-    CheckBothAsiLoaderDlls();
-
-    //Config tool also includes a mirrored D3D11.dll warning in GetBannerResourceID(), make sure to keep these in sync
-    spdlog::info("ASI Loader Compatibility Check: Checking for duplicate instances of ASI Loader (ie d3d11.dll, dxgi.dll).");
-    //Don't simplify by removing filesystem::exists() from this check. While GetFileDescription does handle non-existent files own its own, checking filesystem::exists() first saves 400+ ms of initialization time
-    if (std::filesystem::exists(sExePath / "d3d11.dll") && (Util::GetFileDescription((sExePath / "d3d11.dll").string()) == kAsiLoaderDescription))
-    {
-        spdlog::error("DUPLICATE MOD LOADER ERROR: Multiple ASI Loader .dll installations detected! This can cause inconsistent bugs and crashes.");
-        spdlog::error("DUPLICATE MOD LOADER ERROR: Please delete d3d11.dll, it has been replaced by winhttp.dll & wininet.dll.");
-        Logging::ShowConsole();
-        std::cout << "DUPLICATE MOD LOADER ERROR: Multiple ASI Loader .dll's detected! This can cause inconsistent bugs and crashes." << std::endl;
-        std::cout << "DUPLICATE MOD LOADER ERROR: Please delete d3d11.dll, it has been replaced by winhttp.dll & wininet.dll." << std::endl;
-        if (Util::IsSteamOS())
-        {
-            std::cout << "DUPLICATE MOD LOADER ERROR: Steam Deck / Linux users must also replace their Steam game launch paramaters with the following command:" << std::endl;
-            std::cout << "WINEDLLOVERRIDES=\"wininet,winhttp=n,b\" % command %" << std::endl;
-            spdlog::error("DUPLICATE MOD LOADER ERROR: Steam Deck / Linux users must also replace their Steam game launch paramaters with the following command:");
-            spdlog::error("WINEDLLOVERRIDES=\"wininet,winhttp=n,b\" % command %");
-        }
-    }
-
-    if (std::filesystem::exists(sExePath / "dxgi.dll") && Util::GetFileDescription((sExePath / "dxgi.dll").string()) == "File description not found.")
-    {
-        spdlog::error("DUPLICATE MOD LOADER ERROR: Multiple ASI Loader .dll installations detected! This can cause inconsistent bugs and crashes.");
-        spdlog::error("DUPLICATE MOD LOADER ERROR: Please delete dxgi.dll, it has been replaced by winhttp.dll & wininet.dll.");
-        Logging::ShowConsole();
-        std::cout << "DUPLICATE MOD LOADER ERROR: Multiple ASI Loader .dll's detected! This can cause inconsistent bugs and crashes." << std::endl;
-        std::cout << "DUPLICATE MOD LOADER ERROR: Please delete dxgi.dll, it has been replaced by winhttp.dll & wininet.dll." << std::endl;
-    }
-
-    spdlog::info("ASI Mod Compatibility Check: Checking for common mod installation issues.");
+    //CheckBothAsiLoaderDlls();
 
     CheckInstalledMods();
 
