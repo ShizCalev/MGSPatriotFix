@@ -14,6 +14,7 @@
 #include "d3d11_text_overlay.hpp"
 #include "game_funcs.hpp"
 #include "graphics_tuning.hpp"
+#include "launcher_skips_and_starts.hpp"
 
 // -----------------------------------------------------------------------------
 // ConfigHelper: A type-safe, case-insensitive, error-checked INI config reader.
@@ -262,6 +263,42 @@ void Config::Read()
         spdlog::warn("Config Parse: Anisotropic Filtering value invalid, clamped to {}", GraphicsTuning::iAnisotropicFiltering);
     }
     LOG_CONFIG(ConfigKeys::AnisotropicFiltering_Section, ConfigKeys::AnisotropicFiltering_Setting, GraphicsTuning::iAnisotropicFiltering);
+
+
+    {
+        std::string sLauncherSkip;
+        ConfigHelper::getValue(ini, ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting, sLauncherSkip);
+
+        if (sLauncherSkip == ConfigKeys::LauncherSkip_Option_Disabled)
+        {
+            LauncherSkipsAndStarts::eJumpMode = LauncherSkipsAndStarts::JumpMode::Disabled;
+        }
+        else if (sLauncherSkip == ConfigKeys::LauncherSkip_Option_GameStart)
+        {
+            LauncherSkipsAndStarts::eJumpMode = LauncherSkipsAndStarts::JumpMode::GameStart;
+        }
+        else if (sLauncherSkip == ConfigKeys::LauncherSkip_Option_DatabaseStart)
+        {
+            if (eGameType & MGS4)
+            {
+                LauncherSkipsAndStarts::eJumpMode = LauncherSkipsAndStarts::JumpMode::DatabaseStart;
+            }
+            else
+            {
+                spdlog::warn("Config Parse: Skip Launcher Splashscreens set to Database Start, but that's only available for Metal Gear Solid 4. Falling back to Game Start.");
+                LauncherSkipsAndStarts::eJumpMode = LauncherSkipsAndStarts::JumpMode::GameStart;
+            }
+        }
+        else
+        {
+            spdlog::error("Config Parse: Invalid value for Skip Launcher Splashscreens: {}", sLauncherSkip);
+            Logging::ShowConsole();
+            std::cout << "Invalid config value for Skip Launcher Splashscreens: " << sLauncherSkip << std::endl;
+            return FreeLibraryAndExitThread(baseModule, 1);
+        }
+
+        LOG_CONFIG(ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting, sLauncherSkip);
+    }
 
 
     ConfigLogger::Flush();

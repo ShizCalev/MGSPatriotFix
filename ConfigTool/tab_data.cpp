@@ -37,6 +37,10 @@ const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
         { (MGS4|MGSPW), ConfigKeys::DisableFullscreenOptimization_Section, ConfigKeys::DisableFullscreenOptimization_Setting, ConfigKeys::DisableFullscreenOptimization_Help, ConfigKeys::DisableFullscreenOptimization_Tooltip,
           std::nullopt, false, Field::Bool, false },
 
+        { (MGS4|MGSPW), ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting, ConfigKeys::LauncherSkip_Help, ConfigKeys::LauncherSkip_Tooltip,
+          std::nullopt, false, Field::Choice, 0, 0, 0, ConfigKeys::LauncherSkip_Option_Disabled,
+          {ConfigKeys::LauncherSkip_Option_Disabled, ConfigKeys::LauncherSkip_Option_GameStart, ConfigKeys::LauncherSkip_Option_DatabaseStart} },
+
 
     }},
     { wxString("MGSPatriotFix / Internal"), {

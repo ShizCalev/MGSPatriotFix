@@ -18,6 +18,7 @@
 
 #include "resolution_scaling_fixes.hpp"
 #include "graphics_tuning.hpp"
+#include "launcher_skips_and_starts.hpp"
 
 //Warnings
 #include "asi_loader_checks.hpp"
@@ -35,172 +36,6 @@
 #if !defined(RELEASE_BUILD)
 #include "unit_tests.hpp"
 #endif
-
-static void Init_Miscellaneous()
-{
- //   if (eGameType & (MG|MGS2|MGS3|LAUNCHER))
- //   {
- //       if (bDisableCursor)
- //       {
- //           // Launcher | MG/MG2 | MGS 2 | MGS 3: Disable mouse cursor
- //           if (uint8_t* MGS2_MGS3_MouseCursorScanResult = Memory::PatternScan(eGameType & LAUNCHER ? unityPlayer : baseModule, "BA ?? ?? ?? ?? 33 C9 FF 15", "Launcher | MG/MG2 | MGS 2 | MGS 3: Mouse Cursor"))
- //           {
- //               // The game enters 32512 in the RDX register for the function USER32.LoadCursorA to load IDC_ARROW (normal select arrow in windows)
- //               // Set this to 0 and no cursor icon is loaded
- //               Memory::PatchBytes((uintptr_t)MGS2_MGS3_MouseCursorScanResult + 0x2, "\x00", 1);
- //               spdlog::info("Launcher | MG/MG2 | MGS 2 | MGS 3: Mouse Cursor: Patched instruction.");
- //           }
- //       }
- //   }
- //
-
-}
-
-//static bool forcedLauncherShutdown = false;
-
-static void Init_LauncherConfigOverride()
-{
-    // If we know games steam appid, try creating steam_appid.txt file, so that game EXE can be launched directly in future runs
-    if (game)
-    {
-        const std::filesystem::path steamAppidPath = sExePath.parent_path() / "steam_appid.txt";
-
-        try
-        {
-            if (!std::filesystem::exists(steamAppidPath))
-            {
-                spdlog::info("MG/MG2 | MGS 2 | MGS 3: Launcher Config: Creating steam_appid.txt to allow direct EXE launches.");
-                std::ofstream steamAppidOut(steamAppidPath);
-                if (steamAppidOut.is_open())
-                {
-                    steamAppidOut << game->SteamAppId;
-                    steamAppidOut.close();
-                }
-                if (std::filesystem::exists(steamAppidPath))
-                {
-                    spdlog::info("MG/MG2 | MGS 2 | MGS 3: Launcher Config: steam_appid.txt created successfully.");
-                }
-                else
-                {
-                    spdlog::info("MG/MG2 | MGS 2 | MGS 3: Launcher Config: steam_appid.txt creation failed.");
-                }
-            }
-        }
-        catch (const std::exception& ex)
-        {
-            spdlog::error("MG/MG2 | MGS 2 | MGS 3: Launcher Config: Launcher Config: steam_appid.txt creation failed (exception: %s)", ex.what());
-        }
-    }
-
-    LPWSTR commandLine = GetCommandLineW();
-
-    if (eGameType & LAUNCHER)
-    {
-    //    bool hasJumpstart = wcsstr(commandLine, L"-jump gamestart");
-    //
-    //    if (bLauncherConfigSkipLauncher)
-    //    {
-    //
-    //        if (!hasJumpstart || Util::IsProcessParent("steam.exe"))
-    //        {
-    //            auto gameExePath = sExePath.parent_path() / game->ExeName;
-    //
-    //            spdlog::info("MG/MG2 | MGS 2 | MGS 3: Launcher Config: SkipLauncher set, attempting game launch");
-    //
-    //            PROCESS_INFORMATION processInfo {};
-    //            STARTUPINFO startupInfo {};
-    //            startupInfo.cb = sizeof(STARTUPINFO);
-    //
-    //            std::wstring commandLine = L"\"" + gameExePath.wstring() + L"\"";
-    //
-    //            if (game->ExeName == kGames.at(MG).ExeName)
-    //            {
-    //                // Add launch parameters for MG MSX
-    //                auto transformString = [](const std::string& input, int (*transformation)(int)) -> std::wstring
-    //                    {
-    //                        std::string transformedString = input;
-    //                        std::transform(transformedString.begin(), transformedString.end(), transformedString.begin(), transformation);
-    //                        return Util::UTF8toWide(transformedString);
-    //                    };
-    //
-    //                commandLine += L" -mgst " + std::wstring(sLauncherConfigMSXGame == ConfigKeys::SkipLauncherMSX_Option_MG1 ? L"mg1" : L"mg2"); // -mgst must be lowercase
-    //            }
-    //
-    //            commandLine += L" -region " + Util::UTF8toWide(sSkipLauncherRegion) + L" -lan " + Util::UTF8toWide(sSkipLauncherLanguage) + L" -selfregion EU -launcherpath launcher.exe" + L" -ctrltype " + Util::UTF8toWide(Util::GetUppercaseNameAtIndex(kLauncherConfigCtrlTypesInternal, iLauncherConfigCtrlType));
-    //            std::string sCommandLine = Util::WideToUTF8(commandLine);
-    //            spdlog::info("MG/MG2 | MGS 2 | MGS 3: Launcher Config: Launch command line: {}", sCommandLine);
-    //
-    //            // Call CreateProcess to start the game process
-    //            if (CreateProcessW(nullptr, commandLine.data(), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startupInfo, &processInfo))
-    //            {
-    //                // Successfully started the process
-    //                CloseHandle(processInfo.hProcess);
-    //                CloseHandle(processInfo.hThread);
-    //
-    //                // Force launcher to exit
-    //                forcedLauncherShutdown = true;
-    //                spdlog::shutdown();
-    //                ExitProcess(EXIT_SUCCESS);
-    //            }
-    //            else
-    //            {
-    //                spdlog::error("MG/MG2 | MGS 2 | MGS 3: Launcher Config: SkipLauncher failed to create game EXE process");
-    //            }
-    //
-    //        }
-    //        else //hasJumpstart && bLauncherConfigSkipLauncher -> we reentered the launcher from the main game. lets terminate once the game finishes closing.
-    //        {
-    //            spdlog::info("MG/MG2 | MGS 2 | MGS 3: Launcher jumpstart detected on commandline.");
-    //            spdlog::info("MG/MG2 | MGS 2 | MGS 3: Waiting for companion game to exit before terminating launcher.");
-    //            while (Util::IsProcessRunning(sExePath / game->ExeName))
-    //            {
-    //                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    //            }
-    //            spdlog::info("MG/MG2 | MGS 2 | MGS 3: Companion game exited, exiting launcher.");
-    //            forcedLauncherShutdown = true;
-    //            spdlog::shutdown();
-    //            ExitProcess(EXIT_SUCCESS);
-    //        }
-    //    }
-    //    else if (bLauncherJumpStart)
-    //    {
-    //        if (!hasJumpstart)
-    //        {
-    //
-    //            spdlog::info("MG/MG2 | MGS 2 | MGS 3: Launcher Config: JumpStart set, attempting to restart launcher with -jump gamestart");
-    //            std::filesystem::path gameExePath = sExePath.parent_path() / "launcher.exe";
-    //
-    //            PROCESS_INFORMATION processInfo = {};
-    //            STARTUPINFO startupInfo = {};
-    //            startupInfo.cb = sizeof(STARTUPINFO);
-    //            std::wstring commandLine = L"\"" + gameExePath.wstring() + L"\"";
-    //            commandLine += L" -jump gamestart";
-    //            if (CreateProcess(nullptr, (LPWSTR)commandLine.c_str(), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startupInfo, &processInfo))
-    //            {
-    //                // Successfully started the process
-    //                CloseHandle(processInfo.hProcess);
-    //                CloseHandle(processInfo.hThread);
-    //
-    //                // Force launcher to exit
-    //                forcedLauncherShutdown = true;
-    //                spdlog::shutdown();
-    //                ExitProcess(EXIT_SUCCESS);
-    //            }
-    //            spdlog::error("MG/MG2 | MGS 2 | MGS 3: Launcher Config: Failed to restart launcher with jumpstart.");
-    //        }
-    //        else
-    //        {
-    //            spdlog::info("MG/MG2 | MGS 2 | MGS 3: Launcher Config: Launcher Jumpstarted.");
-    //        }
-    //    }
-    //
-    //    return;
-    }
-
-
-
-}
-
 
 static bool DetectGame()
 {
@@ -222,6 +57,7 @@ static bool DetectGame()
                 spdlog::info("Detected launcher for game: {} (app {})", info.GameTitle.c_str(), info.SteamAppId);
                 eGameType = LAUNCHER;
                 unityPlayer = GetModuleHandleA("UnityPlayer.dll");
+                spdlog::info("UnityPlayer.dll module handle: 0x{0:X}", (uintptr_t)unityPlayer);
                 game = &info;
                 sGameSavePath = sGameRootPath / ((game->ExeName == kGames.at(MGS4).ExeName) ? "mgs4_savedata_win" : "mgspw_savedata_win");
                 return true;
@@ -242,10 +78,6 @@ static bool DetectGame()
 
             sGameSavePath = sGameRootPath / ((game->ExeName == kGames.at(MGS4).ExeName) ? "mgs4_savedata_win" : "mgspw_savedata_win");
             spdlog::info("Game Save Path: {}", sGameSavePath.string());
-            //if (engineModule = GetModuleHandleA("Engine.dll"); !engineModule)
-            //{
-            //    spdlog::error("Failed to get Engine.dll module handle");
-            //}
 
             return true;
         }
@@ -273,16 +105,59 @@ void afterPresent()
     spdlog::info("afterPresent() completed");
 }
 
+namespace
+{
+    // Lets us direct launch the main game's .exe
+    void CreateSteamAppIdFile()
+    {
+        if (!game)
+        {
+            return;
+        }
+
+        const std::filesystem::path steamAppidPath = sExePath / "steam_appid.txt";
+        if (std::filesystem::exists(steamAppidPath))
+        {
+            return;
+        }
+
+        try
+        {
+            spdlog::info("Creating steam_appid.txt to allow direct EXE launches.");
+            std::ofstream steamAppidOut(steamAppidPath);
+            if (steamAppidOut.is_open())
+            {
+                steamAppidOut << game->SteamAppId;
+                steamAppidOut.close();
+            }
+
+            if (std::filesystem::exists(steamAppidPath))
+            {
+                spdlog::info("steam_appid.txt created successfully.");
+            }
+            else
+            {
+                spdlog::error("steam_appid.txt creation failed.");
+            }
+        }
+        catch (const std::exception& ex)
+        {
+            spdlog::error("steam_appid.txt creation failed (exception: {})", ex.what());
+        }
+    }
+}
+
 static void InitializeSubsystems()
 {
     //Initialization order (these systems initialize vars used by following ones.)
     INITIALIZE(g_Logging.LogSysInfo());            //0
     INITIALIZE(DetectGame());                      //1
+    INITIALIZE(CreateSteamAppIdFile());
     INITIALIZE(ASILoaderCompatibility::Check());   //2
     INITIALIZE(Config::Read());                    //3
     //INITIALIZE(g_GameVars.Initialize());           //4
     //INITIALIZE(g_D3D11Hooks.Initialize());         //5 Caches the D3DDevice, DXGIFactory, and D3DContext from D3DCreateDevice/DXGICreateFactory
-    //INITIALIZE(Init_LauncherConfigOverride());     //7
+    INITIALIZE(LauncherSkipsAndStarts::Apply());   //7
 
     
 
@@ -384,10 +259,10 @@ static bool IsAlreadyInitialized()
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
-    //if (forcedLauncherShutdown)
-    //{
-    //    return TRUE;
-    //}
+    if (bForcedLauncherShutdown)
+    {
+        return TRUE;
+    }
     if (ul_reason_for_call == DLL_PROCESS_ATTACH)
     {
         if (IsAlreadyInitialized())
