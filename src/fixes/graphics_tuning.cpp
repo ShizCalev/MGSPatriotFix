@@ -6,6 +6,15 @@
 #include "logging.hpp"
 
 
+namespace
+{
+    int64_t __fastcall DisableMotionBlurHook()
+    {
+        return 0;
+    }
+}
+
+
 void GraphicsTuning::ApplyHooks()
 {
     if (eGameType & MGS4)
@@ -37,6 +46,22 @@ void GraphicsTuning::ApplyHooks()
                           {
                               ctx.rcx = 0;
                           });
+        }
+
+        if (bDisableMotionBlur)
+        {
+            constexpr char pattern[] =
+                "40 53 48 83 EC 70 0F 29 74 24 60 BA FA 00 00 00 B9 12 BF 32 00 "
+                "0F 29 7C 24 50 E8 ?? ?? ?? ?? F3 0F 10 3D ?? ?? ?? ?? BA 0A 00 00 00 "
+                "B9 73 97 5A 00";
+            constexpr char name[] = "GraphicsTuning - Disable Motion Blur";
+
+            if (uint8_t* address = Memory::PatternScan(baseModule, pattern, name))
+            {
+                static SafetyHookInline hook {};
+                hook = safetyhook::create_inline(address, reinterpret_cast<void*>(DisableMotionBlurHook));
+                LOG_HOOK(hook, name)
+            }
         }
     }
 

@@ -271,6 +271,9 @@ void Config::Read()
     ConfigHelper::getValue(ini, ConfigKeys::ForceDynamicResolutionOff_Section, ConfigKeys::ForceDynamicResolutionOff_Setting, GraphicsTuning::bDisableDynamicResolution);
     LOG_CONFIG(ConfigKeys::ForceDynamicResolutionOff_Section, ConfigKeys::ForceDynamicResolutionOff_Setting, GraphicsTuning::bDisableDynamicResolution);
 
+    ConfigHelper::getValue(ini, ConfigKeys::DisableMotionBlur_Section, ConfigKeys::DisableMotionBlur_Setting, GraphicsTuning::bDisableMotionBlur);
+    LOG_CONFIG(ConfigKeys::DisableMotionBlur_Section, ConfigKeys::DisableMotionBlur_Setting, GraphicsTuning::bDisableMotionBlur);
+
 
     {
         std::string sLauncherSkip;
