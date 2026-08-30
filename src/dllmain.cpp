@@ -37,76 +37,10 @@
 #include "unit_tests.hpp"
 #endif
 
-static bool DetectGame()
-{
-    eGameType = UNKNOWN;
-    // Special handling for launcher.exe
-    if (bIsLauncher)
-    {
-        for (const auto& [type, info] : kGames)
-        {
-            const std::filesystem::path gameSubfolderPath = Util::FindSubfolderCaseInsensitive(sGameRootPath, info.GameSubfolder);
-            if (gameSubfolderPath.empty())
-            {
-                continue;
-            }
-
-            auto gamePath = gameSubfolderPath / info.ExeName;
-            if (std::filesystem::exists(gamePath))
-            {
-                spdlog::info("Detected launcher for game: {} (app {})", info.GameTitle.c_str(), info.SteamAppId);
-                eGameType = LAUNCHER;
-                unityPlayer = GetModuleHandleA("UnityPlayer.dll");
-                spdlog::info("UnityPlayer.dll module handle: 0x{0:X}", (uintptr_t)unityPlayer);
-                game = &info;
-                sGameSavePath = sGameRootPath / ((game->ExeName == kGames.at(MGS4).ExeName) ? "mgs4_savedata_win" : "mgspw_savedata_win");
-                return true;
-            }
-        }
-
-        spdlog::error("Failed to detect supported game, unknown launcher");
-        FreeLibraryAndExitThread(baseModule, 1);
-    }
-
-    for (const auto& [type, info] : kGames)
-    {
-        if (info.ExeName == sExeName)
-        {
-            spdlog::info("Detected game: {} (app {})", info.GameTitle.c_str(), info.SteamAppId);
-            eGameType = type;
-            game = &info;
-
-            sGameSavePath = sGameRootPath / ((game->ExeName == kGames.at(MGS4).ExeName) ? "mgs4_savedata_win" : "mgspw_savedata_win");
-            spdlog::info("Game Save Path: {}", sGameSavePath.string());
-
-            return true;
-        }
-    }
-
-    spdlog::error("Failed to detect supported game, {} isn't supported by MGSPatriotFix", sExeName.c_str());
-    FreeLibraryAndExitThread(baseModule, 1);
-}
-
-
-
-void afterPresent()
-{
-    static bool bInitialized = false;
-    if (bInitialized)
-    {
-        spdlog::warn("afterPresent() called multiple times, skipping initialization.");
-        return;
-    }
-    bInitialized = true;
-    spdlog::info("afterPresent() started");
-
-
-    D3D11TextOverlay::Init();
-    spdlog::info("afterPresent() completed");
-}
 
 namespace
 {
+
     // Lets us direct launch the main game's .exe
     void CreateSteamAppIdFile()
     {
@@ -145,57 +79,131 @@ namespace
             spdlog::error("steam_appid.txt creation failed (exception: {})", ex.what());
         }
     }
-}
 
-static void InitializeSubsystems()
-{
-    //Initialization order (these systems initialize vars used by following ones.)
-    INITIALIZE(g_Logging.LogSysInfo());            //0
-    INITIALIZE(DetectGame());                      //1
-    INITIALIZE(CreateSteamAppIdFile());
-    INITIALIZE(ASILoaderCompatibility::Check());   //2
-    INITIALIZE(Config::Read());                    //3
-    //INITIALIZE(g_GameVars.Initialize());           //4
-    //INITIALIZE(g_D3D11Hooks.Initialize());         //5 Caches the D3DDevice, DXGIFactory, and D3DContext from D3DCreateDevice/DXGICreateFactory
-    INITIALIZE(LauncherSkipsAndStarts::Apply());   //7
-
-    
-
-    INITIALIZE(GraphicsTuning::ApplyHooks());
-
-    if (eGameType & MGS4)
+    bool DetectGame()
     {
+        eGameType = UNKNOWN;
+        // Special handling for launcher.exe
+        if (bIsLauncher)
+        {
+            for (const auto& [type, info] : kGames)
+            {
+                const std::filesystem::path gameSubfolderPath = Util::FindSubfolderCaseInsensitive(sGameRootPath, info.GameSubfolder);
+                if (gameSubfolderPath.empty())
+                {
+                    continue;
+                }
 
-        //INITIALIZE(ResolutionScalingFixes::ApplyFixes());
+                auto gamePath = gameSubfolderPath / info.ExeName;
+                if (std::filesystem::exists(gamePath))
+                {
+                    spdlog::info("Detected launcher for game: {} (app {})", info.GameTitle.c_str(), info.SteamAppId);
+                    eGameType = LAUNCHER;
+                    unityPlayer = GetModuleHandleA("UnityPlayer.dll");
+                    spdlog::info("UnityPlayer.dll module handle: 0x{0:X}", (uintptr_t)unityPlayer);
+                    game = &info;
+                    sGameSavePath = sGameRootPath / ((game->ExeName == kGames.at(MGS4).ExeName) ? "mgs4_savedata_win" : "mgspw_savedata_win");
+                    return true;
+                }
+            }
 
+            spdlog::error("Failed to detect supported game, unknown launcher");
+            FreeLibraryAndExitThread(baseModule, 1);
+        }
+
+        for (const auto& [type, info] : kGames)
+        {
+            if (info.ExeName == sExeName)
+            {
+                spdlog::info("Detected game: {} (app {})", info.GameTitle.c_str(), info.SteamAppId);
+                eGameType = type;
+                game = &info;
+
+                sGameSavePath = sGameRootPath / ((game->ExeName == kGames.at(MGS4).ExeName) ? "mgs4_savedata_win" : "mgspw_savedata_win");
+                spdlog::info("Game Save Path: {}", sGameSavePath.string());
+
+                return true;
+            }
+        }
+
+        spdlog::error("Failed to detect supported game, {} isn't supported by MGSPatriotFix", sExeName.c_str());
+        FreeLibraryAndExitThread(baseModule, 1);
     }
-    else if (eGameType & MGSPW)
+
+    void InitializeSubsystems()
     {
-        //INITIALIZE(ResolutionScalingFixes::ApplyFixes());
+        //Initialization order (these systems initialize vars used by following ones.)
+        INITIALIZE(g_Logging.LogSysInfo());            //0
+        INITIALIZE(DetectGame());                      //1
+        INITIALIZE(CreateSteamAppIdFile());
+        INITIALIZE(ASILoaderCompatibility::Check());   //2
+        INITIALIZE(Config::Read());                    //3
+        //INITIALIZE(g_GameVars.Initialize());           //4
+        //INITIALIZE(g_D3D11Hooks.Initialize());         //5 Caches the D3DDevice, DXGIFactory, and D3DContext from D3DCreateDevice/DXGICreateFactory
+        INITIALIZE(LauncherSkipsAndStarts::Apply());   //7
 
-    }
-
-    //INITIALIZE(D3D11TextOverlay::Setup());
 
 
-        //Warnings
-    INITIALIZE(BackgroundShuffleWarning::Check());
-    //INITIALIZE(CheckGamesaveFolderWritable::CheckStatus());
+        INITIALIZE(GraphicsTuning::ApplyHooks());
+
+        if (eGameType & MGS4)
+        {
+
+            //INITIALIZE(ResolutionScalingFixes::ApplyFixes());
+
+        }
+        else if (eGameType & MGSPW)
+        {
+            //INITIALIZE(ResolutionScalingFixes::ApplyFixes());
+
+        }
+
+        //INITIALIZE(D3D11TextOverlay::Setup());
 
 
-    //INITIALIZE(CheckForUpdates());
+            //Warnings
+        INITIALIZE(BackgroundShuffleWarning::Check());
+        //INITIALIZE(CheckGamesaveFolderWritable::CheckStatus());
+
+
+        //INITIALIZE(CheckForUpdates());
 
 #if !defined(RELEASE_BUILD)
-    INITIALIZE(UnitTests::runAllTests());
+        INITIALIZE(UnitTests::runAllTests());
 
 #endif
 
     //INITIALIZE(Util::ShutdownSHA1Provider());
+    }
+
+
+
+
+
+    std::mutex mainThreadFinishedMutex;
+    std::condition_variable mainThreadFinishedVar;
+    bool mainThreadFinished = false;
+
 }
 
-std::mutex mainThreadFinishedMutex;
-std::condition_variable mainThreadFinishedVar;
-bool mainThreadFinished = false;
+
+void afterPresent()
+{
+    static bool bInitialized = false;
+    if (bInitialized)
+    {
+        spdlog::warn("afterPresent() called multiple times, skipping initialization.");
+        return;
+    }
+    bInitialized = true;
+    spdlog::info("afterPresent() started");
+
+
+    D3D11TextOverlay::Init();
+    spdlog::info("afterPresent() completed");
+}
+
+
 
 DWORD __stdcall Main(void*)
 {
