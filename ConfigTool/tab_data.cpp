@@ -31,6 +31,9 @@
 const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
     { wxString("General"), {
 
+        { (MGS4), ConfigKeys::ForceDynamicResolutionOff_Section, ConfigKeys::ForceDynamicResolutionOff_Setting, ConfigKeys::ForceDynamicResolutionOff_Help, ConfigKeys::ForceDynamicResolutionOff_Tooltip,
+          std::nullopt, false, Field::Bool, false },
+
         { (MGS4), ConfigKeys::AnisotropicFiltering_Section, ConfigKeys::AnisotropicFiltering_Setting, ConfigKeys::AnisotropicFiltering_Help, ConfigKeys::AnisotropicFiltering_Tooltip,
           std::nullopt, false, Field::Int, 16, 1, 16 },
 

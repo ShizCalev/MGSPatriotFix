@@ -264,6 +264,9 @@ void Config::Read()
     }
     LOG_CONFIG(ConfigKeys::AnisotropicFiltering_Section, ConfigKeys::AnisotropicFiltering_Setting, GraphicsTuning::iAnisotropicFiltering);
 
+    ConfigHelper::getValue(ini, ConfigKeys::ForceDynamicResolutionOff_Section, ConfigKeys::ForceDynamicResolutionOff_Setting, GraphicsTuning::bDisableDynamicResolution);
+    LOG_CONFIG(ConfigKeys::ForceDynamicResolutionOff_Section, ConfigKeys::ForceDynamicResolutionOff_Setting, GraphicsTuning::bDisableDynamicResolution);
+
 
     {
         std::string sLauncherSkip;

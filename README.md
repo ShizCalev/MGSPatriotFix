@@ -69,7 +69,7 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 ## Support
 Please report any issues you notice on our Github [here](https://github.com/ShizCalev/MGSPatriotFix/issues/new/choose).
 
-For more immediate problems, you can contact us in the [#Vol2Fix](https://discord.gg/bFv9bZmWDV) channel of the Metal Gear Network Discord.
+For more immediate problems, you can contact us in the [#PatriotFix](https://discord.gg/bFv9bZmWDV) channel of the Metal Gear Network Discord.
 
 ## Known Issues
 This list will contain bugs which may or may not be fixed.

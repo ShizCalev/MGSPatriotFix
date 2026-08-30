@@ -22,12 +22,19 @@ namespace ConfigKeys
                                                                   "Equivalent to: Right-click the game's .exe -> Properties -> Compatibility -> check \"Disable Fullscreen Optimizations\"";
 
 
-    constexpr const char* AnisotropicFiltering_Section = "Graphics";
+    constexpr const char* AnisotropicFiltering_Section = "Enhancements && Tweaks";
     constexpr const char* AnisotropicFiltering_Setting = "Anisotropic Filtering Level";
     constexpr const char* AnisotropicFiltering_Help = "";
     constexpr const char* AnisotropicFiltering_Tooltip = "Controls the level of anisotropic filtering applied to textures.\n"
                                                           "\n"
                                                           "Higher values improve texture detail while far away or at oblique angles.";
+
+    constexpr const char* ForceDynamicResolutionOff_Section = "Enhancements && Tweaks";
+    constexpr const char* ForceDynamicResolutionOff_Setting = "Disable Dynamic Resolution";
+    constexpr const char* ForceDynamicResolutionOff_Help = "";
+    constexpr const char* ForceDynamicResolutionOff_Tooltip = "The game agressively lowers its resolution to maintain framerate, even when it doesn't need to.\n"
+                                                              "\n"
+                                                              "Enabling this forces it to always render at full resolution instead.";
 
 
     constexpr const char* Language_Section = "Language Settings";

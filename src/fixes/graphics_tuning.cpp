@@ -30,6 +30,14 @@ void GraphicsTuning::ApplyHooks()
                               *reinterpret_cast<uint32_t*>(ctx.rdx + offset) = iAnisotropicFiltering;
                           }
                       });
+
+        if (bDisableDynamicResolution)
+        {
+            MAKE_HOOK_MID(baseModule, "E8 ?? ?? ?? ?? E8 ?? ?? ?? ?? 84 C0 0F 84 ?? ?? ?? ?? 41 B8 ?? ?? ?? ?? 8B 15", "GraphicsTuning - Force Dynamic Resolution Off",
+                          {
+                              ctx.rcx = 0;
+                          });
+        }
     }
 
 
