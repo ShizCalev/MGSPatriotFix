@@ -140,7 +140,11 @@ namespace
         INITIALIZE(Config::Read());                    //3
         //INITIALIZE(g_GameVars.Initialize());           //4
         //INITIALIZE(g_D3D11Hooks.Initialize());         //5 Caches the D3DDevice, DXGIFactory, and D3DContext from D3DCreateDevice/DXGICreateFactory
-        INITIALIZE(LauncherSkipsAndStarts::Apply());   //7
+        
+        if (eGameType & LAUNCHER)
+        {
+            INITIALIZE(LauncherSkipsAndStarts::Apply());
+        }
 
 
 
@@ -166,7 +170,7 @@ namespace
         //INITIALIZE(CheckGamesaveFolderWritable::CheckStatus());
 
 
-        //INITIALIZE(CheckForUpdates());
+        INITIALIZE(CheckForUpdates());
 
 #if !defined(RELEASE_BUILD)
         INITIALIZE(UnitTests::runAllTests());
