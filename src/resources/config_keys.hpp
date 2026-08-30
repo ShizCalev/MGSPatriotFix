@@ -22,6 +22,14 @@ namespace ConfigKeys
                                                                   "Equivalent to: Right-click the game's .exe -> Properties -> Compatibility -> check \"Disable Fullscreen Optimizations\"";
 
 
+    constexpr const char* AnisotropicFiltering_Section = "Graphics";
+    constexpr const char* AnisotropicFiltering_Setting = "Anisotropic Filtering Level";
+    constexpr const char* AnisotropicFiltering_Help = "";
+    constexpr const char* AnisotropicFiltering_Tooltip = "Controls the level of anisotropic filtering applied to textures.\n"
+                                                          "\n"
+                                                          "Higher values improve texture detail while far away or at oblique angles.";
+
+
     constexpr const char* Language_Section = "Language Settings";
     constexpr const char* Language_Setting = "Game Language";
     constexpr const char* Language_Help = "";
@@ -31,6 +39,19 @@ namespace ConfigKeys
     constexpr const char* Region_Setting = "Game Region";
     constexpr const char* Region_Help = "";
     constexpr const char* Region_Tooltip = "Selects game region.";
+
+
+    constexpr const char* LauncherSkip_Section = "Launcher";
+    constexpr const char* LauncherSkip_Setting = "Skip Launcher Splashscreens";
+    constexpr const char* LauncherSkip_Help = "";
+    constexpr const char* LauncherSkip_Tooltip = "Automatically skips the launcher's splashscreens.\n"
+                                                  "\n"
+                                                  "Game Start = the Game Start menu\n"
+                                                  "\n"
+                                                  "(MGS4 ONLY) Main Menu = the main menu w/ cursor on the MGS4 DB option.";
+    constexpr const char* LauncherSkip_Option_Disabled = "Disabled";
+    constexpr const char* LauncherSkip_Option_GameStart = "Game Start";
+    constexpr const char* LauncherSkip_Option_DatabaseStart = "Main Menu";
 
 
     //constexpr const char* DisableMouseCursor_Section = "Bugfixes";

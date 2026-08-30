@@ -31,13 +31,15 @@
 const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
     { wxString("General"), {
 
+        { (MGS4), ConfigKeys::AnisotropicFiltering_Section, ConfigKeys::AnisotropicFiltering_Setting, ConfigKeys::AnisotropicFiltering_Help, ConfigKeys::AnisotropicFiltering_Tooltip,
+          std::nullopt, false, Field::Int, 16, 1, 16 },
 
         { (MGS4|MGSPW), ConfigKeys::DisableFullscreenOptimization_Section, ConfigKeys::DisableFullscreenOptimization_Setting, ConfigKeys::DisableFullscreenOptimization_Help, ConfigKeys::DisableFullscreenOptimization_Tooltip,
           std::nullopt, false, Field::Bool, false },
 
-    }},
-    { wxString("Graphics"), {
-        
+        { (MGS4|MGSPW), ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting, ConfigKeys::LauncherSkip_Help, ConfigKeys::LauncherSkip_Tooltip,
+          std::nullopt, false, Field::Choice, 0, 0, 0, ConfigKeys::LauncherSkip_Option_Disabled,
+          {ConfigKeys::LauncherSkip_Option_Disabled, ConfigKeys::LauncherSkip_Option_GameStart, ConfigKeys::LauncherSkip_Option_DatabaseStart} },
 
 
     }},

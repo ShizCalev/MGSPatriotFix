@@ -8,7 +8,6 @@ public:
 };
 
 
-//inline bool bLauncherJumpStart;
 //inline int iAnisotropicFiltering;
 //inline bool bDisableTextureFiltering;
 //inline bool bMouseSensitivity;

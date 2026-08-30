@@ -33,6 +33,7 @@
 #include <random>
 #include <d3dcompiler.h>
 #include <d3d11.h>
+#include <d3d12.h>
 #include <dxgi.h>
 #include <wrl/client.h>
 #include <initializer_list>
@@ -42,13 +43,8 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <numbers>
-#include <bcrypt.h> //sha256
 #include <limits>
 #include <format>
 
 
 #include <shellapi.h> //ShellExecuteA
-
-#include <future>
-#include <subauth.h>
-#include <string_view>

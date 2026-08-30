@@ -8,6 +8,7 @@ inline std::filesystem::path sExePath;
 inline std::filesystem::path sGameRootPath;
 inline std::filesystem::path sGameSavePath;
 inline bool bIsLauncher = false;
+inline bool bForcedLauncherShutdown = false;
 
 inline HMODULE baseModule = GetModuleHandle(NULL);
 inline HMODULE unityPlayer;
