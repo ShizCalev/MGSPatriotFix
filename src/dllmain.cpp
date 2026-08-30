@@ -19,6 +19,9 @@
 #include "resolution_scaling_fixes.hpp"
 #include "graphics_tuning.hpp"
 #include "launcher_skips_and_starts.hpp"
+#include "pressure_inputs.hpp"
+#include "pad_motion.hpp"
+#include "ds3_rumble.hpp"
 
 //Warnings
 #include "asi_loader_checks.hpp"
@@ -154,6 +157,9 @@ namespace
         {
 
             //INITIALIZE(ResolutionScalingFixes::ApplyFixes());
+            INITIALIZE(PressureInputs::Initialize());
+            INITIALIZE(PadMotion::Initialize());
+            INITIALIZE(Ds3Rumble::Initialize());
 
         }
         else if (eGameType & MGSPW)

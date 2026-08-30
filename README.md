@@ -20,6 +20,9 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 > [!NOTE]
 (More features and fixes are added frequently and may be missing from this list.)
 
+#### MGS4 Features:
+- DualShock 3 support (pressure-sensitive face buttons/triggers, rumble, and motion for shake actions such as resetting the OctoCamo.) See [DualShock 3 Setup](#dualshock-3-setup).
+
 ## Bug Fixes
 #### Shared Bugs:
 - Fixes the monitor going to sleep during long cutscenes (for Windows only, Linux needs to be [fixed by Valve](https://github.com/ValveSoftware/Proton/issues/8881).)
@@ -64,6 +67,31 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 ### Configuration
 
 - See **MGSPatriotFix Config Tool.exe** in the game's root folder to adjust settings for the fix.
+
+
+## DualShock 3 Setup
+### Windows:
+
+ - Download and install [DsHidMini](https://docs.nefarius.at/projects/DsHidMini/)
+ - Set DsHidMini to SXS mode.
+
+  (This matches the configuration required for PCSX2. If your DS3 controller is already set up properly with PCSX2, then you're already good to go!)
+
+### Steam Deck / Linux:
+> [!NOTE]
+**🚩 These steps are only needed if you’re on Steam Deck/Linux. Skip if you’re using Windows.**
+
+ The pad works out of the box, but Steam needs to be told to prefer it.
+
+ Step 1)
+  - Open up the game properties of MGS4 in Steam and set the following line to the launch options:
+
+        SDL_GAMECONTROLLER_IGNORE_DEVICES= PROTON_ENABLE_HIDRAW=0x054C/0x0268 WINEDLLOVERRIDES="winmm=n,b" %command%
+
+ Step 2)
+  - Open the Steam overlay while the game is running.
+  - Open controller settings.
+  - Click reorder controllers, and select the PS3 controller as your primary device.
 
 
 ## Support

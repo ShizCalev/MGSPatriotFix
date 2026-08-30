@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // Project:   Universal Config Tool
 // File:      tab_data.cpp
 //
@@ -43,6 +43,9 @@ const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
         { (MGS4|MGSPW), ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting, ConfigKeys::LauncherSkip_Help, ConfigKeys::LauncherSkip_Tooltip,
           std::nullopt, false, Field::Choice, 0, 0, 0, ConfigKeys::LauncherSkip_Option_Disabled,
           {ConfigKeys::LauncherSkip_Option_Disabled, ConfigKeys::LauncherSkip_Option_GameStart, ConfigKeys::LauncherSkip_Option_DatabaseStart} },
+
+        { (MGS4), ConfigKeys::Ds3Support_Section, ConfigKeys::Ds3Support_Setting, ConfigKeys::Ds3Support_Help, ConfigKeys::Ds3Support_Tooltip,
+          std::nullopt, false, Field::Bool, false },
 
 
     }},
