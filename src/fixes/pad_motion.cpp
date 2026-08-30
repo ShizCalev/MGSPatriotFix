@@ -142,10 +142,9 @@ namespace
         LOG_HOOK(gMotionHook, "MGS 4: Pad Motion - ISteamInput::GetMotionData")
 
         if (uint8_t* test = Memory::PatternScanUnique(baseModule,
-            "48 8B 43 10 48 89 43 18 48 8B 43 08 48 89 43 10 48 8B 03 48 89 43 08 80 3D ?? ?? ?? ?? ??",
+            "48 8B 43 10 48 89 43 18 48 8B 43 08 48 89 43 10 48 8B 03 48 89 43 08 80 3D",
             "MGS 4: Pad Motion - Sixaxis source | accelerometer or orientation"))
         {
-            // cmp byte ptr [rip+disp32], imm8 - 7 bytes long, displacement 2 in.
             constexpr ptrdiff_t kCmp = 23;      // cmp byte ptr [rip+disp32], imm8
             auto* flag = reinterpret_cast<uint8_t*>(Memory::GetRipRelativeAddress(test + kCmp, 2, 7));
 
