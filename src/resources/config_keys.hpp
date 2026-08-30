@@ -37,8 +37,8 @@ namespace ConfigKeys
                                                               "Enabling this forces it to always render at full resolution instead.";
 
     constexpr const char* Ds3Support_Section = "Controller Settings";
-    constexpr const char* Ds3Support_Setting = "Enable DS3 Support";
-    constexpr const char* Ds3Support_Help = "";
+    constexpr const char* Ds3Support_Setting = "Enable DualShock 3 Support";
+    constexpr const char* Ds3Support_Help = "(Pressure Sensitive Buttons)";
     constexpr const char* Ds3Support_Tooltip = "Restores pressure controls, rumble and shake for Dualshock 3 controllers.\n"
                                                "\n"
                                                "Any pressure supporting button bound will use analog values.";
@@ -53,6 +53,13 @@ namespace ConfigKeys
     constexpr const char* Region_Help = "";
     constexpr const char* Region_Tooltip = "Selects game region.";
 
+    constexpr const char* CtrlType_Section = "Controller Settings";
+    constexpr const char* CtrlType_Setting = "Button Icons";
+    constexpr const char* CtrlType_Help = "";
+    constexpr const char* CtrlType_Tooltip = "Selects which controller button icons to display in-game.";
+
+    constexpr const char* CtrlType_Setting_PW = "Button Icons (PW)";
+
 
     constexpr const char* LauncherSkip_Section = "Launcher and Splashscreens";
     constexpr const char* LauncherSkip_Setting = "Skip Launcher Splashscreens";
@@ -65,6 +72,11 @@ namespace ConfigKeys
     constexpr const char* LauncherSkip_Option_Disabled = "Disabled";
     constexpr const char* LauncherSkip_Option_GameStart = "Game Start";
     constexpr const char* LauncherSkip_Option_DatabaseStart = "Main Menu";
+
+    constexpr const char* SkipLauncher_Section = LauncherSkip_Section;
+    constexpr const char* SkipLauncher_Setting = "Skip Launcher";
+    constexpr const char* SkipLauncher_Help = "";
+    constexpr const char* SkipLauncher_Tooltip = "Skips the launcher app and runs the game directly.";
 
     constexpr const char* SkipSplashscreens_Section = LauncherSkip_Section;
     constexpr const char* SkipSplashscreens_Setting = "Skip In-Game Splashscreens";
@@ -124,6 +136,7 @@ namespace ConfigKeys
     constexpr const char* VerboseLogging_Tooltip = "Enables verbose logging for debugging purposes.";
 
     constexpr const char* ControllerType_Auto = "AUTO";
+    constexpr const char* ControllerType_Keyboard = "Keyboard";
     constexpr const char* ControllerType_XboxOne = "Xbox";
     constexpr const char* ControllerType_PS4 = "PlayStation 4";
     constexpr const char* ControllerType_PS5 = "PlayStation 5";
@@ -133,17 +146,32 @@ namespace ConfigKeys
 
 
 
-inline const std::initializer_list<std::string> kLauncherConfigCtrlTypes = { //THESE ARE ORDER SENSITIVE.
-    ConfigKeys::ControllerType_Auto, //0
-    ConfigKeys::ControllerType_XboxOne,         //1
-    ConfigKeys::ControllerType_PS4,             //2
-    ConfigKeys::ControllerType_PS5,          //3
-    ConfigKeys::ControllerType_NintendoSwitch,  //4
-
+inline const std::initializer_list<std::string> kMGS4LauncherConfigCtrlTypes = {
+    ConfigKeys::ControllerType_Auto,
+    ConfigKeys::ControllerType_XboxOne,
+    ConfigKeys::ControllerType_PS4,
+    ConfigKeys::ControllerType_PS5,
+    ConfigKeys::ControllerType_NintendoSwitch,
 };
 
-inline const std::initializer_list<std::string> kLauncherConfigCtrlTypesInternal = { // !!! KEEP IN SYNC WITH THE LIST ABOVE !!!
+inline const std::initializer_list<std::string> kMGS4LauncherConfigCtrlTypesInternal = {
     "AUTO",
+    "XBOX",
+    "PS4",
+    "PS5",
+    "NX"
+};
+
+inline const std::initializer_list<std::string> kMGSPWLauncherConfigCtrlTypes = {
+    ConfigKeys::ControllerType_Keyboard,
+    ConfigKeys::ControllerType_XboxOne,
+    ConfigKeys::ControllerType_PS4,
+    ConfigKeys::ControllerType_PS5,
+    ConfigKeys::ControllerType_NintendoSwitch,
+};
+
+inline const std::initializer_list<std::string> kMGSPWLauncherConfigCtrlTypesInternal = {
+    "KBD",
     "XBOX",
     "PS4",
     "PS5",

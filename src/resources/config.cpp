@@ -6,14 +6,14 @@
 
 #include "inipp/inipp.h"
 
-#include "input_handler.hpp"
+//#include "input_handler.hpp"
 #include "logging.hpp"
 #include "background_shuffle_warning.hpp"
 #include "check_gamesave_folder.hpp"
 #include "version_checking.hpp"
 #include "config_keys.hpp"
-#include "d3d11_text_overlay.hpp"
-#include "game_funcs.hpp"
+//#include "d3d11_text_overlay.hpp"
+//#include "game_funcs.hpp"
 #include "graphics_tuning.hpp"
 #include "launcher_skips_and_starts.hpp"
 #include "skip_splashscreens.hpp"
@@ -136,7 +136,31 @@ namespace ConfigHelper
 
 namespace
 {
+    std::string sReadableRegionName;
+    std::string sReadableLanguageName;
 
+    void ValidateLauncherRegionOptions()
+    {
+        const bool isMGS4Launcher = (game->ExeName == kGames.at(MGS4).ExeName);
+
+        const bool valid = isMGS4Launcher ? IsValidRegionLanguagePair(MGS4_LanguagePairs, LauncherSkipsAndStarts::sRegion, LauncherSkipsAndStarts::sLanguage) : IsValidRegionLanguagePair(MGSPW_LanguagePairs, LauncherSkipsAndStarts::sRegion, LauncherSkipsAndStarts::sLanguage);
+
+        if (!valid)
+        {
+            spdlog::error("Launcher Config: Invalid region/language pair selected (region: {}, language: {}). Defaulting to eu/en.", LauncherSkipsAndStarts::sRegion, LauncherSkipsAndStarts::sLanguage);
+            LauncherSkipsAndStarts::sRegion = "eu";
+            LauncherSkipsAndStarts::sLanguage = "en";
+        }
+
+        if (isMGS4Launcher)
+        {
+            ResolveRegionLanguageNames(MGS4_LanguagePairs, LauncherSkipsAndStarts::sRegion, LauncherSkipsAndStarts::sLanguage, sReadableRegionName, sReadableLanguageName);
+        }
+        else
+        {
+            ResolveRegionLanguageNames(MGSPW_LanguagePairs, LauncherSkipsAndStarts::sRegion, LauncherSkipsAndStarts::sLanguage, sReadableRegionName, sReadableLanguageName);
+        }
+    }
 }
 
 void Config::Read()
@@ -309,6 +333,26 @@ void Config::Read()
         }
 
         LOG_CONFIG(ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting, sLauncherSkip);
+    }
+
+    ConfigHelper::getValue(ini, ConfigKeys::SkipLauncher_Section, ConfigKeys::SkipLauncher_Setting, LauncherSkipsAndStarts::bSkipLauncher);
+    LOG_CONFIG(ConfigKeys::SkipLauncher_Section, ConfigKeys::SkipLauncher_Setting, LauncherSkipsAndStarts::bSkipLauncher);
+
+    ConfigHelper::getValue(ini, ConfigKeys::Region_Section, ConfigKeys::Region_Setting, LauncherSkipsAndStarts::sRegion);
+    ConfigHelper::getValue(ini, ConfigKeys::Language_Section, ConfigKeys::Language_Setting, LauncherSkipsAndStarts::sLanguage);
+    ValidateLauncherRegionOptions();
+    LOG_CONFIG(ConfigKeys::Region_Section, ConfigKeys::Region_Setting, sReadableRegionName);
+    LOG_CONFIG(ConfigKeys::Language_Section, ConfigKeys::Language_Setting, sReadableLanguageName);
+
+    {
+        const bool isMGS4Launcher = (game->ExeName == kGames.at(MGS4).ExeName);
+        const auto& ctrlTypes = isMGS4Launcher ? kMGS4LauncherConfigCtrlTypes : kMGSPWLauncherConfigCtrlTypes;
+        const char* ctrlTypeSetting = isMGS4Launcher ? ConfigKeys::CtrlType_Setting : ConfigKeys::CtrlType_Setting_PW;
+
+        std::string sLauncherConfigCtrlType = *ctrlTypes.begin();
+        ConfigHelper::getValue(ini, ConfigKeys::CtrlType_Section, ctrlTypeSetting, sLauncherConfigCtrlType);
+        LauncherSkipsAndStarts::iCtrlType = Util::findStringInVector(sLauncherConfigCtrlType, ctrlTypes);
+        LOG_CONFIG(ConfigKeys::CtrlType_Section, ctrlTypeSetting, sLauncherConfigCtrlType);
     }
 
 
