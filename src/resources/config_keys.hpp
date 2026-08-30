@@ -22,6 +22,14 @@ namespace ConfigKeys
                                                                   "Equivalent to: Right-click the game's .exe -> Properties -> Compatibility -> check \"Disable Fullscreen Optimizations\"";
 
 
+    constexpr const char* AnisotropicFiltering_Section = "Graphics";
+    constexpr const char* AnisotropicFiltering_Setting = "Anisotropic Filtering Level";
+    constexpr const char* AnisotropicFiltering_Help = "";
+    constexpr const char* AnisotropicFiltering_Tooltip = "Controls the level of anisotropic filtering applied to textures.\n"
+                                                          "\n"
+                                                          "Higher values improve texture detail while far away or at oblique angles.";
+
+
     constexpr const char* Language_Section = "Language Settings";
     constexpr const char* Language_Setting = "Game Language";
     constexpr const char* Language_Help = "";

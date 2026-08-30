@@ -80,6 +80,9 @@
     <ClCompile Include="src\resources\gamevars.cpp">
       <Filter>APIs\WIP</Filter>
     </ClCompile>
+    <ClCompile Include="src\fixes\graphics_tuning.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\warnings\asi_loader_checks.hpp">
@@ -159,6 +162,9 @@
     </ClInclude>
     <ClInclude Include="src\fixes\resolution_scaling_fixes.hpp">
       <Filter>Fixes\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fixes\graphics_tuning.hpp">
+      <Filter>Features\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

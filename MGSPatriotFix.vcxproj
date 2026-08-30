@@ -10,6 +10,7 @@
     <ClCompile Include="src\resources\d3d11_text_overlay.cpp" />
     <ClCompile Include="src\resources\game_funcs.cpp" />
     <ClCompile Include="src\fixes\resolution_scaling_fixes.cpp" />
+    <ClCompile Include="src\fixes\graphics_tuning.cpp" />
     <ClCompile Include="src\warnings\background_shuffle_warning.cpp" />
     <ClCompile Include="src\resources\input_handler.cpp" />
     <ClCompile Include="src\resources\config.cpp" />
@@ -55,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\fixes\resolution_scaling_fixes.hpp" />
+    <ClInclude Include="src\fixes\graphics_tuning.hpp" />
     <ClInclude Include="src\resources\d3d11_text_overlay.hpp" />
     <ClInclude Include="src\resources\game_defines.hpp" />
     <ClInclude Include="src\resources\game_funcs.hpp" />

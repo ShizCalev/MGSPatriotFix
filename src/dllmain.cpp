@@ -17,6 +17,7 @@
 //#include "intro_skip.hpp"
 
 #include "resolution_scaling_fixes.hpp"
+#include "graphics_tuning.hpp"
 
 //Warnings
 #include "asi_loader_checks.hpp"
@@ -52,26 +53,6 @@ static void Init_Miscellaneous()
  //       }
  //   }
  //
- //   if ((bDisableTextureFiltering || iAnisotropicFiltering > 0) && (eGameType & (MGS4|MGSPW)))
- //   {
- //       if (uint8_t* MGS3_SetSamplerStateInsnScanResult = Memory::PatternScan(baseModule, "48 8B 05 ?? ?? ?? ?? 44 39 8C 01 ?? ?? ?? ?? 74 ?? 44 89 8C 01 ?? ?? ?? ?? EB ?? 48 63 C2 48 6B C8 ?? 48 8B 05 ?? ?? ?? ?? 44 39 8C 01 ?? ?? ?? ?? 74 ?? 44 89 8C 01 ?? ?? ?? ?? EB", "MGS 2 | MGS 3: Texture Filtering"))
- //       {
- //           static SafetyHookMid SetSamplerStateInsnXMidHook{};
- //           SetSamplerStateInsnXMidHook = safetyhook::create_mid(MGS3_SetSamplerStateInsnScanResult + 0x7,
- //               [](SafetyHookContext& ctx)
- //               {
- //                   // [rcx+rax+0x438] = D3D11_SAMPLER_DESC, +0x14 = MaxAnisotropy
- //                   *reinterpret_cast<int*>(ctx.rcx + ctx.rax + 0x438 + 0x14) = iAnisotropicFiltering;
- //
- //                   // Override filter mode in r9d with aniso value and run compare from orig game code
- //                   // Game code will then copy in r9d & update D3D etc when r9d is different to existing value
- //                   //0x1 = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR (Linear mips is essentially perspective correction.) 0x55 = D3D11_FILTER_ANISOTROPIC
- //                   ctx.r9 = bDisableTextureFiltering ? 0x1 : 0x55;
- //               });
- //           LOG_HOOK(SetSamplerStateInsnXMidHook, "MGS 2 | MGS 3: Texture Filtering")
- //       }
- //
- //   }
 
 }
 
@@ -304,6 +285,8 @@ static void InitializeSubsystems()
     //INITIALIZE(Init_LauncherConfigOverride());     //7
 
     
+
+    INITIALIZE(GraphicsTuning::ApplyHooks());
 
     if (eGameType & MGS4)
     {

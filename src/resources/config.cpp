@@ -13,6 +13,7 @@
 #include "config_keys.hpp"
 #include "d3d11_text_overlay.hpp"
 #include "game_funcs.hpp"
+#include "graphics_tuning.hpp"
 
 // -----------------------------------------------------------------------------
 // ConfigHelper: A type-safe, case-insensitive, error-checked INI config reader.
@@ -253,6 +254,14 @@ void Config::Read()
     LOG_CONFIG(ConfigKeys::ColorCorrection_Enabled_Section, ConfigKeys::ColorCorrection_Enabled_Setting, ColorCorrection::bEnabled);
     */
 
+
+    ConfigHelper::getValue(ini, ConfigKeys::AnisotropicFiltering_Section, ConfigKeys::AnisotropicFiltering_Setting, GraphicsTuning::iAnisotropicFiltering);
+    if (GraphicsTuning::iAnisotropicFiltering < 1 || GraphicsTuning::iAnisotropicFiltering > 16)
+    {
+        GraphicsTuning::iAnisotropicFiltering = std::clamp(GraphicsTuning::iAnisotropicFiltering, 1, 16);
+        spdlog::warn("Config Parse: Anisotropic Filtering value invalid, clamped to {}", GraphicsTuning::iAnisotropicFiltering);
+    }
+    LOG_CONFIG(ConfigKeys::AnisotropicFiltering_Section, ConfigKeys::AnisotropicFiltering_Setting, GraphicsTuning::iAnisotropicFiltering);
 
 
     ConfigLogger::Flush();
