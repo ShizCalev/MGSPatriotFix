@@ -16,6 +16,7 @@
 #include "game_funcs.hpp"
 #include "graphics_tuning.hpp"
 #include "launcher_skips_and_starts.hpp"
+#include "skip_splashscreens.hpp"
 
 // -----------------------------------------------------------------------------
 // ConfigHelper: A type-safe, case-insensitive, error-checked INI config reader.
@@ -270,6 +271,9 @@ void Config::Read()
 
     ConfigHelper::getValue(ini, ConfigKeys::ForceDynamicResolutionOff_Section, ConfigKeys::ForceDynamicResolutionOff_Setting, GraphicsTuning::bDisableDynamicResolution);
     LOG_CONFIG(ConfigKeys::ForceDynamicResolutionOff_Section, ConfigKeys::ForceDynamicResolutionOff_Setting, GraphicsTuning::bDisableDynamicResolution);
+
+    ConfigHelper::getValue(ini, ConfigKeys::SkipSplashscreens_Section, ConfigKeys::SkipSplashscreens_Setting, SkipSplashscreens::bSkipSplashscreens);
+    LOG_CONFIG(ConfigKeys::SkipSplashscreens_Section, ConfigKeys::SkipSplashscreens_Setting, SkipSplashscreens::bSkipSplashscreens);
 
 
     {

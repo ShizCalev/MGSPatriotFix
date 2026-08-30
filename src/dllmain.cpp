@@ -22,6 +22,7 @@
 #include "pressure_inputs.hpp"
 #include "pad_motion.hpp"
 #include "ds3_rumble.hpp"
+#include "skip_splashscreens.hpp"
 
 //Warnings
 #include "asi_loader_checks.hpp"
@@ -160,6 +161,8 @@ namespace
             INITIALIZE(PressureInputs::Initialize());
             INITIALIZE(PadMotion::Initialize());
             INITIALIZE(Ds3Rumble::Initialize());
+        	INITIALIZE(SkipSplashscreens::Apply());
+
 
         }
         else if (eGameType & MGSPW)

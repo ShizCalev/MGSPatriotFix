@@ -8,6 +8,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\features\launcher_skips_and_starts.cpp" />
+    <ClCompile Include="src\features\skip_splashscreens.cpp" />
     <ClCompile Include="src\resources\d3d11_text_overlay.cpp" />
     <ClCompile Include="src\resources\game_funcs.cpp" />
     <ClCompile Include="src\fixes\resolution_scaling_fixes.cpp" />
@@ -60,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\features\launcher_skips_and_starts.hpp" />
+    <ClInclude Include="src\features\skip_splashscreens.hpp" />
     <ClInclude Include="src\fixes\resolution_scaling_fixes.hpp" />
     <ClInclude Include="src\fixes\graphics_tuning.hpp" />
     <ClInclude Include="src\fixes\pressure_inputs.hpp" />

@@ -54,7 +54,7 @@ namespace ConfigKeys
     constexpr const char* Region_Tooltip = "Selects game region.";
 
 
-    constexpr const char* LauncherSkip_Section = "Launcher";
+    constexpr const char* LauncherSkip_Section = "Launcher and Splashscreens";
     constexpr const char* LauncherSkip_Setting = "Skip Launcher Splashscreens";
     constexpr const char* LauncherSkip_Help = "";
     constexpr const char* LauncherSkip_Tooltip = "Automatically skips the launcher's splashscreens.\n"
@@ -65,6 +65,11 @@ namespace ConfigKeys
     constexpr const char* LauncherSkip_Option_Disabled = "Disabled";
     constexpr const char* LauncherSkip_Option_GameStart = "Game Start";
     constexpr const char* LauncherSkip_Option_DatabaseStart = "Main Menu";
+
+    constexpr const char* SkipSplashscreens_Section = LauncherSkip_Section;
+    constexpr const char* SkipSplashscreens_Setting = "Skip In-Game Splashscreens";
+    constexpr const char* SkipSplashscreens_Help = "";
+    constexpr const char* SkipSplashscreens_Tooltip = "Skips the game's startup splashscreens and jumps straight to the main menu.";
 
 
     //constexpr const char* DisableMouseCursor_Section = "Bugfixes";
