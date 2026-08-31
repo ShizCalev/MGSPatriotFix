@@ -107,8 +107,15 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 
  Step 2)
   - Open the Steam overlay while the game is running.
-  - Open controller settings.
-  - Click reorder controllers, and select the PS3 controller as your primary device.
+  - Open controller settings
+  - Click reorder controllers
+  
+  <img width="600" height="400" alt="mgs2 - d00t - rain 1" src="https://raw.githubusercontent.com/dotlessone/MGSHDFix-Media/refs/heads/main/MGSHDFix%20Features/Dualshock%202-3/controller%20order%201.png" />
+
+  Step 3)
+  - Set the PS3 controller as your primary device.
+  
+  <img width="400" height="250" alt="mgs2 - d00t - rain 1" src="https://raw.githubusercontent.com/dotlessone/MGSHDFix-Media/refs/heads/main/MGSHDFix%20Features/Dualshock%202-3/controller%20order%202.png" />
 
 
 <br />
