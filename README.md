@@ -10,6 +10,9 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 - Metal Gear Solid 4
 - Metal Gear Solid: Peace Walker
 
+<br />
+
+
 ## Other Metal Gear Fix Projects
 - MGS Master Collection - Metal Gear / Metal Gear 2: Solid Snake / Metal Gear Solid 2 / Metal Gear Solid 3 | MGSHDFix - [Repo](https://github.com/ShizCalev/MGSHDFix)
 - MGS Master Collection - Metal Gear Solid 1 and Bonus Content (MG1/2 NES) | MGSM2Fix - [Repo](https://github.com/nuggslet/MGSM2Fix) / [Nexus Page](https://www.nexusmods.com/metalgearsolidmc/mods/5)
@@ -160,8 +163,8 @@ Open MGSPatriotFix.sln in Visual Studio (2026) and build.
 
 ## Credits
 
-Maintained by [@ShizCalev/Afevis](https://github.com/shizcalev)<br />
-[@cipherxof](https://github.com/cipherxof), and [@gibletto](https://github.com/gibletto) for contributing more amazing fixes/features. <br />
+Created and maintained by @ShizCalev/Afevis.<br />
+With more amazing feature & fix contributions by @cipherxof and @gibletto
  <br />
 [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) for ASI loading. <br />
 [inipp](https://github.com/mcmtroffaes/inipp) for ini reading. <br />
