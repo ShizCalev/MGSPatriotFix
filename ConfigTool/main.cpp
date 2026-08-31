@@ -48,10 +48,9 @@ constexpr int iWindowSizeY = 550;
 constexpr const char* sSettingsFileName = "MGSPatriotFix.settings";
 constexpr bool bFullLengthFields = false; //if you want the boxes to span half the window's width.
 #define MGSPatriotFix_SPECIFIC
-#define NEXUS_MGS4_URL   PRIMARY_REPO_URL
-#define NEXUS_MGSPW_URL  PRIMARY_REPO_URL
-//"https://www.nexusmods.com/metalgearandmetalgear2mc/mods/9"
-// "https://www.nexusmods.com/metalgearsolid2mc/mods/49"
+#define NEXUS_MGS4_URL   "https://www.nexusmods.com/metalgearsolid4mc/mods/1"
+#define NEXUS_MGSPW_URL  "https://www.nexusmods.com/metalgearsolidpeacewalkermc/mods/1"
+
 #include <wx/log.h>
 #include <wx/msgdlg.h>
 
