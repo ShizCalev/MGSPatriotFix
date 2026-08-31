@@ -230,29 +230,29 @@ jobs:
         draft: true
         generateReleaseNotes: true
         artifactErrorsFailBuild: true
-  #
-  #  - name: Upload to NexusMods - MGS4
-  #    uses: Nexus-Mods/upload-action@v1.0.0-beta.9
-  #    with:
-  #      api_key: ${{ secrets.NEXUSMODS_API_KEY }}
-  #      #file_id: 462574
-  #      display_name: "MGSPatriotFix"
-  #      filename: MGS4_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip
-  #      version: "${{ steps.extract_version.outputs.version }}"
-  #      category: main
-  #      archive_existing_version: true
-  #      primary_mod_manager_download: true
-  #
-  #
-  #  - name: Upload to NexusMods - PW
-  #    uses: Nexus-Mods/upload-action@v1.0.0-beta.9
-  #    with:
-  #      api_key: ${{ secrets.NEXUSMODS_API_KEY }}
-  #      #file_id: 541612
-  #      display_name: "MGSPatriotFix"
-  #      filename: PW_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip
-  #      version: "${{ steps.extract_version.outputs.version }}"
-  #      category: main
-  #      archive_existing_version: true
-  #      primary_mod_manager_download: true
-  #      update_mod_version: true
+  
+    - name: Upload to NexusMods - MGS4
+      uses: Nexus-Mods/upload-action@v1.0.0-beta.9
+      with:
+        api_key: ${{ secrets.NEXUSMODS_API_KEY }}
+        file_id: 7877268
+        display_name: "MGSPatriotFix (MGS4)"
+        filename: MGS4_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip
+        version: "${{ steps.extract_version.outputs.version }}"
+        category: main
+        archive_existing_version: true
+        primary_mod_manager_download: true
+        update_mod_version: true
+  
+    - name: Upload to NexusMods - PW
+      uses: Nexus-Mods/upload-action@v1.0.0-beta.9
+      with:
+        api_key: ${{ secrets.NEXUSMODS_API_KEY }}
+        file_id: 7877265
+        display_name: "MGSPatriotFix (PW)"
+        filename: PW_${{ github.event.repository.name }}_${{ steps.extract_version.outputs.version }}.zip
+        version: "${{ steps.extract_version.outputs.version }}"
+        category: main
+        archive_existing_version: true
+        primary_mod_manager_download: true
+        update_mod_version: true
