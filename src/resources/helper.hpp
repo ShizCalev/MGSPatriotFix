@@ -55,11 +55,6 @@ namespace Memory
 
     uintptr_t GetRipRelativeAddress(std::uint8_t* instruction, std::size_t displacementOffset, std::size_t instructionLength) noexcept;
 
-    BOOL HookIAT(HMODULE callerModule, char const* targetModule, const void* targetFunction, void* detourFunction);
-
-    void* ReadIAT(HMODULE callerModule, const char* targetModule, const char* targetFunction);
-    BOOL WriteIAT(HMODULE callerModule, const char* targetModule, const char* targetFunction, void* detourFunction);
-
     void AddStackInt32(uint64_t rsp, ptrdiff_t offset, int32_t amount);
 
     void HookMidAtOffset(uint8_t* address, ptrdiff_t offset, SafetyHookMid& hook, const char* name, void (*callback)(SafetyHookContext&));

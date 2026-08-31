@@ -1,7 +1,7 @@
 // ReSharper disable CppClangTidyClangDiagnosticUniqueObjectDuplication
 #pragma once
 
-
+/*
 namespace MGS4_LinkVarBuf
 {
     inline uintptr_t* linkvarbuf = nullptr;
@@ -49,4 +49,4 @@ namespace MGS4_LinkVarBuf
 
 
 }
-
+*/

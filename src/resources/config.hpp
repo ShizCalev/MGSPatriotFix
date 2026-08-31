@@ -14,10 +14,3 @@ public:
 //inline float fMouseSensitivityXMulti;
 //inline float fMouseSensitivityYMulti;
 //inline bool bDisableCursor;
-
-// Launcher ini variables
-//inline bool bLauncherConfigSkipLauncher = false;
-//inline int iLauncherConfigCtrlType = 5;
-
-//inline std::string sSkipLauncherRegion = "us";
-//inline std::string sSkipLauncherLanguage = "en";

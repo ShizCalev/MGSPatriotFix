@@ -51,64 +51,45 @@ namespace
 
     void testLanguagePairs()
     {
-// ==========================================================
-// MG1 / MG2 / MGS2
-// ==========================================================
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "eu", "en") == true);
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "eu", "fr") == true);
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "eu", "it") == true);
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "eu", "gr") == true);
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "eu", "sp") == true);
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "eu", "pt") == true);
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "jp", "jp") == true);
 
-// Valid pairs
-        assert(IsValidRegionLanguagePair(MG1_MG2_MGS2_LanguagePairs, "eu", "en") == true);
-        assert(IsValidRegionLanguagePair(MG1_MG2_MGS2_LanguagePairs, "eu", "fr") == true);
-        assert(IsValidRegionLanguagePair(MG1_MG2_MGS2_LanguagePairs, "eu", "it") == true);
-        assert(IsValidRegionLanguagePair(MG1_MG2_MGS2_LanguagePairs, "eu", "gr") == true);
-        assert(IsValidRegionLanguagePair(MG1_MG2_MGS2_LanguagePairs, "eu", "sp") == true);
-        assert(IsValidRegionLanguagePair(MG1_MG2_MGS2_LanguagePairs, "jp", "jp") == true);
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "us", "en") == false);
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "us", "fr") == false);
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "us", "jp") == false);
 
-        // Invalid region for valid language
-        assert(IsValidRegionLanguagePair(MG1_MG2_MGS2_LanguagePairs, "us", "en") == false);
-        assert(IsValidRegionLanguagePair(MG1_MG2_MGS2_LanguagePairs, "us", "fr") == false);
-        assert(IsValidRegionLanguagePair(MG1_MG2_MGS2_LanguagePairs, "us", "jp") == false);
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "eu", "jp") == false);
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "jp", "en") == false);
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "jp", "fr") == false);
 
-        // Invalid language for valid region
-        assert(IsValidRegionLanguagePair(MG1_MG2_MGS2_LanguagePairs, "eu", "jp") == false);
-        assert(IsValidRegionLanguagePair(MG1_MG2_MGS2_LanguagePairs, "jp", "en") == false);
-        assert(IsValidRegionLanguagePair(MG1_MG2_MGS2_LanguagePairs, "jp", "fr") == false);
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "us", "sp") == false);
+        assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "kr", "en") == false);
 
-        // Fully invalid
-        assert(IsValidRegionLanguagePair(MG1_MG2_MGS2_LanguagePairs, "us", "sp") == false);
-        assert(IsValidRegionLanguagePair(MG1_MG2_MGS2_LanguagePairs, "kr", "en") == false);
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "eu", "en") == true);
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "eu", "fr") == true);
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "eu", "it") == true);
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "eu", "gr") == true);
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "eu", "sp") == true);
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "eu", "pt") == true);
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "jp", "jp") == true);
 
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "us", "en") == false);
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "us", "fr") == false);
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "us", "jp") == false);
 
-        // ==========================================================
-        // MGS3
-        // ==========================================================
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "eu", "jp") == false);
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "jp", "en") == false);
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "jp", "fr") == false);
 
-        // Valid North America
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "us", "en") == true);
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "us", "fr") == true);
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "us", "sp") == true);
-
-        // Valid Europe
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "eu", "en") == true);
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "eu", "fr") == true);
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "eu", "it") == true);
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "eu", "gr") == true);
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "eu", "sp") == true);
-
-        // Valid Japan
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "jp", "jp") == true);
-
-        // Invalid language for region
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "us", "jp") == false);
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "us", "it") == false);
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "us", "gr") == false);
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "eu", "jp") == false);
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "jp", "en") == false);
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "jp", "fr") == false);
-
-        assert(IsValidRegionLanguagePair(MGS3_LanguagePairs, "kr", "en") == false);
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "us", "sp") == false);
+        assert(IsValidRegionLanguagePair(MGSPW_LanguagePairs, "kr", "en") == false);
 
         SPDLOG_INFO("Unit Test : testLanguagePairs completed successfully.");
-
     }
 
 

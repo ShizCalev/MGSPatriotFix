@@ -31,11 +31,8 @@
 #include <map>
 #include <winhttp.h>
 #include <random>
-#include <d3dcompiler.h>
 #include <d3d11.h>
 #include <d3d12.h>
-#include <dxgi.h>
-#include <wrl/client.h>
 #include <initializer_list>
 #include <functional>
 #include <optional>
@@ -46,5 +43,3 @@
 #include <limits>
 #include <format>
 
-
-#include <shellapi.h> //ShellExecuteA

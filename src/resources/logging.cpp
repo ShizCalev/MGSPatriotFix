@@ -9,7 +9,6 @@
 //#include "steamworks_api.hpp"
 #include "version.h"
 #include "version_checking.hpp"
-#include "windows_multiplane_overlay_warning.hpp"
 
 
 // Spdlog sink (truncate on startup, single file)
@@ -148,7 +147,7 @@ void Logging::Initialize()
             spdlog::info("Module First Segment: 0x{0:X}", (uintptr_t)baseModule+0x1000);
             spdlog::info("Module Version: {}", VersionCheck::GetModuleVersion(baseModule, VersionCheck::VersionType::File, bIsLauncher));
             spdlog::info("Parent Process: {}", Util::GetParentProcessName(true));
-            if (std::filesystem::exists(sExePath / "steamclient64.dll") || std::filesystem::exists(sExePath / "steamclient.dll") || std::filesystem::exists(sExePath / "GameOverlayRenderer64.dll") || std::filesystem::exists(sExePath / "GameOverlayRenderer.dll"))
+            if (std::filesystem::exists(sExePath / "steam_emu.ini") || std::filesystem::exists(sExePath / "steamclient64.dll") || std::filesystem::exists(sExePath / "steamclient.dll") || std::filesystem::exists(sExePath / "GameOverlayRenderer64.dll") || std::filesystem::exists(sExePath / "GameOverlayRenderer.dll"))
             {
                 //g_SteamAPI.bIsLegitCopy = false;
                 spdlog::warn("Piracy Warning: This has been detected as a pirated copy of the game. Crashing issues are VERY likely to occur due to missing memory patterns.");
@@ -382,11 +381,6 @@ void Logging::LogSysInfo()
                 spdlog::warn("SYSTEM WARNING: Performance issues, controller connection problems, or crashes may occur.");
                 spdlog::warn("SYSTEM WARNING: Please fully run Windows Updates for the best experience.");
                 spdlog::warn("-------------------    SYSTEM WARNING     ----------------------");
-            }
-
-            if (isWindows11)
-            {
-                Win11AltTabPerformanceWarning::Check();
             }
         }
     }

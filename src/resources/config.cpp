@@ -6,16 +6,15 @@
 
 #include "inipp/inipp.h"
 
-#include "input_handler.hpp"
+//#include "input_handler.hpp"
 #include "logging.hpp"
-#include "background_shuffle_warning.hpp"
-#include "check_gamesave_folder.hpp"
 #include "version_checking.hpp"
 #include "config_keys.hpp"
-#include "d3d11_text_overlay.hpp"
-#include "game_funcs.hpp"
+//#include "d3d11_text_overlay.hpp"
+//#include "game_funcs.hpp"
 #include "graphics_tuning.hpp"
 #include "launcher_skips_and_starts.hpp"
+#include "skip_splashscreens.hpp"
 
 // -----------------------------------------------------------------------------
 // ConfigHelper: A type-safe, case-insensitive, error-checked INI config reader.
@@ -135,7 +134,31 @@ namespace ConfigHelper
 
 namespace
 {
+    std::string sReadableRegionName;
+    std::string sReadableLanguageName;
 
+    void ValidateLauncherRegionOptions()
+    {
+        const bool isMGS4Launcher = (game->ExeName == kGames.at(MGS4).ExeName);
+
+        const bool valid = isMGS4Launcher ? IsValidRegionLanguagePair(MGS4_LanguagePairs, LauncherSkipsAndStarts::sRegion, LauncherSkipsAndStarts::sLanguage) : IsValidRegionLanguagePair(MGSPW_LanguagePairs, LauncherSkipsAndStarts::sRegion, LauncherSkipsAndStarts::sLanguage);
+
+        if (!valid)
+        {
+            spdlog::error("Launcher Config: Invalid region/language pair selected (region: {}, language: {}). Defaulting to eu/en.", LauncherSkipsAndStarts::sRegion, LauncherSkipsAndStarts::sLanguage);
+            LauncherSkipsAndStarts::sRegion = "eu";
+            LauncherSkipsAndStarts::sLanguage = "en";
+        }
+
+        if (isMGS4Launcher)
+        {
+            ResolveRegionLanguageNames(MGS4_LanguagePairs, LauncherSkipsAndStarts::sRegion, LauncherSkipsAndStarts::sLanguage, sReadableRegionName, sReadableLanguageName);
+        }
+        else
+        {
+            ResolveRegionLanguageNames(MGSPW_LanguagePairs, LauncherSkipsAndStarts::sRegion, LauncherSkipsAndStarts::sLanguage, sReadableRegionName, sReadableLanguageName);
+        }
+    }
 }
 
 void Config::Read()
@@ -195,9 +218,6 @@ void Config::Read()
     LOG_CONFIG(ConfigKeys::VerboseLogging_Section, ConfigKeys::VerboseLogging_Setting, g_Logging.bVerboseLogging);
 
 
-    ConfigHelper::getValue(ini, ConfigKeys::WindowsSlideshowWarning_Section, ConfigKeys::WindowsSlideshowWarning_Setting, BackgroundShuffleWarning::bEnabled);
-    LOG_CONFIG(ConfigKeys::WindowsSlideshowWarning_Section, ConfigKeys::WindowsSlideshowWarning_Setting, BackgroundShuffleWarning::bEnabled);
-
     ConfigHelper::getValue(ini, ConfigKeys::CheckForUpdates_Section, ConfigKeys::CheckForUpdates_Setting, bShouldCheckForUpdates);
     ConfigHelper::getValue(ini, ConfigKeys::UpdateConsoleNotifications_Section, ConfigKeys::UpdateConsoleNotifications_Setting, bConsoleUpdateNotifications);
     LOG_CONFIG(ConfigKeys::CheckForUpdates_Section, ConfigKeys::CheckForUpdates_Setting, bShouldCheckForUpdates);
@@ -246,9 +266,6 @@ void Config::Read()
     ConfigHelper::getValue(ini, ConfigKeys::Ds3Support_Section, ConfigKeys::Ds3Support_Setting, PressureInputs::bEnabled);
     LOG_CONFIG(ConfigKeys::Ds3Support_Section, ConfigKeys::Ds3Support_Setting, PressureInputs::bEnabled);
 
-    ConfigHelper::getValue(ini, ConfigKeys::SaveFileReadOnlyWarning_Section, ConfigKeys::SaveFileReadOnlyWarning_Setting, CheckGamesaveFolderWritable::bCheckSaveFilesReadOnly);
-    LOG_CONFIG(ConfigKeys::SaveFileReadOnlyWarning_Section, ConfigKeys::SaveFileReadOnlyWarning_Setting, CheckGamesaveFolderWritable::bCheckSaveFilesReadOnly);
-
     /*
 
     ConfigHelper::getValue(ini, ConfigKeys::ColorCorrection_Enabled_Section, ConfigKeys::ColorCorrection_Enabled_Setting, ColorCorrection::bEnabled);
@@ -271,13 +288,19 @@ void Config::Read()
     ConfigHelper::getValue(ini, ConfigKeys::ForceDynamicResolutionOff_Section, ConfigKeys::ForceDynamicResolutionOff_Setting, GraphicsTuning::bDisableDynamicResolution);
     LOG_CONFIG(ConfigKeys::ForceDynamicResolutionOff_Section, ConfigKeys::ForceDynamicResolutionOff_Setting, GraphicsTuning::bDisableDynamicResolution);
 
+    ConfigHelper::getValue(ini, ConfigKeys::SkipSplashscreens_Section, ConfigKeys::SkipSplashscreens_Setting, SkipSplashscreens::bSkipSplashscreens);
+    LOG_CONFIG(ConfigKeys::SkipSplashscreens_Section, ConfigKeys::SkipSplashscreens_Setting, SkipSplashscreens::bSkipSplashscreens);
+  
     ConfigHelper::getValue(ini, ConfigKeys::DisableMotionBlur_Section, ConfigKeys::DisableMotionBlur_Setting, GraphicsTuning::bDisableMotionBlur);
     LOG_CONFIG(ConfigKeys::DisableMotionBlur_Section, ConfigKeys::DisableMotionBlur_Setting, GraphicsTuning::bDisableMotionBlur);
 
 
     {
+        const bool isMGS4Launcher = (game->ExeName == kGames.at(MGS4).ExeName);
+        const char* launcherSkipSetting = isMGS4Launcher ? ConfigKeys::LauncherSkip_Setting : ConfigKeys::LauncherSkip_Setting_PW;
+
         std::string sLauncherSkip;
-        ConfigHelper::getValue(ini, ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting, sLauncherSkip);
+        ConfigHelper::getValue(ini, ConfigKeys::LauncherSkip_Section, launcherSkipSetting, sLauncherSkip);
 
         if (sLauncherSkip == ConfigKeys::LauncherSkip_Option_Disabled)
         {
@@ -289,13 +312,13 @@ void Config::Read()
         }
         else if (sLauncherSkip == ConfigKeys::LauncherSkip_Option_DatabaseStart)
         {
-            if (eGameType & MGS4)
+            if (isMGS4Launcher)
             {
                 LauncherSkipsAndStarts::eJumpMode = LauncherSkipsAndStarts::JumpMode::DatabaseStart;
             }
             else
             {
-                spdlog::warn("Config Parse: Skip Launcher Splashscreens set to Database Start, but that's only available for Metal Gear Solid 4. Falling back to Game Start.");
+                spdlog::warn("Config Parse: Skip Launcher Splashscreens set to Main Menu, but that's only available for Metal Gear Solid 4. Falling back to Game Start.");
                 LauncherSkipsAndStarts::eJumpMode = LauncherSkipsAndStarts::JumpMode::GameStart;
             }
         }
@@ -307,7 +330,27 @@ void Config::Read()
             return FreeLibraryAndExitThread(baseModule, 1);
         }
 
-        LOG_CONFIG(ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting, sLauncherSkip);
+        LOG_CONFIG(ConfigKeys::LauncherSkip_Section, launcherSkipSetting, sLauncherSkip);
+    }
+
+    ConfigHelper::getValue(ini, ConfigKeys::SkipLauncher_Section, ConfigKeys::SkipLauncher_Setting, LauncherSkipsAndStarts::bSkipLauncher);
+    LOG_CONFIG(ConfigKeys::SkipLauncher_Section, ConfigKeys::SkipLauncher_Setting, LauncherSkipsAndStarts::bSkipLauncher);
+
+    ConfigHelper::getValue(ini, ConfigKeys::Region_Section, ConfigKeys::Region_Setting, LauncherSkipsAndStarts::sRegion);
+    ConfigHelper::getValue(ini, ConfigKeys::Language_Section, ConfigKeys::Language_Setting, LauncherSkipsAndStarts::sLanguage);
+    ValidateLauncherRegionOptions();
+    LOG_CONFIG(ConfigKeys::Region_Section, ConfigKeys::Region_Setting, sReadableRegionName);
+    LOG_CONFIG(ConfigKeys::Language_Section, ConfigKeys::Language_Setting, sReadableLanguageName);
+
+    {
+        const bool isMGS4Launcher = (game->ExeName == kGames.at(MGS4).ExeName);
+        const auto& ctrlTypes = isMGS4Launcher ? kMGS4LauncherConfigCtrlTypes : kMGSPWLauncherConfigCtrlTypes;
+        const char* ctrlTypeSetting = isMGS4Launcher ? ConfigKeys::CtrlType_Setting : ConfigKeys::CtrlType_Setting_PW;
+
+        std::string sLauncherConfigCtrlType = *ctrlTypes.begin();
+        ConfigHelper::getValue(ini, ConfigKeys::CtrlType_Section, ctrlTypeSetting, sLauncherConfigCtrlType);
+        LauncherSkipsAndStarts::iCtrlType = Util::findStringInVector(sLauncherConfigCtrlType, ctrlTypes);
+        LOG_CONFIG(ConfigKeys::CtrlType_Section, ctrlTypeSetting, sLauncherConfigCtrlType);
     }
 
 

@@ -42,8 +42,8 @@ namespace ConfigKeys
     constexpr const char* DisableMotionBlur_Tooltip = "Disables the game's motion blur post-processing effect.";
 
     constexpr const char* Ds3Support_Section = "Controller Settings";
-    constexpr const char* Ds3Support_Setting = "Enable DS3 Support";
-    constexpr const char* Ds3Support_Help = "";
+    constexpr const char* Ds3Support_Setting = "Enable DualShock 3 Support";
+    constexpr const char* Ds3Support_Help = "(Pressure Sensitive Buttons)";
     constexpr const char* Ds3Support_Tooltip = "Restores pressure controls, rumble and shake for Dualshock 3 controllers.\n"
                                                "\n"
                                                "Any pressure supporting button bound will use analog values.";
@@ -58,18 +58,40 @@ namespace ConfigKeys
     constexpr const char* Region_Help = "";
     constexpr const char* Region_Tooltip = "Selects game region.";
 
+    constexpr const char* CtrlType_Section = "Controller Settings";
+    constexpr const char* CtrlType_Setting = "Button Icons";
+    constexpr const char* CtrlType_Help = "";
+    constexpr const char* CtrlType_Tooltip = "Selects which controller button icons to display in-game.";
 
-    constexpr const char* LauncherSkip_Section = "Launcher";
+    constexpr const char* CtrlType_Setting_PW = "Button Icons (PW)";
+
+
+    constexpr const char* LauncherSkip_Section = "Launcher and Splashscreens";
     constexpr const char* LauncherSkip_Setting = "Skip Launcher Splashscreens";
     constexpr const char* LauncherSkip_Help = "";
     constexpr const char* LauncherSkip_Tooltip = "Automatically skips the launcher's splashscreens.\n"
                                                   "\n"
                                                   "Game Start = the Game Start menu\n"
                                                   "\n"
-                                                  "(MGS4 ONLY) Main Menu = the main menu w/ cursor on the MGS4 DB option.";
+                                                  "Main Menu = the main menu w/ cursor on the MGS4 DB option.";
     constexpr const char* LauncherSkip_Option_Disabled = "Disabled";
     constexpr const char* LauncherSkip_Option_GameStart = "Game Start";
     constexpr const char* LauncherSkip_Option_DatabaseStart = "Main Menu";
+
+    constexpr const char* LauncherSkip_Setting_PW = "Skip Launcher Splashscreens (PW)";
+    constexpr const char* LauncherSkip_Tooltip_PW = "Automatically skips the launcher's splashscreens.\n"
+                                                     "\n"
+                                                     "Game Start = the Game Start menu.";
+
+    constexpr const char* SkipLauncher_Section = LauncherSkip_Section;
+    constexpr const char* SkipLauncher_Setting = "Skip Launcher";
+    constexpr const char* SkipLauncher_Help = "";
+    constexpr const char* SkipLauncher_Tooltip = "Skips the launcher app and runs the game directly.";
+
+    constexpr const char* SkipSplashscreens_Section = LauncherSkip_Section;
+    constexpr const char* SkipSplashscreens_Setting = "Skip In-Game Splashscreens";
+    constexpr const char* SkipSplashscreens_Help = "";
+    constexpr const char* SkipSplashscreens_Tooltip = "Skips the game's startup splashscreens and jumps straight to the main menu.";
 
 
     //constexpr const char* DisableMouseCursor_Section = "Bugfixes";
@@ -106,24 +128,13 @@ namespace ConfigKeys
                                                                "Notifications will still be printed to the log file while disabled.";
 
 
-    constexpr const char* WindowsSlideshowWarning_Section = "Enable Game Warnings";
-    constexpr const char* WindowsSlideshowWarning_Setting = "Warn When Windows Slideshow Enabled";
-    constexpr const char* WindowsSlideshowWarning_Help = "";
-    constexpr const char* WindowsSlideshowWarning_Tooltip = "Having Windows wallpaper set to Slideshow / Window Spotlight mode is known to cause stuttering while in DirectX games.\n"
-                                                            "\n"
-                                                            "This will provide a warning when the Windows setting is enabled.";
-
-    constexpr const char* SaveFileReadOnlyWarning_Section = "Enable Game Warnings";
-    constexpr const char* SaveFileReadOnlyWarning_Setting = "Warn When Save Files Are Read-Only";
-    constexpr const char* SaveFileReadOnlyWarning_Help = "";
-    constexpr const char* SaveFileReadOnlyWarning_Tooltip = "Warn the user when individual save files are set to read only, which breaks the game's ability to save.";
-
     constexpr const char* VerboseLogging_Section = "Debugging";
     constexpr const char* VerboseLogging_Setting = "Debug Logging";
     constexpr const char* VerboseLogging_Help = "";
     constexpr const char* VerboseLogging_Tooltip = "Enables verbose logging for debugging purposes.";
 
     constexpr const char* ControllerType_Auto = "AUTO";
+    constexpr const char* ControllerType_Keyboard = "Keyboard";
     constexpr const char* ControllerType_XboxOne = "Xbox";
     constexpr const char* ControllerType_PS4 = "PlayStation 4";
     constexpr const char* ControllerType_PS5 = "PlayStation 5";
@@ -133,17 +144,32 @@ namespace ConfigKeys
 
 
 
-inline const std::initializer_list<std::string> kLauncherConfigCtrlTypes = { //THESE ARE ORDER SENSITIVE.
-    ConfigKeys::ControllerType_Auto, //0
-    ConfigKeys::ControllerType_XboxOne,         //1
-    ConfigKeys::ControllerType_PS4,             //2
-    ConfigKeys::ControllerType_PS5,          //3
-    ConfigKeys::ControllerType_NintendoSwitch,  //4
-
+inline const std::initializer_list<std::string> kMGS4LauncherConfigCtrlTypes = {
+    ConfigKeys::ControllerType_Auto,
+    ConfigKeys::ControllerType_XboxOne,
+    ConfigKeys::ControllerType_PS4,
+    ConfigKeys::ControllerType_PS5,
+    ConfigKeys::ControllerType_NintendoSwitch,
 };
 
-inline const std::initializer_list<std::string> kLauncherConfigCtrlTypesInternal = { // !!! KEEP IN SYNC WITH THE LIST ABOVE !!!
+inline const std::initializer_list<std::string> kMGS4LauncherConfigCtrlTypesInternal = {
     "AUTO",
+    "XBOX",
+    "PS4",
+    "PS5",
+    "NX"
+};
+
+inline const std::initializer_list<std::string> kMGSPWLauncherConfigCtrlTypes = {
+    ConfigKeys::ControllerType_Keyboard,
+    ConfigKeys::ControllerType_XboxOne,
+    ConfigKeys::ControllerType_PS4,
+    ConfigKeys::ControllerType_PS5,
+    ConfigKeys::ControllerType_NintendoSwitch,
+};
+
+inline const std::initializer_list<std::string> kMGSPWLauncherConfigCtrlTypesInternal = {
+    "KBD",
     "XBOX",
     "PS4",
     "PS5",

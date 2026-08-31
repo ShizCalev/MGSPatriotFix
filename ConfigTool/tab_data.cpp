@@ -43,13 +43,40 @@ const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
         { (MGS4|MGSPW), ConfigKeys::DisableFullscreenOptimization_Section, ConfigKeys::DisableFullscreenOptimization_Setting, ConfigKeys::DisableFullscreenOptimization_Help, ConfigKeys::DisableFullscreenOptimization_Tooltip,
           std::nullopt, false, Field::Bool, false },
 
-        { (MGS4|MGSPW), ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting, ConfigKeys::LauncherSkip_Help, ConfigKeys::LauncherSkip_Tooltip,
-          std::nullopt, false, Field::Choice, 0, 0, 0, ConfigKeys::LauncherSkip_Option_Disabled,
-          {ConfigKeys::LauncherSkip_Option_Disabled, ConfigKeys::LauncherSkip_Option_GameStart, ConfigKeys::LauncherSkip_Option_DatabaseStart} },
-
-        { (MGS4), ConfigKeys::Ds3Support_Section, ConfigKeys::Ds3Support_Setting, ConfigKeys::Ds3Support_Help, ConfigKeys::Ds3Support_Tooltip,
+        { (MGS4 | MGSPW), ConfigKeys::SkipLauncher_Section, ConfigKeys::SkipLauncher_Setting, ConfigKeys::SkipLauncher_Help, ConfigKeys::SkipLauncher_Tooltip,
           std::nullopt, false, Field::Bool, false },
 
+
+        { (MGS4), ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting, ConfigKeys::LauncherSkip_Help, ConfigKeys::LauncherSkip_Tooltip,
+          std::make_pair(ConfigKeys::SkipLauncher_Section, ConfigKeys::SkipLauncher_Setting), true, Field::Choice, 0, 0, 0, ConfigKeys::LauncherSkip_Option_Disabled,
+          {ConfigKeys::LauncherSkip_Option_Disabled, ConfigKeys::LauncherSkip_Option_GameStart, ConfigKeys::LauncherSkip_Option_DatabaseStart} },
+
+        { (MGSPW), ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting_PW, ConfigKeys::LauncherSkip_Help, ConfigKeys::LauncherSkip_Tooltip_PW,
+          std::make_pair(ConfigKeys::SkipLauncher_Section, ConfigKeys::SkipLauncher_Setting), true, Field::Choice, 0, 0, 0, ConfigKeys::LauncherSkip_Option_Disabled,
+          {ConfigKeys::LauncherSkip_Option_Disabled, ConfigKeys::LauncherSkip_Option_GameStart} },
+
+
+        { (MGS4), ConfigKeys::SkipSplashscreens_Section, ConfigKeys::SkipSplashscreens_Setting, ConfigKeys::SkipSplashscreens_Help, ConfigKeys::SkipSplashscreens_Tooltip,
+          std::nullopt, false, Field::Bool, false },
+
+        { (MGS4|MGSPW), ConfigKeys::Region_Section, ConfigKeys::Region_Setting, ConfigKeys::Region_Help, ConfigKeys::Region_Tooltip,
+          std::nullopt, false, Field::Choice, 0, 0, 0, "", {} },
+
+        { (MGS4|MGSPW), ConfigKeys::Language_Section, ConfigKeys::Language_Setting, ConfigKeys::Language_Help, ConfigKeys::Language_Tooltip,
+          std::nullopt, false, Field::Choice, 0, 0, 0, "", {} },
+
+        { (MGS4), ConfigKeys::CtrlType_Section, ConfigKeys::CtrlType_Setting, ConfigKeys::CtrlType_Help, ConfigKeys::CtrlType_Tooltip,
+          std::nullopt, false, Field::Choice, 0, 0, 0, *kMGS4LauncherConfigCtrlTypes.begin(),
+          { std::begin(kMGS4LauncherConfigCtrlTypes), std::end(kMGS4LauncherConfigCtrlTypes) } },
+
+        { (MGSPW), ConfigKeys::CtrlType_Section, ConfigKeys::CtrlType_Setting_PW, ConfigKeys::CtrlType_Help, ConfigKeys::CtrlType_Tooltip,
+          std::nullopt, false, Field::Choice, 0, 0, 0, *kMGSPWLauncherConfigCtrlTypes.begin(),
+          { std::begin(kMGSPWLauncherConfigCtrlTypes), std::end(kMGSPWLauncherConfigCtrlTypes) } },
+
+
+
+      { (MGS4), ConfigKeys::Ds3Support_Section, ConfigKeys::Ds3Support_Setting, ConfigKeys::Ds3Support_Help, ConfigKeys::Ds3Support_Tooltip,
+          std::nullopt, false, Field::Bool, false },
 
     }},
     { wxString("MGSPatriotFix / Internal"), {
@@ -59,11 +86,6 @@ const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
         { (MGS4|MGSPW), ConfigKeys::UpdateConsoleNotifications_Section, ConfigKeys::UpdateConsoleNotifications_Setting, ConfigKeys::UpdateConsoleNotifications_Help, ConfigKeys::UpdateConsoleNotifications_Tooltip,
           std::make_pair(ConfigKeys::CheckForUpdates_Section, ConfigKeys::CheckForUpdates_Setting), false, Field::Bool, true},
 
-        { (MGS4|MGSPW), ConfigKeys::WindowsSlideshowWarning_Section, ConfigKeys::WindowsSlideshowWarning_Setting, ConfigKeys::WindowsSlideshowWarning_Help, ConfigKeys::WindowsSlideshowWarning_Tooltip,
-          std::nullopt, false, Field::Bool, true },
-
-        { (MGS4|MGSPW), ConfigKeys::SaveFileReadOnlyWarning_Section, ConfigKeys::SaveFileReadOnlyWarning_Setting, ConfigKeys::SaveFileReadOnlyWarning_Help, ConfigKeys::SaveFileReadOnlyWarning_Tooltip,
-          std::nullopt, false, Field::Bool, true },
 
         { (MGS4|MGSPW), ConfigKeys::VerboseLogging_Section, ConfigKeys::VerboseLogging_Setting, ConfigKeys::VerboseLogging_Help, ConfigKeys::VerboseLogging_Tooltip,
           std::nullopt, false, Field::Bool, false },
