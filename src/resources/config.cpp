@@ -301,8 +301,11 @@ void Config::Read()
 
 
     {
+        const bool isMGS4Launcher = (game->ExeName == kGames.at(MGS4).ExeName);
+        const char* launcherSkipSetting = isMGS4Launcher ? ConfigKeys::LauncherSkip_Setting : ConfigKeys::LauncherSkip_Setting_PW;
+
         std::string sLauncherSkip;
-        ConfigHelper::getValue(ini, ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting, sLauncherSkip);
+        ConfigHelper::getValue(ini, ConfigKeys::LauncherSkip_Section, launcherSkipSetting, sLauncherSkip);
 
         if (sLauncherSkip == ConfigKeys::LauncherSkip_Option_Disabled)
         {
@@ -314,13 +317,13 @@ void Config::Read()
         }
         else if (sLauncherSkip == ConfigKeys::LauncherSkip_Option_DatabaseStart)
         {
-            if (eGameType & MGS4)
+            if (isMGS4Launcher)
             {
                 LauncherSkipsAndStarts::eJumpMode = LauncherSkipsAndStarts::JumpMode::DatabaseStart;
             }
             else
             {
-                spdlog::warn("Config Parse: Skip Launcher Splashscreens set to Database Start, but that's only available for Metal Gear Solid 4. Falling back to Game Start.");
+                spdlog::warn("Config Parse: Skip Launcher Splashscreens set to Main Menu, but that's only available for Metal Gear Solid 4. Falling back to Game Start.");
                 LauncherSkipsAndStarts::eJumpMode = LauncherSkipsAndStarts::JumpMode::GameStart;
             }
         }
@@ -332,7 +335,7 @@ void Config::Read()
             return FreeLibraryAndExitThread(baseModule, 1);
         }
 
-        LOG_CONFIG(ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting, sLauncherSkip);
+        LOG_CONFIG(ConfigKeys::LauncherSkip_Section, launcherSkipSetting, sLauncherSkip);
     }
 
     ConfigHelper::getValue(ini, ConfigKeys::SkipLauncher_Section, ConfigKeys::SkipLauncher_Setting, LauncherSkipsAndStarts::bSkipLauncher);

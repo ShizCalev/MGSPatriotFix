@@ -68,10 +68,15 @@ namespace ConfigKeys
                                                   "\n"
                                                   "Game Start = the Game Start menu\n"
                                                   "\n"
-                                                  "(MGS4 ONLY) Main Menu = the main menu w/ cursor on the MGS4 DB option.";
+                                                  "Main Menu = the main menu w/ cursor on the MGS4 DB option.";
     constexpr const char* LauncherSkip_Option_Disabled = "Disabled";
     constexpr const char* LauncherSkip_Option_GameStart = "Game Start";
     constexpr const char* LauncherSkip_Option_DatabaseStart = "Main Menu";
+
+    constexpr const char* LauncherSkip_Setting_PW = "Skip Launcher Splashscreens (PW)";
+    constexpr const char* LauncherSkip_Tooltip_PW = "Automatically skips the launcher's splashscreens.\n"
+                                                     "\n"
+                                                     "Game Start = the Game Start menu.";
 
     constexpr const char* SkipLauncher_Section = LauncherSkip_Section;
     constexpr const char* SkipLauncher_Setting = "Skip Launcher";

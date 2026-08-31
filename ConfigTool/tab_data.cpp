@@ -44,9 +44,13 @@ const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
           std::nullopt, false, Field::Bool, false },
 
 
-        { (MGS4|MGSPW), ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting, ConfigKeys::LauncherSkip_Help, ConfigKeys::LauncherSkip_Tooltip,
+        { (MGS4), ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting, ConfigKeys::LauncherSkip_Help, ConfigKeys::LauncherSkip_Tooltip,
           std::make_pair(ConfigKeys::SkipLauncher_Section, ConfigKeys::SkipLauncher_Setting), true, Field::Choice, 0, 0, 0, ConfigKeys::LauncherSkip_Option_Disabled,
           {ConfigKeys::LauncherSkip_Option_Disabled, ConfigKeys::LauncherSkip_Option_GameStart, ConfigKeys::LauncherSkip_Option_DatabaseStart} },
+
+        { (MGSPW), ConfigKeys::LauncherSkip_Section, ConfigKeys::LauncherSkip_Setting_PW, ConfigKeys::LauncherSkip_Help, ConfigKeys::LauncherSkip_Tooltip_PW,
+          std::make_pair(ConfigKeys::SkipLauncher_Section, ConfigKeys::SkipLauncher_Setting), true, Field::Choice, 0, 0, 0, ConfigKeys::LauncherSkip_Option_Disabled,
+          {ConfigKeys::LauncherSkip_Option_Disabled, ConfigKeys::LauncherSkip_Option_GameStart} },
 
 
         { (MGS4), ConfigKeys::SkipSplashscreens_Section, ConfigKeys::SkipSplashscreens_Setting, ConfigKeys::SkipSplashscreens_Help, ConfigKeys::SkipSplashscreens_Tooltip,
