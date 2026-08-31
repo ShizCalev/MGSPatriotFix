@@ -36,6 +36,11 @@ namespace ConfigKeys
                                                               "\n"
                                                               "Enabling this forces it to always render at full resolution instead.";
 
+    constexpr const char* DisableMotionBlur_Section = "Enhancements && Tweaks";
+    constexpr const char* DisableMotionBlur_Setting = "Disable Motion Blur";
+    constexpr const char* DisableMotionBlur_Help = "";
+    constexpr const char* DisableMotionBlur_Tooltip = "Disables the game's motion blur post-processing effect.";
+
     constexpr const char* Ds3Support_Section = "Controller Settings";
     constexpr const char* Ds3Support_Setting = "Enable DS3 Support";
     constexpr const char* Ds3Support_Help = "";
