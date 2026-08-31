@@ -9,7 +9,6 @@
   <ItemGroup>
     <ClCompile Include="src\features\launcher_skips_and_starts.cpp" />
     <ClCompile Include="src\features\skip_splashscreens.cpp" />
-    <ClCompile Include="src\resources\d3d11_text_overlay.cpp" />
     <ClCompile Include="src\resources\game_funcs.cpp" />
     <ClCompile Include="src\fixes\resolution_scaling_fixes.cpp" />
     <ClCompile Include="src\fixes\graphics_tuning.cpp" />
@@ -17,7 +16,6 @@
     <ClCompile Include="src\fixes\ds3_rumble.cpp" />
     <ClCompile Include="src\fixes\pad_motion.cpp" />
     <ClCompile Include="src\warnings\background_shuffle_warning.cpp" />
-    <ClCompile Include="src\resources\input_handler.cpp" />
     <ClCompile Include="src\resources\config.cpp" />
     <ClCompile Include="external\safetyhook\src\allocator.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -53,11 +51,9 @@
     <ClCompile Include="src\warnings\check_gamesave_folder.cpp" />
     <ClCompile Include="src\warnings\asi_loader_checks.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
-    <ClCompile Include="src\resources\d3d11_api.cpp" />
     <ClCompile Include="src\resources\gamevars.cpp" />
     <ClCompile Include="src\resources\helper.cpp" />
     <ClCompile Include="src\resources\unit_tests.cpp" />
-    <ClCompile Include="src\warnings\windows_multiplane_overlay_warning.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\features\launcher_skips_and_starts.hpp" />
@@ -67,7 +63,6 @@
     <ClInclude Include="src\fixes\pressure_inputs.hpp" />
     <ClInclude Include="src\fixes\ds3_rumble.hpp" />
     <ClInclude Include="src\fixes\pad_motion.hpp" />
-    <ClInclude Include="src\resources\d3d11_text_overlay.hpp" />
     <ClInclude Include="src\resources\game_defines.hpp" />
     <ClInclude Include="src\resources\game_funcs.hpp" />
     <ClInclude Include="src\resources\game_stages.hpp" />
@@ -78,7 +73,6 @@
     <ClInclude Include="src\resources\config.hpp" />
     <ClInclude Include="external\safetyhook\include\safetyhook.hpp" />
     <ClInclude Include="src\resources\gpu_check.hpp" />
-    <ClInclude Include="src\resources\input_handler.hpp" />
     <ClInclude Include="src\resources\logging.hpp" />
     <ClInclude Include="src\resources\RegStateHelpers.hpp" />
     <ClInclude Include="src\resources\version_checking.hpp" />
@@ -87,11 +81,9 @@
     <ClInclude Include="src\warnings\asi_loader_checks.hpp" />
     <ClInclude Include="src\resources\gamevars.hpp" />
     <ClInclude Include="src\resources\common.hpp" />
-    <ClInclude Include="src\resources\d3d11_api.hpp" />
     <ClInclude Include="src\resources\helper.hpp" />
     <ClInclude Include="src\resources\stdafx.h" />
     <ClInclude Include="src\resources\unit_tests.hpp" />
-    <ClInclude Include="src\warnings\windows_multiplane_overlay_warning.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MGSPatriotFix.ini" />
@@ -129,7 +121,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>.asi</TargetExt>
-    <ExternalIncludePath>external\smaa;external\SteamworksSDK\public\steam;external\stb;external\inipp;external\spdlog\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);external\zydis\include;external\zydis\dependencies\zycore\include;external\safetyhook\include</ExternalIncludePath>
+    <ExternalIncludePath>external\inipp;external\spdlog\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);external\zydis\include;external\zydis\dependencies\zycore\include;external\safetyhook\include</ExternalIncludePath>
     <IntDir>Intermediate\$(ProjectName)\$(Platform)\Release\</IntDir>
     <CustomBuildAfterTargets />
     <OutDir>$(SolutionDir)$(Platform)\Release\</OutDir>
@@ -158,7 +150,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>external\SteamworksSDK\redistributable_bin\win64;%(AdditionalLibraryDirectories);$(SolutionDir)external\zydis\msvc\bin\ReleaseX64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(SolutionDir)external\zydis\msvc\bin\ReleaseX64</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);Zydis.lib</AdditionalDependencies>
       <ProgramDatabaseFile>$(OutDir)\pdb\$(TargetName).pdb</ProgramDatabaseFile>
       <ImportLibrary />

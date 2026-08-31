@@ -28,9 +28,7 @@
 #include "asi_loader_checks.hpp"
 
 #include "background_shuffle_warning.hpp"
-#include "check_gamesave_folder.hpp"
-#include "d3d11_text_overlay.hpp"
-//#include "color_correction.hpp"
+//#include "d3d11_text_overlay.hpp"
 
 
 
@@ -212,7 +210,7 @@ void afterPresent()
     spdlog::info("afterPresent() started");
 
 
-    D3D11TextOverlay::Init();
+    //D3D11TextOverlay::Init();
     spdlog::info("afterPresent() completed");
 }
 

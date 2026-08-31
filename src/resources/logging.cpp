@@ -9,7 +9,6 @@
 //#include "steamworks_api.hpp"
 #include "version.h"
 #include "version_checking.hpp"
-#include "windows_multiplane_overlay_warning.hpp"
 
 
 // Spdlog sink (truncate on startup, single file)
@@ -382,11 +381,6 @@ void Logging::LogSysInfo()
                 spdlog::warn("SYSTEM WARNING: Performance issues, controller connection problems, or crashes may occur.");
                 spdlog::warn("SYSTEM WARNING: Please fully run Windows Updates for the best experience.");
                 spdlog::warn("-------------------    SYSTEM WARNING     ----------------------");
-            }
-
-            if (isWindows11)
-            {
-                Win11AltTabPerformanceWarning::Check();
             }
         }
     }

@@ -8,7 +8,6 @@
 
 #include "mgspw_linkvarbuf.hpp"
 #include "mgs4_linkvarbuf.hpp"
-#include "input_handler.hpp"
 /*
 #if defined(RELEASE_BUILD)
 #define RELEASE_CLEARED

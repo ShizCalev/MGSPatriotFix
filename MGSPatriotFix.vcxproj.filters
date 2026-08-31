@@ -47,9 +47,6 @@
     <ClCompile Include="src\resources\config.cpp">
       <Filter>Config</Filter>
     </ClCompile>
-    <ClCompile Include="src\resources\input_handler.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
     <ClCompile Include="src\resources\unit_tests.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
@@ -73,15 +70,6 @@
     </ClCompile>
     <ClCompile Include="src\fixes\pad_motion.cpp">
       <Filter>Fixes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\warnings\windows_multiplane_overlay_warning.cpp">
-      <Filter>Warnings</Filter>
-    </ClCompile>
-    <ClCompile Include="src\resources\d3d11_api.cpp">
-      <Filter>APIs\WIP</Filter>
-    </ClCompile>
-    <ClCompile Include="src\resources\d3d11_text_overlay.cpp">
-      <Filter>APIs\WIP</Filter>
     </ClCompile>
     <ClCompile Include="src\resources\game_funcs.cpp">
       <Filter>APIs\WIP</Filter>
@@ -133,9 +121,6 @@
     <ClInclude Include="src\resources\config.hpp">
       <Filter>Config</Filter>
     </ClInclude>
-    <ClInclude Include="src\resources\input_handler.hpp">
-      <Filter>Utility\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="src\resources\config_keys.hpp">
       <Filter>Config</Filter>
     </ClInclude>
@@ -148,16 +133,7 @@
     <ClInclude Include="src\warnings\background_shuffle_warning.hpp">
       <Filter>Warnings\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="src\warnings\windows_multiplane_overlay_warning.hpp">
-      <Filter>Warnings\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="src\resources\mgspw_linkvarbuf.hpp">
-      <Filter>APIs\WIP\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\resources\d3d11_api.hpp">
-      <Filter>APIs\WIP\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\resources\d3d11_text_overlay.hpp">
       <Filter>APIs\WIP\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\resources\game_defines.hpp">
