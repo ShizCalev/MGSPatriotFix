@@ -98,7 +98,7 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 > [!NOTE]
 **🚩 These steps are only needed if you’re on Steam Deck/Linux. Skip if you’re using Windows.**
 
- The pad works out of the box, but Steam needs to be told to prefer it.
+ The pad works out of the box without any additional software or drivers, but Steam needs to be told to prefer it.
 
  Step 1)
   - Open up the game properties of MGS4 in Steam and set the following line to the launch options:
