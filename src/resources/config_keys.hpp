@@ -128,18 +128,6 @@ namespace ConfigKeys
                                                                "Notifications will still be printed to the log file while disabled.";
 
 
-    constexpr const char* WindowsSlideshowWarning_Section = "Enable Game Warnings";
-    constexpr const char* WindowsSlideshowWarning_Setting = "Warn When Windows Slideshow Enabled";
-    constexpr const char* WindowsSlideshowWarning_Help = "";
-    constexpr const char* WindowsSlideshowWarning_Tooltip = "Having Windows wallpaper set to Slideshow / Window Spotlight mode is known to cause stuttering while in DirectX games.\n"
-                                                            "\n"
-                                                            "This will provide a warning when the Windows setting is enabled.";
-
-    constexpr const char* SaveFileReadOnlyWarning_Section = "Enable Game Warnings";
-    constexpr const char* SaveFileReadOnlyWarning_Setting = "Warn When Save Files Are Read-Only";
-    constexpr const char* SaveFileReadOnlyWarning_Help = "";
-    constexpr const char* SaveFileReadOnlyWarning_Tooltip = "Warn the user when individual save files are set to read only, which breaks the game's ability to save.";
-
     constexpr const char* VerboseLogging_Section = "Debugging";
     constexpr const char* VerboseLogging_Setting = "Debug Logging";
     constexpr const char* VerboseLogging_Help = "";

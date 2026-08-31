@@ -6,5 +6,5 @@ namespace GraphicsTuning
     inline bool bDisableDynamicResolution = false;
     inline bool bDisableMotionBlur = false;
 
-    void ApplyHooks();
+    void Apply();
 }

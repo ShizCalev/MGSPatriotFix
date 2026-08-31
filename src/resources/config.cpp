@@ -8,8 +8,6 @@
 
 //#include "input_handler.hpp"
 #include "logging.hpp"
-#include "background_shuffle_warning.hpp"
-#include "check_gamesave_folder.hpp"
 #include "version_checking.hpp"
 #include "config_keys.hpp"
 //#include "d3d11_text_overlay.hpp"
@@ -220,9 +218,6 @@ void Config::Read()
     LOG_CONFIG(ConfigKeys::VerboseLogging_Section, ConfigKeys::VerboseLogging_Setting, g_Logging.bVerboseLogging);
 
 
-    ConfigHelper::getValue(ini, ConfigKeys::WindowsSlideshowWarning_Section, ConfigKeys::WindowsSlideshowWarning_Setting, BackgroundShuffleWarning::bEnabled);
-    LOG_CONFIG(ConfigKeys::WindowsSlideshowWarning_Section, ConfigKeys::WindowsSlideshowWarning_Setting, BackgroundShuffleWarning::bEnabled);
-
     ConfigHelper::getValue(ini, ConfigKeys::CheckForUpdates_Section, ConfigKeys::CheckForUpdates_Setting, bShouldCheckForUpdates);
     ConfigHelper::getValue(ini, ConfigKeys::UpdateConsoleNotifications_Section, ConfigKeys::UpdateConsoleNotifications_Setting, bConsoleUpdateNotifications);
     LOG_CONFIG(ConfigKeys::CheckForUpdates_Section, ConfigKeys::CheckForUpdates_Setting, bShouldCheckForUpdates);
@@ -270,9 +265,6 @@ void Config::Read()
 
     ConfigHelper::getValue(ini, ConfigKeys::Ds3Support_Section, ConfigKeys::Ds3Support_Setting, PressureInputs::bEnabled);
     LOG_CONFIG(ConfigKeys::Ds3Support_Section, ConfigKeys::Ds3Support_Setting, PressureInputs::bEnabled);
-
-    ConfigHelper::getValue(ini, ConfigKeys::SaveFileReadOnlyWarning_Section, ConfigKeys::SaveFileReadOnlyWarning_Setting, CheckGamesaveFolderWritable::bCheckSaveFilesReadOnly);
-    LOG_CONFIG(ConfigKeys::SaveFileReadOnlyWarning_Section, ConfigKeys::SaveFileReadOnlyWarning_Setting, CheckGamesaveFolderWritable::bCheckSaveFilesReadOnly);
 
     /*
 

@@ -15,7 +15,6 @@
     <ClCompile Include="src\fixes\pressure_inputs.cpp" />
     <ClCompile Include="src\fixes\ds3_rumble.cpp" />
     <ClCompile Include="src\fixes\pad_motion.cpp" />
-    <ClCompile Include="src\warnings\background_shuffle_warning.cpp" />
     <ClCompile Include="src\resources\config.cpp" />
     <ClCompile Include="external\safetyhook\src\allocator.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -48,7 +47,6 @@
     </ClCompile>
     <ClCompile Include="src\resources\submodule_initiailization.hpp" />
     <ClCompile Include="src\resources\version_checking.cpp" />
-    <ClCompile Include="src\warnings\check_gamesave_folder.cpp" />
     <ClCompile Include="src\warnings\asi_loader_checks.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\resources\gamevars.cpp" />
@@ -68,7 +66,6 @@
     <ClInclude Include="src\resources\game_stages.hpp" />
     <ClInclude Include="src\resources\mgs4_linkvarbuf.hpp" />
     <ClInclude Include="src\resources\mgspw_linkvarbuf.hpp" />
-    <ClInclude Include="src\warnings\background_shuffle_warning.hpp" />
     <ClInclude Include="src\resources\config_keys.hpp" />
     <ClInclude Include="src\resources\config.hpp" />
     <ClInclude Include="external\safetyhook\include\safetyhook.hpp" />
@@ -77,7 +74,6 @@
     <ClInclude Include="src\resources\RegStateHelpers.hpp" />
     <ClInclude Include="src\resources\version_checking.hpp" />
     <ClInclude Include="src\resources\version.h" />
-    <ClInclude Include="src\warnings\check_gamesave_folder.hpp" />
     <ClInclude Include="src\warnings\asi_loader_checks.hpp" />
     <ClInclude Include="src\resources\gamevars.hpp" />
     <ClInclude Include="src\resources\common.hpp" />

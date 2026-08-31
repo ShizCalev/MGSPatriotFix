@@ -86,11 +86,6 @@ const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
         { (MGS4|MGSPW), ConfigKeys::UpdateConsoleNotifications_Section, ConfigKeys::UpdateConsoleNotifications_Setting, ConfigKeys::UpdateConsoleNotifications_Help, ConfigKeys::UpdateConsoleNotifications_Tooltip,
           std::make_pair(ConfigKeys::CheckForUpdates_Section, ConfigKeys::CheckForUpdates_Setting), false, Field::Bool, true},
 
-        { (MGS4|MGSPW), ConfigKeys::WindowsSlideshowWarning_Section, ConfigKeys::WindowsSlideshowWarning_Setting, ConfigKeys::WindowsSlideshowWarning_Help, ConfigKeys::WindowsSlideshowWarning_Tooltip,
-          std::nullopt, false, Field::Bool, true },
-
-        { (MGS4|MGSPW), ConfigKeys::SaveFileReadOnlyWarning_Section, ConfigKeys::SaveFileReadOnlyWarning_Setting, ConfigKeys::SaveFileReadOnlyWarning_Help, ConfigKeys::SaveFileReadOnlyWarning_Tooltip,
-          std::nullopt, false, Field::Bool, true },
 
         { (MGS4|MGSPW), ConfigKeys::VerboseLogging_Section, ConfigKeys::VerboseLogging_Setting, ConfigKeys::VerboseLogging_Help, ConfigKeys::VerboseLogging_Tooltip,
           std::nullopt, false, Field::Bool, false },

@@ -53,12 +53,6 @@
     <ClCompile Include="src\resources\stdafx.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
-    <ClCompile Include="src\warnings\background_shuffle_warning.cpp">
-      <Filter>Warnings</Filter>
-    </ClCompile>
-    <ClCompile Include="src\warnings\check_gamesave_folder.cpp">
-      <Filter>Warnings</Filter>
-    </ClCompile>
     <ClCompile Include="src\fixes\resolution_scaling_fixes.cpp">
       <Filter>Fixes</Filter>
     </ClCompile>
@@ -126,12 +120,6 @@
     </ClInclude>
     <ClInclude Include="src\resources\unit_tests.hpp">
       <Filter>Utility\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\warnings\check_gamesave_folder.hpp">
-      <Filter>Warnings\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\warnings\background_shuffle_warning.hpp">
-      <Filter>Warnings\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\resources\mgspw_linkvarbuf.hpp">
       <Filter>APIs\WIP\Headers</Filter>

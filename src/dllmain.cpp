@@ -5,8 +5,6 @@
 #include "logging.hpp"
 #include "submodule_initiailization.hpp"
 #include "config.hpp"
-#include "config_keys.hpp"
-#include "version.h"
 
 ///Resources
 
@@ -16,7 +14,6 @@
 //#include "custom_resolution_and_borderless.hpp"
 //#include "intro_skip.hpp"
 
-#include "resolution_scaling_fixes.hpp"
 #include "graphics_tuning.hpp"
 #include "launcher_skips_and_starts.hpp"
 #include "pressure_inputs.hpp"
@@ -27,7 +24,6 @@
 //Warnings
 #include "asi_loader_checks.hpp"
 
-#include "background_shuffle_warning.hpp"
 //#include "d3d11_text_overlay.hpp"
 
 
@@ -150,7 +146,7 @@ namespace
 
 
 
-        INITIALIZE(GraphicsTuning::ApplyHooks());
+        INITIALIZE(GraphicsTuning::Apply());
 
         if (eGameType & MGS4)
         {
@@ -173,8 +169,6 @@ namespace
 
 
             //Warnings
-        INITIALIZE(BackgroundShuffleWarning::Check());
-        //INITIALIZE(CheckGamesaveFolderWritable::CheckStatus());
 
 
         INITIALIZE(CheckForUpdates());
@@ -260,21 +254,6 @@ static void* __cdecl memset_Hook(void* Dst, int Val, size_t Size) // Our memset 
     return reinterpret_cast<decltype(memset_Fn)>(memset_Fn)(Dst, Val, Size);
 }
 
-static HANDLE hInitMutex = nullptr;
-
-static bool IsAlreadyInitialized()
-{
-    const std::wstring mutexName = std::format(L"Local\\{}_Init_{}", Util::UTF8toWide(sFixName), GetCurrentProcessId());
-
-    hInitMutex = CreateMutexW(nullptr, FALSE, mutexName.c_str());
-
-    if (!hInitMutex)
-    {
-        return false;
-    }
-
-    return GetLastError() == ERROR_ALREADY_EXISTS;
-}
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
@@ -284,10 +263,6 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
     }
     if (ul_reason_for_call == DLL_PROCESS_ATTACH)
     {
-        if (IsAlreadyInitialized())
-        {
-            return TRUE;
-        }
 
         DisableThreadLibraryCalls(hModule);
 
