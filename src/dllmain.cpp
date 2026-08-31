@@ -200,24 +200,6 @@ namespace
 }
 
 
-void afterPresent()
-{
-    static bool bInitialized = false;
-    if (bInitialized)
-    {
-        spdlog::warn("afterPresent() called multiple times, skipping initialization.");
-        return;
-    }
-    bInitialized = true;
-    spdlog::info("afterPresent() started");
-
-
-    //D3D11TextOverlay::Init();
-    spdlog::info("afterPresent() completed");
-}
-
-
-
 // Ultimate ASI Loader calls this right after DllMain returns
 extern "C" __declspec(dllexport) void InitializeASI()
 {
