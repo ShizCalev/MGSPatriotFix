@@ -41,11 +41,11 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 #### Shared Bugfixes:
 - Fixes the monitor going to sleep during long cutscenes (for Windows only, Linux needs to be [fixed by Valve](https://github.com/ValveSoftware/Proton/issues/8881).)
 
-#### MGS4 Specific Bugs:
+#### MGS4 Specific Bugfixes:
 - Fixes the MGS1 flashback sometimes defaulting to integrated graphics processors on systems with multiple GPUs.
 - Fixes performance issues with the MGS1 flashback on some hardware configurations. (Windows fullscreen optimization issue.)
 
-#### Peace Walker Specific Bugs:
+#### Peace Walker Specific Bugfixes:
 - Fixes Peace Walker sometimes defaulting to integrated graphics processors on systems with multiple GPUs.
 
 
@@ -151,7 +151,9 @@ Open MGSPatriotFix.sln in Visual Studio (2026) and build.
 
 <br />
 ## Credits
-[@ShizCalev/Afevis](https://github.com/shizcalev)<br />
+
+By [@ShizCalev/Afevis](https://github.com/shizcalev)<br />
+[@cipherxof](https://github.com/cipherxof), and [@gibletto](https://github.com/gibletto) for contributing more amazing fixes/features. <br />
 [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) for ASI loading. <br />
 [inipp](https://github.com/mcmtroffaes/inipp) for ini reading. <br />
 [spdlog](https://github.com/gabime/spdlog) for logging. <br />
