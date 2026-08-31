@@ -163,8 +163,8 @@ Open MGSPatriotFix.sln in Visual Studio (2026) and build.
 
 ## Credits
 
-Created and maintained by @ShizCalev/Afevis.<br />
-With more amazing feature & fix contributions by @cipherxof and @gibletto
+Created and maintained by [@ShizCalev/Afevis](https://github.com/shizcalev).<br />
+With more amazing feature & fix contributions by [@cipherxof](https://github.com/cipherxof) and [@gibletto](https://github.com/gibletto).
  <br />
 [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) for ASI loading. <br />
 [inipp](https://github.com/mcmtroffaes/inipp) for ini reading. <br />
