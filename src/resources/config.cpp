@@ -298,6 +298,9 @@ void Config::Read()
 
     ConfigHelper::getValue(ini, ConfigKeys::SkipSplashscreens_Section, ConfigKeys::SkipSplashscreens_Setting, SkipSplashscreens::bSkipSplashscreens);
     LOG_CONFIG(ConfigKeys::SkipSplashscreens_Section, ConfigKeys::SkipSplashscreens_Setting, SkipSplashscreens::bSkipSplashscreens);
+  
+    ConfigHelper::getValue(ini, ConfigKeys::DisableMotionBlur_Section, ConfigKeys::DisableMotionBlur_Setting, GraphicsTuning::bDisableMotionBlur);
+    LOG_CONFIG(ConfigKeys::DisableMotionBlur_Section, ConfigKeys::DisableMotionBlur_Setting, GraphicsTuning::bDisableMotionBlur);
 
 
     {
