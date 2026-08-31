@@ -4,6 +4,7 @@
 #include <string>
 #include <chrono>
 #include <filesystem>
+#define PRIMARY_REPO_URL "https://github.com/ShizCalev/MGSPatriotFix"
 
 class LatestVersionChecker
 {
