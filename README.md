@@ -150,6 +150,7 @@ wxWidgets, SDL3, and Zydis are built automatically as part of the Visual Studio 
 Open MGSPatriotFix.sln in Visual Studio (2026) and build.
 
 <br />
+
 ## Credits
 
 By [@ShizCalev/Afevis](https://github.com/shizcalev)<br />
