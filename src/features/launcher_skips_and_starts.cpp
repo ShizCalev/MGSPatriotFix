@@ -118,12 +118,29 @@ namespace
         }
 
         // game relaunched us (quit to launcher) -> wait for it to fully exit, then close
-        if (Util::IsProcessParent(game->ExeName))
+        // parent-process detection isn't reliable under Proton/Linux, so key off the game's own relaunch line instead
+        const std::filesystem::path gameDir = sGameRootPath / game->GameSubfolder;
+        const bool isMGS4Launcher = (game->ExeName == kGames.at(MGS4).ExeName);
+        const std::string commandLineArgs = Util::GetCommandLineArgs();
+
+        bool gameReturnedControl;
+        if (isMGS4Launcher)
+        {
+            // "<sGameRootPath>\<GameSubfolder>\../launcher/launcher.exe" -jump gamestart
+            const std::string expectedRelaunchLine = "\"" + (gameDir / "../launcher/launcher.exe").string() + "\" -jump gamestart";
+            gameReturnedControl = commandLineArgs.find(expectedRelaunchLine) != std::string::npos;
+        }
+        else
+        {
+            gameReturnedControl = commandLineArgs.find("-jump gamestart") != std::string::npos;
+        }
+
+        if (gameReturnedControl)
         {
             spdlog::info("LauncherSkipsAndStarts: Launcher was started by the game returning to main menu.");
             spdlog::info("LauncherSkipsAndStarts: Waiting for {} to exit before closing.", game->ExeName);
 
-            const std::filesystem::path gameExePath = sGameRootPath / game->GameSubfolder / game->ExeName;
+            const std::filesystem::path gameExePath = gameDir / game->ExeName;
             while (Util::IsProcessRunning(gameExePath))
             {
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -135,8 +152,7 @@ namespace
             ExitProcess(EXIT_SUCCESS);
         }
 
-        const std::filesystem::path gameExePath = sGameRootPath / game->GameSubfolder / game->ExeName;
-        const bool isMGS4Launcher = (game->ExeName == kGames.at(MGS4).ExeName);
+        const std::filesystem::path gameExePath = gameDir / game->ExeName;
 
         std::wstring extraArgs = L" -resolution 0";
         if (!isMGS4Launcher)
