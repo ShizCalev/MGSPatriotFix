@@ -9,7 +9,6 @@
   <ItemGroup>
     <ClCompile Include="src\features\launcher_skips_and_starts.cpp" />
     <ClCompile Include="src\features\skip_splashscreens.cpp" />
-    <ClCompile Include="src\resources\game_funcs.cpp" />
     <ClCompile Include="src\fixes\resolution_scaling_fixes.cpp" />
     <ClCompile Include="src\fixes\graphics_tuning.cpp" />
     <ClCompile Include="src\fixes\pressure_inputs.cpp" />
@@ -62,7 +61,6 @@
     <ClInclude Include="src\fixes\ds3_rumble.hpp" />
     <ClInclude Include="src\fixes\pad_motion.hpp" />
     <ClInclude Include="src\resources\game_defines.hpp" />
-    <ClInclude Include="src\resources\game_funcs.hpp" />
     <ClInclude Include="src\resources\game_stages.hpp" />
     <ClInclude Include="src\resources\mgs4_linkvarbuf.hpp" />
     <ClInclude Include="src\resources\mgspw_linkvarbuf.hpp" />

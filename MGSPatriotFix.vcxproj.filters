@@ -65,9 +65,6 @@
     <ClCompile Include="src\fixes\pad_motion.cpp">
       <Filter>Fixes</Filter>
     </ClCompile>
-    <ClCompile Include="src\resources\game_funcs.cpp">
-      <Filter>APIs\WIP</Filter>
-    </ClCompile>
     <ClCompile Include="src\resources\gamevars.cpp">
       <Filter>APIs\WIP</Filter>
     </ClCompile>
@@ -125,9 +122,6 @@
       <Filter>APIs\WIP\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\resources\game_defines.hpp">
-      <Filter>APIs\WIP\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\resources\game_funcs.hpp">
       <Filter>APIs\WIP\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\resources\game_stages.hpp">
