@@ -62,7 +62,7 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 ## Installation
 
 ### Steps:
-1. Grab the latest release of MGSPatriotFix from [here.](https://github.com/ShizCalev/MGSPatriotFix/releases)
+1. Grab the latest release of MGSPatriotFix from [here.](https://github.com/ShizCalev/MGSPatriotFix/releases/latest)
    - There are two separate zips per release, one per game:
      - `MGS4_MGSPatriotFix_<version>.zip` for Metal Gear Solid 4
      - `PW_MGSPatriotFix_<version>.zip` for Metal Gear Solid: Peace Walker
@@ -138,6 +138,18 @@ For more immediate problems, you can contact us in the [#PatriotFix](https://dis
 ### MGS Master Collection - Community Bug Tracker
 - A detailed tracker which catalogs all of the known Master Collection bugs (including issues fixed by MGSPatriotFix) can be located [here](https://docs.google.com/spreadsheets/d/1WhQSRpkC_A9wBDV0o-Pohh1dMhL1H6nbVzvdluIVWrw/edit?gid=0#gid=0).
 - To submit new entries to the tracker, either report a new issue on the MGSPatriotFix [Github](https://github.com/ShizCalev/MGSPatriotFix/issues/new/choose), or use [this form](https://docs.google.com/forms/d/e/1FAIpQLSef8Vx38tHpBsR-dXnawF6X0iad3XU7vmDX29pcmjbaZhQiew/viewform).
+
+<br />
+
+## Nightly Builds
+
+> [!NOTE]
+> Experimental alpha builds containing the latest features and fixes are available on the [nightly release page](https://github.com/ShizCalev/MGSPatriotFix/releases/tag/nightly).
+>
+> These builds may be unstable or crash unexpectedly. They are intended for users who want to test upcoming changes before an official release.
+>
+> For the most stable experience, download the [latest official release](https://github.com/ShizCalev/MGSPatriotFix/releases/latest) instead.
+
 
 <br />
 
