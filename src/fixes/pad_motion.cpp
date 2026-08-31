@@ -22,6 +22,9 @@ namespace
     constexpr float kStepsPerG = 16384.0f;
     constexpr float kLimit = 32767.0f;
 
+    // Puts a turn on the same footing as a g.
+    constexpr float kStepsPerTurn = 16.384f;
+
     // The DualShock 3 and the DualSense disagree on which way up z is.
     constexpr float kAxisSign[3] { 1.0f, 1.0f, -1.0f };
 
@@ -43,6 +46,25 @@ namespace
     bool Empty(const MotionData& m)
     {
         return m.posAccelX == 0.0f && m.posAccelY == 0.0f && m.posAccelZ == 0.0f;
+    }
+
+    // How much the accelerometer moved since last time. That is a shake.
+    int Jerk(const int (&axis)[3])
+    {
+        static int was[3] {};
+        static bool first = true;
+        int most = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            const int step = first ? 0 : (axis[i] - was[i]);
+            if (step > most || -step > most)
+            {
+                most = step;
+            }
+            was[i] = axis[i];
+        }
+        first = false;
+        return most;
     }
 
     void* HookedGetMotionData(void* self, void* into, uint64_t input)
@@ -69,7 +91,10 @@ namespace
 
         m.rotQuatX = m.rotQuatY = m.rotQuatZ = 0.0f;
         m.rotQuatW = 1.0f;
-        m.rotVelX = m.rotVelY = m.rotVelZ = 0.0f;
+
+        // Cutscenes only watch this one for a shake.
+        m.rotVelX = m.rotVelY = 0.0f;
+        m.rotVelZ = std::clamp(static_cast<float>(Jerk(axis)) * kStepsPerTurn, -kLimit, kLimit);
 
         // The orientation loses how hard the pad was shaken, so force the accelerometer path.
         if (gFromQuaternion != nullptr)
