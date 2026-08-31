@@ -3,10 +3,13 @@
 
 [![Discord](https://img.shields.io/discord/1116856754920226876?logo=discord&logoColor=white&label=Metal%20Gear%20Network%20-%20%23HDFix&color=7289DA)](https://discord.gg/bFv9bZmWDV)
 
-
 [Peace Walker Nexus Page](https://www.nexusmods.com/metalgearsolidpeacewalkermc/mods/1) | [MGS4 Nexus Page](https://www.nexusmods.com/metalgearsolid4mc/mods/1) | **GitHub Repo (You're already here!)** <br />
 
+<br />
+
 This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions of MGS4 & MGS Peace Walker.<br />
+
+<br />
 
 ## Games Supported
 - Metal Gear Solid 4
