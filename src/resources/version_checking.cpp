@@ -5,6 +5,7 @@
 
 #include "logging.hpp"
 
+
 // MIRROR SYNC WITH THE CONFIG TOOL'S UPDATER.CPP
 
 namespace

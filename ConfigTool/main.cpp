@@ -23,8 +23,8 @@
 // THE SOFTWARE.
 // ============================================================================
 
+
 #include "pch.h"
-#define PRIMARY_REPO_URL "https://github.com/ShizCalev/MGSPatriotFix"
 #include "config_keys.hpp"
 #include <wx/wx.h>
 #include <wx/dcbuffer.h>
