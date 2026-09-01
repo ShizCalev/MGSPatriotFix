@@ -45,6 +45,8 @@ This mod should be compatible with other ASI mods that use `winmm.dll`.
 - Option to disable motion blur.
 - Option to disable dynamic resolution.
 
+#### Peace Walker Features
+- Option to force the game's higher resolution options for users with monitors smaller than 1440p/4K.
 
 <br />
 
