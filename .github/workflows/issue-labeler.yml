@@ -24,7 +24,7 @@ jobs:
 
             // known mappings
             const coreMappings = {
-              'bug': 'bug',
+              'bug': 'vanilla-bug',
               'feature request': 'feature-request',
               'mgs4': 'MGS4',
               'mgspw': 'MGSPW',
