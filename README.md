@@ -11,6 +11,9 @@ This is bugfix mod for the Metal Gear Solid Master Collection: Volume 2 versions
 
 <br />
 
+> [!NOTE]
+This mod should be compatible with other ASI mods that use `winmm.dll`.
+
 ## Games Supported
 - Metal Gear Solid 4
 - Metal Gear Solid: Peace Walker
