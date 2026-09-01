@@ -59,6 +59,21 @@ const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
         { (MGS4), ConfigKeys::SkipSplashscreens_Section, ConfigKeys::SkipSplashscreens_Setting, ConfigKeys::SkipSplashscreens_Help, ConfigKeys::SkipSplashscreens_Tooltip,
           std::nullopt, false, Field::Bool, false },
 
+
+        { (MGSPW), ConfigKeys::LauncherSkip_Section, ConfigKeys::GameResolution_PW_Setting, ConfigKeys::GameResolution_PW_Help, ConfigKeys::GameResolution_PW_Tooltip,
+          std::make_pair(ConfigKeys::SkipLauncher_Section, ConfigKeys::SkipLauncher_Setting), false, Field::Choice, 0, 0, 0, ConfigKeys::GameResolution_PW_Option_Original,
+          { std::begin(kMGSPWGameResolutionOptions), std::end(kMGSPWGameResolutionOptions) } },
+
+        { (MGSPW), ConfigKeys::LauncherSkip_Section, ConfigKeys::GameUpscale_PW_Setting, ConfigKeys::GameUpscale_PW_Help, ConfigKeys::GameUpscale_PW_Tooltip,
+          std::make_pair(ConfigKeys::SkipLauncher_Section, ConfigKeys::SkipLauncher_Setting), false, Field::Choice, 0, 0, 0, ConfigKeys::GameUpscale_PW_Option_Original,
+          { std::begin(kMGSPWGameUpscaleOptions), std::end(kMGSPWGameUpscaleOptions) } },
+
+        { (MGSPW), ConfigKeys::LauncherSkip_Section, ConfigKeys::GameMovie_PW_Setting, ConfigKeys::GameMovie_PW_Help, ConfigKeys::GameMovie_PW_Tooltip,
+          std::make_pair(ConfigKeys::SkipLauncher_Section, ConfigKeys::SkipLauncher_Setting), false, Field::Choice, 0, 0, 0, ConfigKeys::GameMovie_PW_Option_Original,
+          { std::begin(kMGSPWGameMovieOptions), std::end(kMGSPWGameMovieOptions) } },
+
+
+
         { (MGS4|MGSPW), ConfigKeys::Region_Section, ConfigKeys::Region_Setting, ConfigKeys::Region_Help, ConfigKeys::Region_Tooltip,
           std::nullopt, false, Field::Choice, 0, 0, 0, "", {} },
 

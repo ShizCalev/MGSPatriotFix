@@ -353,6 +353,24 @@ void Config::Read()
         LOG_CONFIG(ConfigKeys::CtrlType_Section, ctrlTypeSetting, sLauncherConfigCtrlType);
     }
 
+    if (game->ExeName != kGames.at(MGS4).ExeName)
+    {
+        std::string sGameResolution = *kMGSPWGameResolutionOptions.begin();
+        ConfigHelper::getValue(ini, ConfigKeys::LauncherSkip_Section, ConfigKeys::GameResolution_PW_Setting, sGameResolution);
+        LauncherSkipsAndStarts::iGameResolution = Util::findStringInVector(sGameResolution, kMGSPWGameResolutionOptions);
+        LOG_CONFIG(ConfigKeys::LauncherSkip_Section, ConfigKeys::GameResolution_PW_Setting, sGameResolution);
+
+        std::string sGameUpscale = *kMGSPWGameUpscaleOptions.begin();
+        ConfigHelper::getValue(ini, ConfigKeys::LauncherSkip_Section, ConfigKeys::GameUpscale_PW_Setting, sGameUpscale);
+        LauncherSkipsAndStarts::iGameUpscale = Util::findStringInVector(sGameUpscale, kMGSPWGameUpscaleOptions);
+        LOG_CONFIG(ConfigKeys::LauncherSkip_Section, ConfigKeys::GameUpscale_PW_Setting, sGameUpscale);
+
+        std::string sGameMovie = *kMGSPWGameMovieOptions.begin();
+        ConfigHelper::getValue(ini, ConfigKeys::LauncherSkip_Section, ConfigKeys::GameMovie_PW_Setting, sGameMovie);
+        LauncherSkipsAndStarts::iGameMovie = Util::findStringInVector(sGameMovie, kMGSPWGameMovieOptions);
+        LOG_CONFIG(ConfigKeys::LauncherSkip_Section, ConfigKeys::GameMovie_PW_Setting, sGameMovie);
+    }
+
 
     ConfigLogger::Flush();
 }

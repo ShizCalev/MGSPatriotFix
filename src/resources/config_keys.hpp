@@ -94,6 +94,29 @@ namespace ConfigKeys
     constexpr const char* SkipSplashscreens_Tooltip = "Skips the game's startup splashscreens and jumps straight to the main menu.";
 
 
+    constexpr const char* GameResolution_PW_Setting = "Internal Resolution (PW)";
+    constexpr const char* GameResolution_PW_Help = "";
+    constexpr const char* GameResolution_PW_Tooltip = "The game's internal rendering resolution.";
+    constexpr const char* GameResolution_PW_Option_Original = "Original";
+    constexpr const char* GameResolution_PW_Option_FullHD = "FHD";
+
+    constexpr const char* GameUpscale_PW_Setting = "Internal Upscaling (PW)";
+    constexpr const char* GameUpscale_PW_Help = "";
+    constexpr const char* GameUpscale_PW_Tooltip = "The resolution the game's output is upscaled to.";
+    constexpr const char* GameUpscale_PW_Option_Original = "Original";
+    constexpr const char* GameUpscale_PW_Option_FullHD = "FHD";
+    constexpr const char* GameUpscale_PW_Option_WQHD = "WQHD";
+    constexpr const char* GameUpscale_PW_Option_4K = "4K";
+
+    constexpr const char* GameMovie_PW_Setting = "Cutscenes (PW)";
+    constexpr const char* GameMovie_PW_Help = "";
+    constexpr const char* GameMovie_PW_Tooltip = "Use original FMVs, or the Master Collection's remastered, higher-resolution ones.\n"
+                                                 "\n"
+                                                 "(Note: Konami didn't remaster ALL the FMV's, there are still some lower-resolution ones.)";
+    constexpr const char* GameMovie_PW_Option_Original = "Original";
+    constexpr const char* GameMovie_PW_Option_HighRes = "High-Resolution";
+
+
     //constexpr const char* DisableMouseCursor_Section = "Bugfixes";
     //constexpr const char* DisableMouseCursor_Setting = "Fix Mouse Cursor Showing";
     //constexpr const char* DisableMouseCursor_Help = "";
@@ -174,6 +197,23 @@ inline const std::initializer_list<std::string> kMGSPWLauncherConfigCtrlTypesInt
     "PS4",
     "PS5",
     "NX"
+};
+
+inline const std::initializer_list<std::string> kMGSPWGameResolutionOptions = {
+    ConfigKeys::GameResolution_PW_Option_Original,
+    ConfigKeys::GameResolution_PW_Option_FullHD,
+};
+
+inline const std::initializer_list<std::string> kMGSPWGameUpscaleOptions = {
+    ConfigKeys::GameUpscale_PW_Option_Original,
+    ConfigKeys::GameUpscale_PW_Option_FullHD,
+    ConfigKeys::GameUpscale_PW_Option_WQHD,
+    ConfigKeys::GameUpscale_PW_Option_4K,
+};
+
+inline const std::initializer_list<std::string> kMGSPWGameMovieOptions = {
+    ConfigKeys::GameMovie_PW_Option_Original,
+    ConfigKeys::GameMovie_PW_Option_HighRes,
 };
 
 

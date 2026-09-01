@@ -8,53 +8,6 @@
 
 namespace
 {
-    // parse resolution / upscale / movie settings from launcher_sv json
-    std::optional<std::string> GetLauncherSvValue(const std::string& json, const std::string& key)
-    {
-        auto extractArray = [&](const std::string& arrayKey) -> std::vector<std::string>
-        {
-            std::vector<std::string> result;
-            size_t pos = json.find("\"" + arrayKey + "\":[");
-            if (pos == std::string::npos)
-            {
-                return result;
-            }
-            pos = json.find('[', pos) + 1;
-            size_t end = json.find(']', pos);
-            std::string arrayContent = json.substr(pos, end - pos);
-
-            size_t i = 0;
-            while (i < arrayContent.size())
-            {
-                size_t startQuote = arrayContent.find('"', i);
-                if (startQuote == std::string::npos)
-                {
-                    break;
-                }
-                size_t endQuote = arrayContent.find('"', startQuote + 1);
-                if (endQuote == std::string::npos)
-                {
-                    break;
-                }
-                result.push_back(arrayContent.substr(startQuote + 1, endQuote - startQuote - 1));
-                i = endQuote + 1;
-            }
-            return result;
-        };
-
-        const std::vector<std::string> keys = extractArray("keyList");
-        const std::vector<std::string> values = extractArray("valueList");
-
-        for (size_t i = 0; i < keys.size() && i < values.size(); ++i)
-        {
-            if (keys[i] == key)
-            {
-                return values[i];
-            }
-        }
-        return std::nullopt;
-    }
-
     std::filesystem::path FindNewestLauncherSvPath()
     {
         std::filesystem::path bestPath;
@@ -91,21 +44,17 @@ namespace
     // nullopt if the user's never actually run the launcher.
     std::optional<std::wstring> BuildMGSPWExtraArgs()
     {
-        const std::filesystem::path svPath = FindNewestLauncherSvPath();
-        if (svPath.empty())
+        if (FindNewestLauncherSvPath().empty())
         {
             spdlog::warn("LauncherSkipsAndStarts: No launcher_sv found under {}, cannot Skip Launcher yet - run the launcher normally at least once first.", sGameSavePath.string());
             return std::nullopt;
         }
 
-        std::ifstream file(svPath, std::ios::binary);
-        std::string json((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+        const std::string resolution = std::to_string(LauncherSkipsAndStarts::iGameResolution);
+        const std::string upscale = std::to_string(LauncherSkipsAndStarts::iGameUpscale);
+        const std::string movie = std::to_string(LauncherSkipsAndStarts::iGameMovie);
 
-        const std::string resolution = GetLauncherSvValue(json, "GameResolution").value_or("0");
-        const std::string upscale = GetLauncherSvValue(json, "GameUpscale").value_or("0");
-        const std::string movie = GetLauncherSvValue(json, "GameMovie").value_or("1");
-
-        spdlog::info("LauncherSkipsAndStarts: Read from {}: resolution={}, upscale={}, movie={}", svPath.string(), resolution, upscale, movie);
+        spdlog::info("LauncherSkipsAndStarts: resolution={}, upscale={}, movie={}", resolution, upscale, movie);
 
         return L" -resolution " + Util::UTF8toWide(resolution) + L" -upscale " + Util::UTF8toWide(upscale) + L" -movie " + Util::UTF8toWide(movie);
     }

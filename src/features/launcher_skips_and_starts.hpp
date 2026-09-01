@@ -17,5 +17,9 @@ namespace LauncherSkipsAndStarts
     inline std::string sRegion = "eu";
     inline std::string sLanguage = "en";
 
+    inline int iGameResolution = 0;
+    inline int iGameUpscale = 0;
+    inline int iGameMovie = 0;
+
     void Apply();
 }
