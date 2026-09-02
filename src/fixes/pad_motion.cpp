@@ -122,7 +122,8 @@ namespace
         {
             gDecideHook = safetyhook::create_mid(at + kCompare, [](SafetyHookContext& ctx)
             {
-                if (PressureInputs::HavePad())
+                // Zero is the mouse and keyboard. Leave that alone or the mouse never works.
+                if (PressureInputs::HavePad() && ctx.rcx != 0)
                 {
                     ctx.rcx = kPlayStationPad;
                 }
