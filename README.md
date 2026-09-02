@@ -44,7 +44,9 @@ This mod should be compatible with other ASI mods that use `winmm.dll`.
 - Option to skip in-game splashscreens.
 - Option to disable motion blur.
 - Option to disable dynamic resolution.
+- Option to increase the resolution of the game's shadows.
 - Option to disable pause on focus loss (e.g. when alt-tabbing.)
+- Option for raw mouse input / disabling mouse acceleration.
 
 #### Peace Walker Specific Features
 - Option to force the game's higher resolution settings for users with monitors smaller than 1440p/4K.
@@ -187,7 +189,8 @@ Open MGSPatriotFix.sln in Visual Studio (2026) and build.
 ## Credits
 
 Created and maintained by [@ShizCalev/Afevis](https://github.com/shizcalev).<br />
-With more amazing feature & fix contributions by [@cipherxof](https://github.com/cipherxof) and [@gibletto](https://github.com/gibletto).
+With more amazing feature & fix contributions by [@cipherxof](https://github.com/cipherxof) (Disable Motion Blur), [Emoose](https://github.com/emoose) (Raw Mouse Input, Increased Shadow Resolution), and [@gibletto](https://github.com/gibletto) (DualShock 3 support).
+
 
 #### Used Libraries & Software:
 [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) for ASI loading. <br />

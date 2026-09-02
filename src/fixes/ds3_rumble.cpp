@@ -210,11 +210,6 @@ void Ds3Rumble::Initialize()
     {
         return;
     }
-    if (!PressureInputs::bEnabled)
-    {
-        spdlog::info("DS3 Rumble - needs Dualshock 3 Controller Support to be on.");
-        return;
-    }
 
     gWake = CreateEventW(nullptr, FALSE, FALSE, nullptr);
     if (gWake == nullptr)

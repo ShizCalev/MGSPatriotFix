@@ -42,4 +42,6 @@
 #include <numbers>
 #include <limits>
 #include <format>
+#include <cmath>
+#include <cstring>
 

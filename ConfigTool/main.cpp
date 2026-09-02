@@ -44,7 +44,7 @@
 #include "windows_fullscreen_optimization.hpp"
 
 constexpr int iWindowSizeX = 716;
-constexpr int iWindowSizeY = 590;
+constexpr int iWindowSizeY = 630;
 constexpr const char* sSettingsFileName = "MGSPatriotFix.settings";
 constexpr bool bFullLengthFields = false; //if you want the boxes to span half the window's width.
 #define MGSPatriotFix_SPECIFIC

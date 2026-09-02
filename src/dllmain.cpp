@@ -9,6 +9,7 @@
 ///Resources
 
 #include "version_checking.hpp"
+#include "gamevars.hpp"
 
 ///Features
 //#include "custom_resolution_and_borderless.hpp"
@@ -21,6 +22,11 @@
 #include "ds3_rumble.hpp"
 #include "skip_splashscreens.hpp"
 #include "various_tweaks.hpp"
+
+//#include "mgs4_msaa.hpp"
+//#include "mgs4_shader_hooks.hpp"
+#include "mgs4_mouse.hpp"
+
 
 //Warnings
 #include "asi_loader_checks.hpp"
@@ -137,7 +143,7 @@ namespace
         INITIALIZE(CreateSteamAppIdFile());
         INITIALIZE(ASILoaderCompatibility::Check());   //2
         INITIALIZE(Config::Read());                    //3
-        //INITIALIZE(g_GameVars.Initialize());           //4
+        INITIALIZE(g_GameVars.Initialize());            //4
         //INITIALIZE(g_D3D11Hooks.Initialize());         //5 Caches the D3DDevice, DXGIFactory, and D3DContext from D3DCreateDevice/DXGICreateFactory
         
         if (eGameType & LAUNCHER)
@@ -158,6 +164,9 @@ namespace
             INITIALIZE(PadMotion::Initialize());
             INITIALIZE(Ds3Rumble::Initialize());
         	INITIALIZE(SkipSplashscreens::Apply());
+           // INITIALIZE(MGS4_MSAA::Apply());
+           // INITIALIZE(bgfx_shaderhooks::Apply());
+            INITIALIZE(MGS4_RawMouseInput::Apply());
 
 
         }

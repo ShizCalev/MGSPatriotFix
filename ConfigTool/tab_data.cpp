@@ -43,6 +43,18 @@ const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
         { (MGS4), ConfigKeys::AnisotropicFiltering_Section, ConfigKeys::AnisotropicFiltering_Setting, ConfigKeys::AnisotropicFiltering_Help, ConfigKeys::AnisotropicFiltering_Tooltip,
           std::nullopt, false, Field::Int, 16, 1, 16 },
 
+       // { (MGS4), ConfigKeys::MSAASamples_Section, ConfigKeys::MSAASamples_Setting, ConfigKeys::MSAASamples_Help, ConfigKeys::MSAASamples_Tooltip,
+       //   std::nullopt, false, Field::Choice, 0, 0, 0, "0", {"0", "2", "4"} },
+
+       // { (MGS4), ConfigKeys::ShaderPerSampleCutouts_Section, ConfigKeys::ShaderPerSampleCutouts_Setting, ConfigKeys::ShaderPerSampleCutouts_Help, ConfigKeys::ShaderPerSampleCutouts_Tooltip,
+       //   std::nullopt, false, Field::Bool, true },
+
+        { (MGS4), ConfigKeys::ShadowBufferSize_Section, ConfigKeys::ShadowBufferSize_Setting, ConfigKeys::ShadowBufferSize_Help, ConfigKeys::ShadowBufferSize_Tooltip,
+          std::nullopt, false, Field::Choice, 0, 0, 0, "0", {"0", "512", "1024", "2048", "4096"}},
+
+//        { (MGS4), ConfigKeys::ShadowSampleCount_Section, ConfigKeys::ShadowSampleCount_Setting, ConfigKeys::ShadowSampleCount_Help, ConfigKeys::ShadowSampleCount_Tooltip,
+//          std::nullopt, false, Field::Int, 0, 0, 256 },
+
         { (MGS4|MGSPW), ConfigKeys::DisableFullscreenOptimization_Section, ConfigKeys::DisableFullscreenOptimization_Setting, ConfigKeys::DisableFullscreenOptimization_Help, ConfigKeys::DisableFullscreenOptimization_Tooltip,
           std::nullopt, false, Field::Bool, false },
 
@@ -92,9 +104,24 @@ const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
           { std::begin(kMGSPWLauncherConfigCtrlTypes), std::end(kMGSPWLauncherConfigCtrlTypes) } },
 
 
-
       { (MGS4), ConfigKeys::Ds3Support_Section, ConfigKeys::Ds3Support_Setting, ConfigKeys::Ds3Support_Help, ConfigKeys::Ds3Support_Tooltip,
           std::nullopt, false, Field::Bool, false },
+
+            }},
+    { wxString("Controls / Mouse Input"), {
+
+        { (MGS4), ConfigKeys::MouseRawInput_Section, ConfigKeys::MouseRawInput_Setting, ConfigKeys::MouseRawInput_Help, ConfigKeys::MouseRawInput_Tooltip,
+          std::nullopt, false, Field::Bool, false },
+
+
+
+        { (MGS4), ConfigKeys::MouseSensitivityX_Section, ConfigKeys::MouseSensitivityX_Setting, ConfigKeys::MouseSensitivityX_Help, ConfigKeys::MouseSensitivityX_Tooltip,
+          std::nullopt, false, Field::Float, 0, 0, 0, "", {}, 1.0, 0.05, 10.0 },
+
+        { (MGS4), ConfigKeys::MouseSensitivityX_Section, "", "", "", std::nullopt, false, Field::Spacer },
+
+        { (MGS4), ConfigKeys::MouseSensitivityY_Section, ConfigKeys::MouseSensitivityY_Setting, ConfigKeys::MouseSensitivityY_Help, ConfigKeys::MouseSensitivityY_Tooltip,
+          std::nullopt, false, Field::Float, 0, 0, 0, "", {}, 1.0, 0.05, 10.0 },
 
     }},
     { wxString("MGSPatriotFix / Internal"), {
@@ -107,6 +134,21 @@ const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
 
         { (MGS4|MGSPW), ConfigKeys::VerboseLogging_Section, ConfigKeys::VerboseLogging_Setting, ConfigKeys::VerboseLogging_Help, ConfigKeys::VerboseLogging_Tooltip,
           std::nullopt, false, Field::Bool, false },
+
+        { (MGS4), ConfigKeys::LogCreateResults_Section, ConfigKeys::LogCreateResults_Setting, ConfigKeys::LogCreateResults_Help, ConfigKeys::LogCreateResults_Tooltip,
+          std::nullopt, false, Field::Bool, false },
+
+        { (MGS4), ConfigKeys::LogFrameBuffers_Section, ConfigKeys::LogFrameBuffers_Setting, ConfigKeys::LogFrameBuffers_Help, ConfigKeys::LogFrameBuffers_Tooltip,
+          std::nullopt, false, Field::Bool, false },
+
+        { (MGS4), ConfigKeys::MSAALogTargets_Section, ConfigKeys::MSAALogTargets_Setting, ConfigKeys::MSAALogTargets_Help, ConfigKeys::MSAALogTargets_Tooltip,
+          std::nullopt, false, Field::Bool, false },
+
+     //   { (MGS4), ConfigKeys::ShaderDumpShaders_Section, ConfigKeys::ShaderDumpShaders_Setting, ConfigKeys::ShaderDumpShaders_Help, ConfigKeys::ShaderDumpShaders_Tooltip,
+     //     std::nullopt, false, Field::Bool, false },
+     //
+     //   { (MGS4), ConfigKeys::ShaderReplaceShaders_Section, ConfigKeys::ShaderReplaceShaders_Setting, ConfigKeys::ShaderReplaceShaders_Help, ConfigKeys::ShaderReplaceShaders_Tooltip,
+     //     std::nullopt, false, Field::Bool, false },
 
 
         {(MGS4|MGSPW), "About", "", "", "", std::nullopt, false, Field::Spacer},
