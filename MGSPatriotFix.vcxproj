@@ -11,6 +11,7 @@
     <ClCompile Include="src\features\skip_splashscreens.cpp" />
     <ClCompile Include="src\fixes\resolution_scaling_fixes.cpp" />
     <ClCompile Include="src\fixes\graphics_tuning.cpp" />
+    <ClCompile Include="src\fixes\various_tweaks.cpp" />
     <ClCompile Include="src\fixes\pressure_inputs.cpp" />
     <ClCompile Include="src\fixes\ds3_rumble.cpp" />
     <ClCompile Include="src\fixes\pad_motion.cpp" />
@@ -57,6 +58,7 @@
     <ClInclude Include="src\features\skip_splashscreens.hpp" />
     <ClInclude Include="src\fixes\resolution_scaling_fixes.hpp" />
     <ClInclude Include="src\fixes\graphics_tuning.hpp" />
+    <ClInclude Include="src\fixes\various_tweaks.hpp" />
     <ClInclude Include="src\fixes\pressure_inputs.hpp" />
     <ClInclude Include="src\fixes\ds3_rumble.hpp" />
     <ClInclude Include="src\fixes\pad_motion.hpp" />

@@ -71,6 +71,9 @@
     <ClCompile Include="src\fixes\graphics_tuning.cpp">
       <Filter>Features</Filter>
     </ClCompile>
+    <ClCompile Include="src\fixes\various_tweaks.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
     <ClCompile Include="src\features\launcher_skips_and_starts.cpp">
       <Filter>Features</Filter>
     </ClCompile>
@@ -137,6 +140,9 @@
       <Filter>Fixes\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\fixes\graphics_tuning.hpp">
+      <Filter>Features\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fixes\various_tweaks.hpp">
       <Filter>Features\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\features\launcher_skips_and_starts.hpp">

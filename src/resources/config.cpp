@@ -15,6 +15,7 @@
 #include "graphics_tuning.hpp"
 #include "launcher_skips_and_starts.hpp"
 #include "skip_splashscreens.hpp"
+#include "various_tweaks.hpp"
 
 // -----------------------------------------------------------------------------
 // ConfigHelper: A type-safe, case-insensitive, error-checked INI config reader.
@@ -293,6 +294,9 @@ void Config::Read()
   
     ConfigHelper::getValue(ini, ConfigKeys::DisableMotionBlur_Section, ConfigKeys::DisableMotionBlur_Setting, GraphicsTuning::bDisableMotionBlur);
     LOG_CONFIG(ConfigKeys::DisableMotionBlur_Section, ConfigKeys::DisableMotionBlur_Setting, GraphicsTuning::bDisableMotionBlur);
+
+    ConfigHelper::getValue(ini, ConfigKeys::EnablePauseOnFocusLoss_Section, ConfigKeys::EnablePauseOnFocusLoss_Setting, VariousTweaks::bPauseOnFocusLoss);
+    LOG_CONFIG(ConfigKeys::EnablePauseOnFocusLoss_Section, ConfigKeys::EnablePauseOnFocusLoss_Setting, VariousTweaks::bPauseOnFocusLoss);
 
 
     {

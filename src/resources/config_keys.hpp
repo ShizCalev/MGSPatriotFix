@@ -41,6 +41,11 @@ namespace ConfigKeys
     constexpr const char* DisableMotionBlur_Help = "";
     constexpr const char* DisableMotionBlur_Tooltip = "Disables the game's motion blur post-processing effect.";
 
+    constexpr const char* EnablePauseOnFocusLoss_Section = "Enhancements && Tweaks";
+    constexpr const char* EnablePauseOnFocusLoss_Setting = "Pause On Focus Loss";
+    constexpr const char* EnablePauseOnFocusLoss_Help = "";
+    constexpr const char* EnablePauseOnFocusLoss_Tooltip = "Pauses the game when the window loses focus (alt-tabbed)";
+
     constexpr const char* Ds3Support_Section = "Controller Settings";
     constexpr const char* Ds3Support_Setting = "Enable DualShock 3 Support";
     constexpr const char* Ds3Support_Help = "(Pressure Sensitive Buttons)";

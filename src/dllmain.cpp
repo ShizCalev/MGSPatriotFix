@@ -20,6 +20,7 @@
 #include "pad_motion.hpp"
 #include "ds3_rumble.hpp"
 #include "skip_splashscreens.hpp"
+#include "various_tweaks.hpp"
 
 //Warnings
 #include "asi_loader_checks.hpp"
@@ -147,6 +148,7 @@ namespace
 
 
         INITIALIZE(GraphicsTuning::Apply());
+        INITIALIZE(VariousTweaks::Apply());
 
         if (eGameType & MGS4)
         {
