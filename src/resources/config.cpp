@@ -2,6 +2,7 @@
 
 #include "common.hpp"
 #include "config.hpp"
+
 #include "pressure_inputs.hpp"
 
 #include "inipp/inipp.h"
@@ -12,10 +13,16 @@
 #include "config_keys.hpp"
 //#include "d3d11_text_overlay.hpp"
 //#include "game_funcs.hpp"
+#include "ds3_rumble.hpp"
 #include "graphics_tuning.hpp"
 #include "launcher_skips_and_starts.hpp"
 #include "skip_splashscreens.hpp"
 #include "various_tweaks.hpp"
+
+//#include "mgs4_msaa.hpp"
+//#include "mgs4_shader_hooks.hpp"
+#include "mgs4_mouse.hpp"
+
 
 // -----------------------------------------------------------------------------
 // ConfigHelper: A type-safe, case-insensitive, error-checked INI config reader.
@@ -266,6 +273,17 @@ void Config::Read()
 
     ConfigHelper::getValue(ini, ConfigKeys::Ds3Support_Section, ConfigKeys::Ds3Support_Setting, PressureInputs::bEnabled);
     LOG_CONFIG(ConfigKeys::Ds3Support_Section, ConfigKeys::Ds3Support_Setting, PressureInputs::bEnabled);
+    Ds3Rumble::bEnabled = PressureInputs::bEnabled;
+    
+
+    ConfigHelper::getValue(ini, ConfigKeys::MouseRawInput_Section, ConfigKeys::MouseRawInput_Setting, MGS4_RawMouseInput::bRawInput);
+    LOG_CONFIG(ConfigKeys::MouseRawInput_Section, ConfigKeys::MouseRawInput_Setting, MGS4_RawMouseInput::bRawInput);
+
+    ConfigHelper::getValue(ini, ConfigKeys::MouseSensitivityX_Section, ConfigKeys::MouseSensitivityX_Setting, MGS4_RawMouseInput::fSensitivityX);
+    LOG_CONFIG(ConfigKeys::MouseSensitivityX_Section, ConfigKeys::MouseSensitivityX_Setting, MGS4_RawMouseInput::fSensitivityX);
+
+    ConfigHelper::getValue(ini, ConfigKeys::MouseSensitivityY_Section, ConfigKeys::MouseSensitivityY_Setting, MGS4_RawMouseInput::fSensitivityY);
+    LOG_CONFIG(ConfigKeys::MouseSensitivityY_Section, ConfigKeys::MouseSensitivityY_Setting, MGS4_RawMouseInput::fSensitivityY);
 
     /*
 
@@ -297,6 +315,66 @@ void Config::Read()
 
     ConfigHelper::getValue(ini, ConfigKeys::EnablePauseOnFocusLoss_Section, ConfigKeys::EnablePauseOnFocusLoss_Setting, VariousTweaks::bPauseOnFocusLoss);
     LOG_CONFIG(ConfigKeys::EnablePauseOnFocusLoss_Section, ConfigKeys::EnablePauseOnFocusLoss_Setting, VariousTweaks::bPauseOnFocusLoss);
+
+    // {
+   //     std::string sMSAASamples;
+   //     ConfigHelper::getValue(ini, ConfigKeys::MSAASamples_Section, ConfigKeys::MSAASamples_Setting, sMSAASamples);
+   //     if (!ConfigHelper::TryParse<int>(sMSAASamples, MGS4_MSAA::iSamples))
+   //     {
+   //         MGS4_MSAA::iSamples = 0;
+   //     }
+   //
+   //     MGS4_MSAA::iSamples = std::min(MGS4_MSAA::iSamples, 4);
+   //
+   //     constexpr int kValidMSAASamples[] = { 0, 2, 4 };
+   //     if (std::ranges::find(kValidMSAASamples, MGS4_MSAA::iSamples) == std::end(kValidMSAASamples))
+   //     {
+   //         spdlog::error("Config Parse: Invalid value for MSAA Samples: {}", MGS4_MSAA::iSamples);
+   //         Logging::ShowConsole();
+   //         std::cout << "Invalid config value for MSAA Samples: " << MGS4_MSAA::iSamples << std::endl;
+   //         return FreeLibraryAndExitThread(baseModule, 1);
+   //     }
+   //     LOG_CONFIG(ConfigKeys::MSAASamples_Section, ConfigKeys::MSAASamples_Setting, MGS4_MSAA::iSamples);
+   //
+   //     if (MGS4_MSAA::iSamples > 0)
+   //     {
+   //         bgfx_shaderhooks::bPerSampleCutouts = true;
+   //     }
+   // }
+
+   // ConfigHelper::getValue(ini, ConfigKeys::LogCreateResults_Section, ConfigKeys::LogCreateResults_Setting, MGS4_MSAA::bLogCreateResults);
+   // LOG_CONFIG(ConfigKeys::LogCreateResults_Section, ConfigKeys::LogCreateResults_Setting, MGS4_MSAA::bLogCreateResults);
+   //
+   // ConfigHelper::getValue(ini, ConfigKeys::LogFrameBuffers_Section, ConfigKeys::LogFrameBuffers_Setting, MGS4_MSAA::bLogFrameBuffers);
+   // LOG_CONFIG(ConfigKeys::LogFrameBuffers_Section, ConfigKeys::LogFrameBuffers_Setting, MGS4_MSAA::bLogFrameBuffers);
+   //
+   // ConfigHelper::getValue(ini, ConfigKeys::MSAALogTargets_Section, ConfigKeys::MSAALogTargets_Setting, MGS4_MSAA::bLogTargets);
+   // LOG_CONFIG(ConfigKeys::MSAALogTargets_Section, ConfigKeys::MSAALogTargets_Setting, MGS4_MSAA::bLogTargets);
+
+
+   // ConfigHelper::getValue(ini, ConfigKeys::ShaderDumpShaders_Section, ConfigKeys::ShaderDumpShaders_Setting, bgfx_shaderhooks::bDumpShaders);
+   // LOG_CONFIG(ConfigKeys::ShaderDumpShaders_Section, ConfigKeys::ShaderDumpShaders_Setting, bgfx_shaderhooks::bDumpShaders);
+   //
+   // ConfigHelper::getValue(ini, ConfigKeys::ShaderReplaceShaders_Section, ConfigKeys::ShaderReplaceShaders_Setting, bgfx_shaderhooks::bReplaceShaders);
+   // LOG_CONFIG(ConfigKeys::ShaderReplaceShaders_Section, ConfigKeys::ShaderReplaceShaders_Setting, bgfx_shaderhooks::bReplaceShaders);
+   //
+    {
+        std::string sShadowBufferSize;
+        ConfigHelper::getValue(ini, ConfigKeys::ShadowBufferSize_Section, ConfigKeys::ShadowBufferSize_Setting, sShadowBufferSize);
+        if (!ConfigHelper::TryParse<int>(sShadowBufferSize, GraphicsTuning::iShadowBufferSize))
+        {
+            GraphicsTuning::iShadowBufferSize = 0;
+        }
+        if (constexpr int iMaxShadowResolution = (D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION/2/2); GraphicsTuning::iShadowBufferSize > iMaxShadowResolution)
+        {
+            spdlog::info("Config Parse: Shadow Map Resolution value {} exceeds maximum allowed, clamping to {}", GraphicsTuning::iShadowBufferSize, iMaxShadowResolution);
+            GraphicsTuning::iShadowBufferSize = iMaxShadowResolution;
+        }
+        LOG_CONFIG(ConfigKeys::ShadowBufferSize_Section, ConfigKeys::ShadowBufferSize_Setting, GraphicsTuning::iShadowBufferSize);
+    }
+
+    //ConfigHelper::getValue(ini, ConfigKeys::ShadowSampleCount_Section, ConfigKeys::ShadowSampleCount_Setting, GraphicsTuning::iShadowSampleCount);
+    //LOG_CONFIG(ConfigKeys::ShadowSampleCount_Section, ConfigKeys::ShadowSampleCount_Setting, GraphicsTuning::iShadowSampleCount);
 
 
     {
