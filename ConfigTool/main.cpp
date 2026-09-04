@@ -2537,6 +2537,14 @@ public:
         wxImage::AddHandler(new wxPNGHandler);
         ConfigFrame* frame = new ConfigFrame();
         frame->Show();
+
+        if (Helper::IsSteamOS())
+        {
+            // hack to force the ui to redraw due to a wine bug that'll sometimes cause the ui to not render without a repaint
+            frame->Iconize(true);
+            frame->Iconize(false);
+        }
+
         return true;
     }
 
