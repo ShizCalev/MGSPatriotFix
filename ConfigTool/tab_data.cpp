@@ -103,6 +103,10 @@ const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
           std::nullopt, false, Field::Choice, 0, 0, 0, *kMGSPWLauncherConfigCtrlTypes.begin(),
           { std::begin(kMGSPWLauncherConfigCtrlTypes), std::end(kMGSPWLauncherConfigCtrlTypes) } },
 
+        { (MGS4), ConfigKeys::MenuButton_Section, ConfigKeys::MenuButton_Setting, ConfigKeys::MenuButton_Help, ConfigKeys::MenuButton_Tooltip,
+          std::nullopt, false, Field::Choice, 0, 0, 0, ConfigKeys::MenuButton_Option_Default,
+          {ConfigKeys::MenuButton_Option_Default, ConfigKeys::MenuButton_Option_EastForOK, ConfigKeys::MenuButton_Option_SouthForOK} },
+
 
       { (MGS4), ConfigKeys::Ds3Support_Section, ConfigKeys::Ds3Support_Setting, ConfigKeys::Ds3Support_Help, ConfigKeys::Ds3Support_Tooltip,
           std::nullopt, false, Field::Bool, false },

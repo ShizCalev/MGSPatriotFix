@@ -22,6 +22,7 @@
 //#include "mgs4_msaa.hpp"
 //#include "mgs4_shader_hooks.hpp"
 #include "mgs4_mouse.hpp"
+#include "swap_menu_buttons.hpp"
 
 
 // -----------------------------------------------------------------------------
@@ -284,6 +285,12 @@ void Config::Read()
 
     ConfigHelper::getValue(ini, ConfigKeys::MouseSensitivityY_Section, ConfigKeys::MouseSensitivityY_Setting, MGS4_RawMouseInput::fSensitivityY);
     LOG_CONFIG(ConfigKeys::MouseSensitivityY_Section, ConfigKeys::MouseSensitivityY_Setting, MGS4_RawMouseInput::fSensitivityY);
+
+    if (eGameType & MGS4)
+    {
+        ConfigHelper::getValue(ini, ConfigKeys::MenuButton_Section, ConfigKeys::MenuButton_Setting, SwapMenuButtons::force_menu_buttons);
+        LOG_CONFIG(ConfigKeys::MenuButton_Section, ConfigKeys::MenuButton_Setting, SwapMenuButtons::force_menu_buttons);
+    }
 
     /*
 

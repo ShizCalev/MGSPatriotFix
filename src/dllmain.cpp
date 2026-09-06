@@ -26,6 +26,7 @@
 //#include "mgs4_msaa.hpp"
 //#include "mgs4_shader_hooks.hpp"
 #include "mgs4_mouse.hpp"
+#include "swap_menu_buttons.hpp"
 
 
 //Warnings
@@ -164,6 +165,7 @@ namespace
             INITIALIZE(PadMotion::Initialize());
             INITIALIZE(Ds3Rumble::Initialize());
         	INITIALIZE(SkipSplashscreens::Apply());
+            INITIALIZE(SwapMenuButtons::Apply());
            // INITIALIZE(MGS4_MSAA::Apply());
            // INITIALIZE(bgfx_shaderhooks::Apply());
             INITIALIZE(MGS4_RawMouseInput::Apply());

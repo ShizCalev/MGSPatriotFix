@@ -16,6 +16,7 @@
     <ClCompile Include="src\fixes\ds3_rumble.cpp" />
     <ClCompile Include="src\fixes\pad_motion.cpp" />
     <ClCompile Include="src\fixes\mgs4_mouse.cpp" />
+    <ClCompile Include="src\fixes\swap_menu_buttons.cpp" />
     <ClCompile Include="src\resources\config.cpp" />
     <ClCompile Include="external\safetyhook\src\allocator.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -64,6 +65,7 @@
     <ClInclude Include="src\fixes\ds3_rumble.hpp" />
     <ClInclude Include="src\fixes\pad_motion.hpp" />
     <ClInclude Include="src\fixes\mgs4_mouse.hpp" />
+    <ClInclude Include="src\fixes\swap_menu_buttons.hpp" />
     <ClInclude Include="src\resources\game_defines.hpp" />
     <ClInclude Include="src\resources\game_stages.hpp" />
     <ClInclude Include="src\resources\mgs4_linkvarbuf.hpp" />

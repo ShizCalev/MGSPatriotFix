@@ -83,6 +83,9 @@
     <ClCompile Include="src\fixes\mgs4_mouse.cpp">
       <Filter>Features</Filter>
     </ClCompile>
+    <ClCompile Include="src\fixes\swap_menu_buttons.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\warnings\asi_loader_checks.hpp">
@@ -164,6 +167,9 @@
       <Filter>Features\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\fixes\mgs4_mouse.hpp">
+      <Filter>Features\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fixes\swap_menu_buttons.hpp">
       <Filter>Features\Headers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -138,6 +138,18 @@ namespace ConfigKeys
 
     constexpr const char* CtrlType_Setting_PW = "Button Icons (PW)";
 
+    constexpr const char* MenuButton_Section = "Controller Settings";
+    constexpr const char* MenuButton_Setting = "Set Menu OK && Cancel Button";
+    constexpr const char* MenuButton_Help = "";
+    constexpr const char* MenuButton_Tooltip = "Sets which button is used for the OK action in menus.\n"
+                                               "\n"
+                                               "East for OK = PS2 Circle Button for Accept, X Button for Cancel\n"
+                                               "\n"
+                                               "South for OK = PS2 X Button for Accept, Circle Button for Cancel";
+    constexpr const char* MenuButton_Option_Default = "Default";
+    constexpr const char* MenuButton_Option_EastForOK = "East for OK";
+    constexpr const char* MenuButton_Option_SouthForOK = "South for OK";
+
 
     constexpr const char* LauncherSkip_Section = "Launcher and Splashscreens";
     constexpr const char* LauncherSkip_Setting = "Skip Launcher Splashscreens";
