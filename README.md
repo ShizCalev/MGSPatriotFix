@@ -47,6 +47,7 @@ This mod should be compatible with other ASI mods that use `winmm.dll`.
 - Option to increase the resolution of the game's shadows.
 - Option to disable pause on focus loss (e.g. when alt-tabbing.)
 - Option for raw mouse input / disabling mouse acceleration.
+- Option to swap X/O (Confirm/Cancel) buttons in menus.
 
 #### Peace Walker Specific Features
 - Option to force the game's higher resolution settings for users with monitors smaller than 1440p/4K.
