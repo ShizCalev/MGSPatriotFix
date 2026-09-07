@@ -27,6 +27,11 @@ void GameVars::Initialize()
             p_RenderHeight = reinterpret_cast<int32_t*>(Memory::GetRipRelativeAddress(RenderHeight_Scan, 3, 7));
         }
 
+        if (uint8_t* ActiveInputDevice_Scan = Memory::PatternScanUnique(baseModule, "8B 05 ?? ?? ?? ?? 85 C0 75 ?? E8 ?? ?? ?? ?? 8B 05", "GameVars: MGS 4 active input device | UpdateInputDevice()"))
+        {
+            p_MGS4ActiveInputDevice = reinterpret_cast<int32_t*>(Memory::GetRipRelativeAddress(ActiveInputDevice_Scan, 2, 6));
+        }
+
         if (!Memory::IsReadable(p_RenderWidth, sizeof(int32_t)) || !Memory::IsReadable(p_RenderHeight, sizeof(int32_t)))
         {
             p_RenderWidth = nullptr;
@@ -36,6 +41,7 @@ void GameVars::Initialize()
         spdlog::info("GameVars: MGS4 DescTable address is {:s}+{:X}", sExeName.c_str(), p_DescTable - (uintptr_t)baseModule);
         spdlog::info("GameVars: MGS4 RenderWidth address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)p_RenderWidth - (uintptr_t)baseModule);
         spdlog::info("GameVars: MGS4 RenderHeight address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)p_RenderHeight - (uintptr_t)baseModule);
+		spdlog::info("GameVars: MGS4 ActiveInputDevice address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)p_MGS4ActiveInputDevice - (uintptr_t)baseModule);
     }
 
    // if (eGameType & MGS4)

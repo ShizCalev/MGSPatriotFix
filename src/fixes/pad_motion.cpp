@@ -117,8 +117,8 @@ namespace
         constexpr ptrdiff_t kCompare = 12;      // the cmp eax,ecx the pattern ends on
 
         if (uint8_t* at = Memory::PatternScanUnique(baseModule,
-            "8B 0D ?? ?? ?? ?? 8B 15 ?? ?? ?? ?? 3B C1 75 08 39 15",
-            "MGS 4: Pad Motion - controller type | where the game decides it"))
+            "8B 0D ?? ?? ?? ?? 8B 15 ?? ?? ?? ?? 3B C1",
+            "MGS 4: Pad Motion - controller type | UpdateInputDevice()"))
         {
             gDecideHook = safetyhook::create_mid(at + kCompare, [](SafetyHookContext& ctx)
             {
