@@ -29,6 +29,8 @@
 #include <wx/wx.h>
 #include <wx/dcbuffer.h>
 #include <wx/notebook.h>
+#include <wx/scrolwin.h>
+#include <wx/display.h>
 #include <wx/fileconf.h>
 #include <wx/spinctrl.h>
 #include <wx/choice.h>
@@ -642,12 +644,10 @@ public:
     ConfigFrame()
         : wxFrame(nullptr, wxID_ANY, FIX_NAME " v" VERSION_STRING " - Universal Config Tool",
                   wxDefaultPosition, wxDefaultSize,
-                  wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
+                  wxDEFAULT_FRAME_STYLE)
     {
         const wxSize clientSize = FromDIP(wxSize(iWindowSizeX, iWindowSizeY));
         SetClientSize(clientSize);
-        SetMinClientSize(clientSize);
-        SetMaxClientSize(clientSize);
 
         HWND hwnd = (HWND)GetHWND();
         HINSTANCE instance = GetModuleHandleW(nullptr);
@@ -709,7 +709,8 @@ public:
 
         for (auto& tab : kTabs)
         {
-            wxPanel* panel = new wxPanel(m_tabs);
+            auto* panel = new wxScrolledWindow(m_tabs);
+            panel->SetScrollRate(FromDIP(10), FromDIP(10));
             wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
             wxString currentSection;
             wxStaticBoxSizer* sectionSizer = nullptr;
@@ -1120,6 +1121,7 @@ public:
             }
 
             panel->SetSizer(vbox);
+            panel->FitInside();
 
             const bool tabVisible = std::any_of(tab.second.begin(), tab.second.end(), [&](const Field& field)
             {
@@ -1272,6 +1274,41 @@ public:
         HandleUpdateCheckPreference();
 
         SnapshotCurrentValues();
+
+        wxSize pageSize(0, 0);
+        for (size_t page = 0; page < m_tabs->GetPageCount(); ++page)
+        {
+            auto* window = m_tabs->GetPage(page);
+            pageSize.IncTo(window->ClientToWindowSize(window->GetSizer()->CalcMin()));
+        }
+
+        const wxSize oldTabMin = m_tabs->GetMinSize();
+        m_tabs->SetMinSize(m_tabs->CalcSizeFromPage(pageSize));
+        wxSize startupClientSize = mainSizer->CalcMin();
+        startupClientSize.IncTo(clientSize);
+        m_tabs->SetMinSize(oldTabMin);
+
+        wxSize startupSize = ClientToWindowSize(startupClientSize);
+        const int displayIndex = wxDisplay::GetFromWindow(this);
+        const wxRect workArea = wxDisplay(displayIndex == wxNOT_FOUND ? 0 : displayIndex).GetClientArea();
+        if (!workArea.IsEmpty())
+        {
+            startupSize.DecTo(workArea.GetSize());
+        }
+        SetSize(startupSize);
+        Centre();
+
+        LayoutControls();
+    }
+
+    void LayoutControls()
+    {
+        Layout();
+        m_tabs->Layout();
+        for (size_t page = 0; page < m_tabs->GetPageCount(); ++page)
+        {
+            m_tabs->GetPage(page)->Layout();
+        }
     }
 
     ~ConfigFrame() override
@@ -2538,12 +2575,14 @@ public:
         ConfigFrame* frame = new ConfigFrame();
         frame->Show();
 
-        if (Helper::IsSteamOS())
+        frame->CallAfter([frame]()
         {
-            // hack to force the ui to redraw due to a wine bug that'll sometimes cause the ui to not render without a repaint
-            frame->Iconize(true);
-            frame->Iconize(false);
-        }
+            if (frame->IsBeingDeleted())
+                return;
+
+            frame->LayoutControls();
+            frame->Refresh();
+        });
 
         return true;
     }
