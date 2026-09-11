@@ -174,6 +174,40 @@ namespace VersionCheck
         }
         return CompareResult::Equal;
     }
+
+    bool ResolveApplicableVersion(const std::string& rawTag, const std::string& gamePrefix, std::string& versionOut)
+    {
+        auto stripLeadingV = [](const std::string& s)
+        {
+            if (s.size() > 1 && (s[0] == 'v' || s[0] == 'V') && std::isdigit(static_cast<unsigned char>(s[1])))
+            {
+                return s.substr(1);
+            }
+            return s;
+        };
+
+        static const std::regex prefixRe(R"(^(MGS4|PW)-(.+)$)", std::regex::icase);
+        std::smatch m;
+        if (std::regex_match(rawTag, m, prefixRe))
+        {
+            std::string tagPrefix = m[1].str();
+            for (char& c : tagPrefix)
+            {
+                c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+            }
+
+            if (tagPrefix != gamePrefix)
+            {
+                return false;
+            }
+
+            versionOut = stripLeadingV(m[2].str());
+            return true;
+        }
+
+        versionOut = stripLeadingV(rawTag);
+        return true;
+    }
 }
 
 void CheckForUpdates()
@@ -249,6 +283,30 @@ namespace
 
         MessageBoxA(nullptr, msg.c_str(), (sFixName + " update checker").c_str(), MB_OK | MB_ICONWARNING);
         g_ShownUpdateContactError = true;
+    }
+
+    std::string GetCurrentGameTagPrefix()
+    {
+        if (eGameType & MGS4)
+        {
+            return "MGS4";
+        }
+        if (eGameType & MGSPW)
+        {
+            return "PW";
+        }
+        if (game)
+        {
+            if (game->ExeName == kGames.at(MGS4).ExeName)
+            {
+                return "MGS4";
+            }
+            if (game->ExeName == kGames.at(MGSPW).ExeName)
+            {
+                return "PW";
+            }
+        }
+        return std::string();
     }
 }
 
@@ -449,14 +507,14 @@ LatestVersionChecker::RepoInfo LatestVersionChecker::parseRepoUrl(const std::str
         info.displayName = "GitHub.com";
         info.apiHost = L"api.github.com";
         info.apiPath = L"/repos/" + std::wstring(owner.begin(), owner.end()) +
-            L"/" + std::wstring(repo.begin(), repo.end()) + L"/releases/latest";
+            L"/" + std::wstring(repo.begin(), repo.end()) + L"/releases?per_page=100";
     }
     else if (host == "codeberg.org")
     {
         info.displayName = "Codeberg.org";
         info.apiHost = L"codeberg.org";
         info.apiPath = L"/api/v1/repos/" + std::wstring(owner.begin(), owner.end()) +
-            L"/" + std::wstring(repo.begin(), repo.end()) + L"/releases/latest";
+            L"/" + std::wstring(repo.begin(), repo.end()) + L"/releases?limit=50";
     }
     else if (host == "gitlab.com")
     {
@@ -464,7 +522,7 @@ LatestVersionChecker::RepoInfo LatestVersionChecker::parseRepoUrl(const std::str
         info.apiHost = L"gitlab.com";
         info.apiPath = L"/api/v4/projects/" +
             std::wstring(owner.begin(), owner.end()) + L"%2F" +
-            std::wstring(repo.begin(), repo.end()) + L"/releases";
+            std::wstring(repo.begin(), repo.end()) + L"/releases?per_page=100";
     }
     else
     {
@@ -600,33 +658,54 @@ bool LatestVersionChecker::queryLatestVersion(const RepoInfo& repoInfo, std::str
         return false;
     }
 
-    // Try common patterns
+    const std::string gamePrefix = GetCurrentGameTagPrefix();
+
+    std::vector<std::pair<size_t, std::string>> tagMatches;
     {
-        std::smatch m;
-        std::regex re(R"delim("tag_name"\s*:\s*"\s*v?([^"]+)")delim");
-        if (std::regex_search(response, m, re) && m.size() > 1)
+        static const std::regex reTagName(R"delim("tag_name"\s*:\s*"([^"]*)")delim");
+        for (std::sregex_iterator it(response.begin(), response.end(), reTagName), end; it != end; ++it)
         {
-            latestVersion = m[1];
-            return true;
-        }
-    }
-    {
-        std::smatch m;
-        std::regex reTag(R"delim("tag_name"\s*:\s*"\s*v?([^"]+)")delim");
-        std::regex reName(R"delim("name"\s*:\s*"\s*v?(\d+\.\d+\.\d+)")delim");
-        if (std::regex_search(response, m, reTag) && m.size() > 1)
-        {
-            latestVersion = m[1];
-            return true;
-        }
-        if (std::regex_search(response, m, reName) && m.size() > 1)
-        {
-            latestVersion = m[1];
-            return true;
+            tagMatches.emplace_back(static_cast<size_t>(it->position(1)), (*it)[1].str());
         }
     }
 
-    return false;
+    static const std::regex reDraftOrPrerelease(R"delim("(?:draft|prerelease)"\s*:\s*true)delim");
+
+    std::string bestVersion;
+    bool foundApplicable = false;
+
+    for (size_t i = 0; i < tagMatches.size(); ++i)
+    {
+        const std::string& rawTag = tagMatches[i].second;
+        const size_t windowStart = tagMatches[i].first;
+        const size_t windowEnd = (i + 1 < tagMatches.size()) ? tagMatches[i + 1].first : response.size();
+        const std::string window = response.substr(windowStart, windowEnd - windowStart);
+
+        if (std::regex_search(window, reDraftOrPrerelease))
+        {
+            continue;
+        }
+
+        std::string candidateVersion;
+        if (!VersionCheck::ResolveApplicableVersion(rawTag, gamePrefix, candidateVersion))
+        {
+            continue;
+        }
+
+        if (!foundApplicable || VersionCheck::CompareSemanticVersion(bestVersion, candidateVersion) == VersionCheck::CompareResult::Older)
+        {
+            bestVersion = candidateVersion;
+            foundApplicable = true;
+        }
+    }
+
+    if (!foundApplicable)
+    {
+        return false;
+    }
+
+    latestVersion = bestVersion;
+    return true;
 }
 
 std::string LatestVersionChecker::currentTimeISO8601()

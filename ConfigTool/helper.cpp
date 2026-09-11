@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "helper.hpp"
+#include <regex>
 #include <wx/app.h>
 #include <wx/filefn.h>
 #include <wx/log.h>
@@ -336,6 +337,40 @@ namespace Helper
             }
         }
         return VersionCompareResult::Equal;
+    }
+
+    bool ResolveApplicableVersion(const std::string& rawTag, const std::string& gamePrefix, std::string& versionOut)
+    {
+        auto stripLeadingV = [](const std::string& s)
+        {
+            if (s.size() > 1 && (s[0] == 'v' || s[0] == 'V') && std::isdigit(static_cast<unsigned char>(s[1])))
+            {
+                return s.substr(1);
+            }
+            return s;
+        };
+
+        static const std::regex prefixRe(R"(^(MGS4|PW)-(.+)$)", std::regex::icase);
+        std::smatch m;
+        if (std::regex_match(rawTag, m, prefixRe))
+        {
+            std::string tagPrefix = m[1].str();
+            for (char& c : tagPrefix)
+            {
+                c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+            }
+
+            if (tagPrefix != gamePrefix)
+            {
+                return false;
+            }
+
+            versionOut = stripLeadingV(m[2].str());
+            return true;
+        }
+
+        versionOut = stripLeadingV(rawTag);
+        return true;
     }
 
     std::string GetFileDescription(const std::string& filePath)

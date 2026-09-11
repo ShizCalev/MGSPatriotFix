@@ -49,6 +49,24 @@ namespace
         spdlog::info("Unit Test: compareSemVersion completed successfully.");
     }
 
+    void testResolveApplicableVersion()
+    {
+        std::string version;
+
+        assert(VersionCheck::ResolveApplicableVersion("2.0.0", "MGS4", version) == true && version == "2.0.0");
+        assert(VersionCheck::ResolveApplicableVersion("2.0.0", "PW", version) == true && version == "2.0.0");
+        assert(VersionCheck::ResolveApplicableVersion("v2.0.0", "MGS4", version) == true && version == "2.0.0");
+
+        assert(VersionCheck::ResolveApplicableVersion("MGS4-1.0.0", "MGS4", version) == true && version == "1.0.0");
+        assert(VersionCheck::ResolveApplicableVersion("PW-1.0.2", "PW", version) == true && version == "1.0.2");
+        assert(VersionCheck::ResolveApplicableVersion("mgs4-1.0.0", "MGS4", version) == true && version == "1.0.0");
+
+        assert(VersionCheck::ResolveApplicableVersion("MGS4-1.0.0", "PW", version) == false);
+        assert(VersionCheck::ResolveApplicableVersion("PW-1.0.2", "MGS4", version) == false);
+
+        spdlog::info("Unit Test: testResolveApplicableVersion completed successfully.");
+    }
+
     void testLanguagePairs()
     {
         assert(IsValidRegionLanguagePair(MGS4_LanguagePairs, "eu", "en") == true);
@@ -103,6 +121,8 @@ namespace
 void UnitTests::runAllTests()
 {
     testCompareSemVer();
+
+    testResolveApplicableVersion();
 
     testLanguagePairs();
 
