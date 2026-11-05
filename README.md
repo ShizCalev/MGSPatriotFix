@@ -64,6 +64,7 @@ This mod should be compatible with other ASI mods that use `winmm.dll`.
 
 #### Peace Walker Specific Bugfixes:
 - Fixes Peace Walker sometimes defaulting to integrated graphics processors on systems with multiple GPUs.
+- Fixes pillarboxing on 16:10 capable monitors that are set to 16:9 resolutions.
 
 
 <br />
