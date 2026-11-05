@@ -1,6 +1,8 @@
 #include "stdafx.h"
 
 #include "common.hpp"
+#include "game_defines.hpp"
+#include "game_funcs.hpp"
 #include "graphics_tuning.hpp"
 
 #include "logging.hpp"
@@ -97,13 +99,15 @@ void GraphicsTuning::Apply()
 
         if (bDisableMotionBlur)
         {
-            constexpr char name[] = "GraphicsTuning - Disable Motion Blur";
-
-            if (uint8_t* address = Memory::PatternScan(baseModule, "40 53 48 83 EC ?? 0F 29 74 24 ?? BA ?? ?? ?? ?? B9", name))
+            if (auto* address = MGS4_Gamefuncs::FindCharaFunction(MGS4_Defines::NewCameraBlurGCL))
             {
                 static SafetyHookInline hook {};
                 hook = safetyhook::create_inline(address, reinterpret_cast<void*>(DisableMotionBlurHook));
-                LOG_HOOK(hook, name)
+                LOG_HOOK(hook, "GraphicsTuning - Disable Motion Blur")
+            }
+            else
+            {
+                spdlog::error("GraphicsTuning - Disable Motion Blur: Failed to find camera blur chara.");
             }
         }
 
