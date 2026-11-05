@@ -111,6 +111,9 @@ const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
       { (MGS4), ConfigKeys::Ds3Support_Section, ConfigKeys::Ds3Support_Setting, ConfigKeys::Ds3Support_Help, ConfigKeys::Ds3Support_Tooltip,
           std::nullopt, false, Field::Bool, false },
 
+        {(MGSPW), ConfigKeys::FixPillarboxing_PW_Section, ConfigKeys::FixPillarboxing_PW_Setting, ConfigKeys::FixPillarboxing_PW_Tooltip, ConfigKeys::FixPillarboxing_PW_Help,
+           std::nullopt, false, Field::Bool, true },
+
             }},
     { wxString("Controls / Mouse Input"), {
 

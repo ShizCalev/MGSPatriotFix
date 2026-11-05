@@ -178,6 +178,13 @@ namespace ConfigKeys
     constexpr const char* SkipSplashscreens_Help = "";
     constexpr const char* SkipSplashscreens_Tooltip = "Skips the game's startup splashscreens and jumps straight to the main menu.";
 
+    constexpr const char* FixPillarboxing_PW_Section = "Bugfixes";
+    constexpr const char* FixPillarboxing_PW_Setting = "Fix Pillarboxing";
+    constexpr const char* FixPillarboxing_PW_Tooltip = "";
+    constexpr const char* FixPillarboxing_PW_Help = "Fixes the game showing black bars on the sides of the screen using a 16:10 monitor.\n"
+                                                    "\n"
+                                                    "This issue mostly only shows up when using resolution enhancement mods.";
+
 
     constexpr const char* GameResolution_PW_Setting = "Internal Resolution (PW)";
     constexpr const char* GameResolution_PW_Help = "";

@@ -22,6 +22,7 @@
 //#include "mgs4_msaa.hpp"
 //#include "mgs4_shader_hooks.hpp"
 #include "mgs4_mouse.hpp"
+#include "resolution_scaling_fixes.hpp"
 #include "swap_menu_buttons.hpp"
 
 
@@ -460,6 +461,11 @@ void Config::Read()
         LOG_CONFIG(ConfigKeys::LauncherSkip_Section, ConfigKeys::GameMovie_PW_Setting, sGameMovie);
     }
 
+    if (eGameType & MGSPW)
+    {
+        ConfigHelper::getValue(ini, ConfigKeys::FixPillarboxing_PW_Section, ConfigKeys::FixPillarboxing_PW_Setting, ResolutionScalingFixes::bFixPillarboxing);
+        LOG_CONFIG(ConfigKeys::FixPillarboxing_PW_Section, ConfigKeys::FixPillarboxing_PW_Setting, ResolutionScalingFixes::bFixPillarboxing);
+    }
 
     ConfigLogger::Flush();
 }

@@ -29,11 +29,28 @@ namespace
     }
 
 
+    void FixFullscreenMaxResolution()
+    {
+		if(!ResolutionScalingFixes::bFixPillarboxing)
+		{
+			return;
+		}
+        MAKE_HOOK_MID(baseModule, "44 8B 4D ?? 33 D2 44 8B 45 ?? 48 8B 0D ?? ?? ?? ?? 44 89 64 24 ?? 44 89 74 24 ?? 44 89 7C 24", "MGSPW - Resolution Scaling Fixes: Fix pillarboxing on 16:10 monitors",
+            {
+                auto desktopDimensions = Util::GetPhysicalDesktopDimensions();
+                if (desktopDimensions.first > 0 && desktopDimensions.second > 0)
+                {
+                    ctx.r15 = static_cast<uint64_t>(static_cast<uint32_t>(desktopDimensions.first));
+                    ctx.r14 = static_cast<uint64_t>(static_cast<uint32_t>(desktopDimensions.second));
+                }
+            });
+    }
+
     void MGSPWFixes()
     {
         using namespace ResolutionScalingFixes;
 
-
+        FixFullscreenMaxResolution();
     }
 
 
@@ -44,8 +61,6 @@ void MGS2Fixes();
 
 void ResolutionScalingFixes::ApplyFixes()
 {
-    SPDLOG_ERROR("ResolutionScalingFixes::ApplyFixes() NULLSTUB");
-    return;
     //scaleX_fromPs2 = CustomResolutionAndBorderless::iInternalResX / 512.0;
     //scaleX_fromPs2_4by3 = ((double)CustomResolutionAndBorderless::iInternalResX) / (double)(CustomResolutionAndBorderless::iInternalResY) / (4.0 / 3.0);
     //scaleY_fromPs2 = CustomResolutionAndBorderless::iInternalResY / 448.0;

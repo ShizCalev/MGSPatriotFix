@@ -16,6 +16,7 @@
 //#include "intro_skip.hpp"
 
 #include "graphics_tuning.hpp"
+#include "resolution_scaling_fixes.hpp"
 #include "launcher_skips_and_starts.hpp"
 #include "pressure_inputs.hpp"
 #include "pad_motion.hpp"
@@ -174,7 +175,7 @@ namespace
         }
         else if (eGameType & MGSPW)
         {
-            //INITIALIZE(ResolutionScalingFixes::ApplyFixes());
+            INITIALIZE(ResolutionScalingFixes::ApplyFixes());
 
         }
 
