@@ -52,6 +52,7 @@
     <ClCompile Include="src\warnings\asi_loader_checks.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\resources\gamevars.cpp" />
+    <ClCompile Include="src\resources\game_funcs.cpp" />
     <ClCompile Include="src\resources\helper.cpp" />
     <ClCompile Include="src\resources\unit_tests.cpp" />
   </ItemGroup>
@@ -80,6 +81,7 @@
     <ClInclude Include="src\resources\version.h" />
     <ClInclude Include="src\warnings\asi_loader_checks.hpp" />
     <ClInclude Include="src\resources\gamevars.hpp" />
+    <ClInclude Include="src\resources\game_funcs.hpp" />
     <ClInclude Include="src\resources\common.hpp" />
     <ClInclude Include="src\resources\helper.hpp" />
     <ClInclude Include="src\resources\stdafx.h" />

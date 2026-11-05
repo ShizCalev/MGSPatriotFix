@@ -66,7 +66,10 @@
       <Filter>Fixes</Filter>
     </ClCompile>
     <ClCompile Include="src\resources\gamevars.cpp">
-      <Filter>APIs\WIP</Filter>
+      <Filter>APIs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resources\game_funcs.cpp">
+      <Filter>APIs</Filter>
     </ClCompile>
     <ClCompile Include="src\fixes\graphics_tuning.cpp">
       <Filter>Features</Filter>
@@ -131,13 +134,16 @@
       <Filter>APIs\WIP\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\resources\game_defines.hpp">
-      <Filter>APIs\WIP\Headers</Filter>
+      <Filter>APIs\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\resources\game_stages.hpp">
       <Filter>APIs\WIP\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\resources\gamevars.hpp">
-      <Filter>APIs\WIP\Headers</Filter>
+      <Filter>APIs\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resources\game_funcs.hpp">
+      <Filter>APIs\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\resources\mgs4_linkvarbuf.hpp">
       <Filter>APIs\WIP\Headers</Filter>
@@ -231,6 +237,9 @@
     </Filter>
     <Filter Include="APIs\WIP">
       <UniqueIdentifier>{c2be4dcd-ab56-4632-90c9-ebc0d3953a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="APIs\Headers">
+      <UniqueIdentifier>{abcfd989-9863-42a7-a6aa-b8cd6f4b6f12}</UniqueIdentifier>
     </Filter>
     <Filter Include="APIs\WIP\Headers">
       <UniqueIdentifier>{a3100db6-b5f8-4b1a-96dc-23576666050c}</UniqueIdentifier>

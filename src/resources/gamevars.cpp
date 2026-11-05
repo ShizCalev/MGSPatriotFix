@@ -2,7 +2,7 @@
 #include "common.hpp"
 #include "gamevars.hpp"
 
-//#include "game_funcs.hpp"
+#include "game_funcs.hpp"
 #include "helper.hpp"
 #include "logging.hpp"
 
@@ -74,8 +74,8 @@ void GameVars::Initialize()
    //     //}
    // }
 
-   // if (eGameType & (MGS4|MGSPW))
-   // {
-   //     //Shared_Gamefuncs::HookFuncs();
-   // }
+    if (eGameType & (MGS4 | MGSPW))
+    {
+        Shared_Gamefuncs::HookFuncs();
+    }
 }
