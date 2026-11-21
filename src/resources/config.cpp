@@ -24,6 +24,7 @@
 #include "mgs4_mouse.hpp"
 #include "resolution_scaling_fixes.hpp"
 #include "swap_menu_buttons.hpp"
+#include "mgspw_cpu_access_fix.hpp"
 
 
 // -----------------------------------------------------------------------------
@@ -465,6 +466,9 @@ void Config::Read()
     {
         ConfigHelper::getValue(ini, ConfigKeys::FixPillarboxing_PW_Section, ConfigKeys::FixPillarboxing_PW_Setting, ResolutionScalingFixes::bFixPillarboxing);
         LOG_CONFIG(ConfigKeys::FixPillarboxing_PW_Section, ConfigKeys::FixPillarboxing_PW_Setting, ResolutionScalingFixes::bFixPillarboxing);
+
+        ConfigHelper::getValue(ini, ConfigKeys::FixCpuAccessFlags_PW_Section, ConfigKeys::FixCpuAccessFlags_PW_Setting, MGSPW_CpuAccessFix::bEnabled);
+        LOG_CONFIG(ConfigKeys::FixCpuAccessFlags_PW_Section, ConfigKeys::FixCpuAccessFlags_PW_Setting, MGSPW_CpuAccessFix::bEnabled);
     }
 
     ConfigLogger::Flush();

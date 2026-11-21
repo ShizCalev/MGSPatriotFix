@@ -33,6 +33,7 @@
 #include <random>
 #include <d3d11.h>
 #include <d3d12.h>
+#include <dxgi.h>
 #include <initializer_list>
 #include <functional>
 #include <optional>

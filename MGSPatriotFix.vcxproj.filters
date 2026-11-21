@@ -65,6 +65,9 @@
     <ClCompile Include="src\fixes\pad_motion.cpp">
       <Filter>Fixes</Filter>
     </ClCompile>
+    <ClCompile Include="src\fixes\mgspw_cpu_access_fix.cpp">
+      <Filter>Fixes</Filter>
+    </ClCompile>
     <ClCompile Include="src\resources\gamevars.cpp">
       <Filter>APIs</Filter>
     </ClCompile>
@@ -167,6 +170,9 @@
       <Filter>Fixes\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\fixes\pad_motion.hpp">
+      <Filter>Fixes\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fixes\mgspw_cpu_access_fix.hpp">
       <Filter>Fixes\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\features\skip_splashscreens.hpp">

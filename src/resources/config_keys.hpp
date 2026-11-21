@@ -185,6 +185,13 @@ namespace ConfigKeys
                                                     "\n"
                                                     "This issue mostly only shows up when using resolution enhancement mods.";
 
+    constexpr const char* FixCpuAccessFlags_PW_Section = "System Specific Fixes";
+    constexpr const char* FixCpuAccessFlags_PW_Setting = "Fix GPU Stutter";
+    constexpr const char* FixCpuAccessFlags_PW_Help = "";
+    constexpr const char* FixCpuAccessFlags_PW_Tooltip = "Strips a leftover, non-functional CPU access flag that's set for some DirectX calls.\n"
+                                                         "\n"
+                                                         "This reduces high frame-time caused by PCI-E lane transfer speed bottlenecks, especially when using custom resolutions or MSAA.";
+
 
     constexpr const char* GameResolution_PW_Setting = "Internal Resolution (PW)";
     constexpr const char* GameResolution_PW_Help = "";

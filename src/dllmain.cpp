@@ -23,6 +23,7 @@
 #include "ds3_rumble.hpp"
 #include "skip_splashscreens.hpp"
 #include "various_tweaks.hpp"
+#include "mgspw_cpu_access_fix.hpp"
 
 //#include "mgs4_msaa.hpp"
 //#include "mgs4_shader_hooks.hpp"
@@ -176,6 +177,7 @@ namespace
         else if (eGameType & MGSPW)
         {
             INITIALIZE(ResolutionScalingFixes::ApplyFixes());
+            INITIALIZE(MGSPW_CpuAccessFix::Apply());
 
         }
 

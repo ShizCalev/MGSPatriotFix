@@ -55,8 +55,13 @@ const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
 //        { (MGS4), ConfigKeys::ShadowSampleCount_Section, ConfigKeys::ShadowSampleCount_Setting, ConfigKeys::ShadowSampleCount_Help, ConfigKeys::ShadowSampleCount_Tooltip,
 //          std::nullopt, false, Field::Int, 0, 0, 256 },
 
+
         { (MGS4|MGSPW), ConfigKeys::DisableFullscreenOptimization_Section, ConfigKeys::DisableFullscreenOptimization_Setting, ConfigKeys::DisableFullscreenOptimization_Help, ConfigKeys::DisableFullscreenOptimization_Tooltip,
           std::nullopt, false, Field::Bool, false },
+		  
+	    { (MGSPW), ConfigKeys::FixCpuAccessFlags_PW_Section, ConfigKeys::FixCpuAccessFlags_PW_Setting, ConfigKeys::FixCpuAccessFlags_PW_Help, ConfigKeys::FixCpuAccessFlags_PW_Tooltip,
+          std::nullopt, false, Field::Bool, true },
+
 
         { (MGS4 | MGSPW), ConfigKeys::SkipLauncher_Section, ConfigKeys::SkipLauncher_Setting, ConfigKeys::SkipLauncher_Help, ConfigKeys::SkipLauncher_Tooltip,
           std::nullopt, false, Field::Bool, false },
@@ -113,6 +118,7 @@ const std::vector<std::pair<wxString, std::vector<Field>>> kTabs = {
 
         {(MGSPW), ConfigKeys::FixPillarboxing_PW_Section, ConfigKeys::FixPillarboxing_PW_Setting, ConfigKeys::FixPillarboxing_PW_Tooltip, ConfigKeys::FixPillarboxing_PW_Help,
            std::nullopt, false, Field::Bool, true },
+
 
             }},
     { wxString("Controls / Mouse Input"), {
