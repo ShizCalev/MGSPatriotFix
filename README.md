@@ -57,6 +57,7 @@ This mod should be compatible with other ASI mods that use `winmm.dll`.
 ## Bug Fixes
 #### Shared Bugfixes:
 - Fixes the monitor going to sleep during long cutscenes (for Windows only, Linux needs to be [fixed by Valve](https://github.com/ValveSoftware/Proton/issues/8881).)
+- Signifigantly decreases GPU related stutter/frametime issues.
 
 #### MGS4 Specific Bugfixes:
 - Fixes the MGS1 flashback sometimes defaulting to integrated graphics processors on systems with multiple GPUs.
